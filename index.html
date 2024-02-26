@@ -5,31 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Font.Garden</title>
     <!-- Import Tailwind CSS from CDN -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div class="container mx-auto">
-      <header class="text-left py-5">
-        <h1 class="text-4xl font-bold text-grey-900">Font.Garden</h1>
-        <p class="text-lg text-gray-900 mt-2">Die GNU Typographie</p>
+  <body class="bg-gray-50">
+    <div class="container px-4">
+      <header class="flex text-left justify-between items-end py-5">
+        <h1 class="text-9xl font-bold text-grey-900">Font.Garden</h1>
+        <button
+          class="bg-green-300 border-green-600 border-b p-4 m-4 h-3/6 rounded items-end"
+        >
+          Connect
+        </button>
       </header>
-      <section class="my-5">
-        <h2 class="text-2xl font-semibold text-gray-700">Wh</h2>
-        <p class="mt-1 text-gray-600">
-          What Font.Garden Believes In: Network Modernism Massimo Vignelli Free
-          Software Posting is art
-        </p>
-        <ol type="1">
-          <li>Network Modernism</li>
-          <li>Massimo Vignelli</li>
-          <li>Free Software</li>
-          <li>Post-Authorship</li>
-        </ol>
+
+      <section class="pb-8">
+        <p class="text-3xl text-gray-900">Die GNU Typographie</p>
+        <p class="text-3xl text-gray-900">おはようございます</p>
+        <p class="text-3xl text-gray-900">از کارگرى تا کارآفرین</p>
       </section>
-      <footer class="text-left py-5 text-gray-600">© 2024 Font.Garden</footer>
+
+      <div
+        class="flex flex-col py-5 md:flex-row space-y-4 md:space-y-0 md:space-x-4"
+      >
+        <div class="md:w-1/3">
+          <h2 class="text-2xl font-semibold text-gray-900">About</h2>
+          <p class="mt-4">
+            Font.Garden is a free & open-source font publishing platform and
+            curated basics collection designed around crypto/web3 incentives and
+            leveraging open-source AI/ML + pure FOSS CLI-heavy workflows. Every
+            font we publish is licensed under the SIL Open Font License.
+          </p>
+          <p class="mt-4">
+            The word Garden is used in an Islamic sense here, literally “Font
+            Paradise”.
+          </p>
+        </div>
+        <div class="md:w-1/3">
+          <h2 class="text-2xl font-semibold text-gray-900">
+            What Font Garden Believes In
+          </h2>
+          <p class="mt-4">
+            Font Garden is built around a set of ideas and beliefs enumerated
+            below. We reserve the right to change and update this list as we
+            learn from this project.
+          </p>
+          <ol class="list-decimal pl-5 mt-5">
+            <li class="mt-2">
+              Network Modernism; design has never been modern. What most
+              designers think of as modernism was a form of proto-modernism.
+            </li>
+            <li class="mt-2">Post-authorship</li>
+            <li class="mt-2">AI needs crypto</li>
+            <li class="mt-2">FOSS needs crypto</li>
+            <li class="mt-2">FOSS contributors should capture value</li>
+            <li class="mt-2">Sharing Knowledge</li>
+            <li class="mt-2">Working in Public</li>
+          </ol>
+        </div>
+        <div class="md:w-1/3">
+          <h2 class="text-2xl font-semibold text-gray-900">
+            NFT’s and Free Information
+          </h2>
+          <p class="mt-4">
+            The problem of monetizing digital content is reproducible
+            information is effectively infinite in supply, leaving it impossible
+            to price, free like air. Primitive attempts at digital monetization
+            try to create an artificial scarcity through paywalls and DRM,
+            technically ineffective against any piracy but backed by socialized
+            pressure and threats of legal action. These models of course
+            restrict the free flow of information and suppress the memetic viral
+            cultural nature of fonts as an art form.
+          </p>
+          <p class="mt-4">
+            NFT’s are an alternative form of creating artificial digital
+            scarcity, so it’s easy to make the intuitive leap that they also
+            negatively limit free information. However, by changing the value
+            proposition of digital goods from a scarcity based on limiting
+            information access to one based on provable provenance, they have no
+            need to rely on gatekeeping access to NFT content to secure value.
+            This is a great boon for the freedom of information movement.
+          </p>
+
+          <p class="mt-4">
+            Blockchain is a naturalistic technology, it would have been
+            developed in a thousand timelines, just as the CPU would have, just
+            as double-entry accounting or abstracted money would have—or AI
+            will—but copyright law was a confusing and awkward historical
+            aberration.
+          </p>
+          <p class="mt-4">
+            Digital scarcity instituted by legal infrastructure was an awkward,
+            artificial, and ethically problematic intervention on the free flow
+            of information; NFTs managing scarcity as trustless bookkeeping
+            allows accessibility to be achieved without undermining production
+            incentives.
+          </p>
+          <p class="mt-4">
+            NFT’s solve the problem of trustless digital deeds of ownership,
+            making the need to conflate ownership with content accessibility in
+            copyable digital media outmoded—and with it, convoluted and invasive
+            DRM solutions, unclear licensing rights and likely one day,
+            paywalling altogether.
+          </p>
+        </div>
+      </div>
+
+      <footer class="text-left py-5 text-gray-600">
+        © 2024 Eli Heuer |
+        <a href="https://twitter.com/fontgarden">Font.Garden on X</a> |
+        <a href="https://github.com/fontgarden">Font.Garden on GitHub</a>
+      </footer>
     </div>
   </body>
 </html>
