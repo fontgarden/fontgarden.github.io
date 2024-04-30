@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 16px; /* This sets the standard font size, which is used to calculate rem units */
+  }
+
+  body {
+    font-size: 1.25rem; /* This will be equivalent to the Tailwind .text-2xl class size */
+    line-height: 1.5rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span {
+    font-size: inherit; /* Ensures that these elements inherit the body's font size */
+    line-height: inherit;
+  }
+}
