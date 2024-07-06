@@ -2,9 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Rena';
+  src: url('fonts/RenaVF.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-optical-sizing: auto; /* Enable optical sizing */
+}
+
 @layer base {
   html {
     font-size: 16px; /* This sets the standard font size, which is used to calculate rem units */
+    font-family: Rena, system-ui, sans-serif;
+    font-optical-sizing: auto; /* Ensure optical sizing is enabled */
+    ffont-optical-sizing: auto; /* Ensure optical sizing is enabled */
+    font-variation-settings: 'opsz' 14; /* Set optical size to 14 */ont-variation-settings: 'opsz' 14; /* Set optical size to 14 */
   }
 
   body {
@@ -12,7 +24,9 @@
     line-height: 1.5rem;
   }
 
-  h1,
+  h1 {
+    font-variation-settings: 'opsz' 144; /* Set optical size to 14 */ont-variation-settings: 'opsz' 14; /* Set optical size to 14 */
+  }
   h2,
   h3,
   h4,
