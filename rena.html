@@ -3,129 +3,173 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Font Garden</title>
+    <title>Rena</title>
     <link href="./source/output.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <script src="script.js"></script>
   </head>
-  <body
-    class="bg-gradient-to-b from-gray-300 to-gray-400 flex flex-col min-h-screen"
-  >
+  <body class="bg-gradient-to-b from-gray-400 to-gray-500 flex flex-col min-h-screen">
     <div class="w-full px-4 md:px-8">
       <header class="flex text-left justify-between items-end py-5">
-        <h1 class="pt-2 text-4xl font-bold">Font Garden</h1>
-        <!--
-        <h1 class="text-4xl font-bold">Connect</h1>
-        -->
+        <h1 class="mt-4 text-8xl">Font Garden 🪲 Rena</h1>
       </header>
-      <a href="./index.html">
-        <h2>Index</h2>
-      </a>
-      <!--
-      <h2>Preview</h2>
-      <h2>Shop</h2>
-        -->
-      <h2>About</h2>
-      <h2>Documentation</h2>
-      <h2 class="pb-5">Contribute</h2>
-      <hr class="border-t-2 border-black" />
+      <a href="./index.html"><h2 class="hover:text-indigo-600 m-0">Index</h2></a>
+      <a href="./about.html"><h2 class="hover:text-indigo-600 m-0">About</h2></a>
+      <a href="./documentation.html"><h2 class="hover:text-indigo-600 m-0">Documentation</h2></a>
+      <a href="./contribute.html"><h2 class="hover:text-indigo-600 m-0">Contribute</h2></a>
     </div>
-
-    <div class="px-4 md:px-8 w-full pt-5 pb-5">
+    
+    <div class="px-4 md:px-8 w-full mt-4 mb-4">
+    <hr class="mt-4 mb-1.5 border-t-2 border-black" />
       <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div class="bg-gray-400">
-          <h2 class="font-bold mb-2">hello world</h2>
-          <p class="font-bold mb-2">
-            hello world hello world hello world hello world hello world
-          </p>
+        <div class="col-span-1 md:col-span-2">
+          <h2 class="mb-4">Font Info</h2>
+          <hr class="border-t-2 border-black mb-4" />
+            <p>Designer: <a class="m-0 hover:text-indigo-600" href="./rena.html">Eli Heuer</a></p>
+            <p>Publisher: <a class="m-0 hover:text-indigo-600" href="./rena.html">Eli Heuer</a></p>
+            <p>Font Engineer: <a class="m-0 hover:text-indigo-600" href="./rena.html">Eli Heuer</a></p>
+            <p>License: <a class="m-0 hover:text-indigo-600" href="./rena.html">Eli Heuer</a></p>
+        </div>
+        <div class="col-span-1 md:col-span-2">
+          <h2 class="mb-4">⠀</h2>
+          <hr class="border-t-2 border-black mb-4" />
+        </div>
+        <div>
+          <h2 class="mb-4">⠀</h2>
+          <hr class="border-t-2 border-black mb-4" />
+        </div>
+      </div>
+    </div>
+   
+
+    <div class="px-4 md:px-8 w-full mb-4">
+      <hr class="border-t-2 border-black mb-2" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="col-span-1 md:col-span-5">
+          <h2 class="mb-4">Interactive Specimen</h2>
+          <label for="opticalSizeSlider">Optical Size: <span id="sliderValue">144</span></label>
+          <input type="range" id="opticalSizeSlider" min="14" max="144" value="144">
+          
+          <hr class="border-t-2 border-black mb-8 mt-4" />
+          <h1 class="sampleText text-8xl mb-3">ABCDEFGHIJKLMNOPQRSTUVWXYZ</h1>
+          <h1 class="sampleText text-8xl mb-3">abcdefghijklmnopqrstuvwxyz</h1>
+          <h1 class="sampleText text-8xl mb-3">1234567890!?.,:;</h1>
+          
+          <hr class="border-t-2 border-black mb-8 mt-8" />
+          <h1 class="sampleText text-8xl mb-3">Northwest Traditions</h1>
+          <h1 dir="rtl" class="sampleText text-8xl mb-3">أشهد يا إلهي بأنّك خلقتني</h1>
+          <hr class="border-t-2 border-black mb-4 mt-10" />
+        </div>
+        <div class="col-span-1 md:col-span-1">
+          <h2 class="mb-4">Text Sample: Base</h2>
+          <hr class="border-t-2 border-black mb-4 mt-4" />
+          <p class="sampleText text-base mb-3">The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.</p>
+          <p class="sampleText text-base mb-3">The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves. The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works. The fonts and derivatives, however, cannot be released under any other type of license. The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.</p>
+        </div>
+        <div class="col-span-1 md:col-span-1">
+          <h2 class="mb-4">Text Sample: Large</h2>
+          <hr class="border-t-2 border-black mb-4 mt-4" />
+          <p class="sampleText text-lg mb-3">The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.</p>
+          <p class="sampleText text-lg mb-3">The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves. The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works. The fonts and derivatives, however, cannot be released under any other type of license. The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.</p>
+        </div>
+        <div class="col-span-1 md:col-span-1">
+          <h2 class="mb-4">Text Sample: Extra Large</h2>
+          <hr class="border-t-2 border-black mb-4 mt-4" />
+          <p class="sampleText text-xl mb-3">The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.</p>
+          <p class="sampleText text-xl mb-3">The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves. The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works. The fonts and derivatives, however, cannot be released under any other type of license. The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.</p>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="px-4 md:px-8 w-full mt-4 mb-4">
+    <hr class="mt-4 mb-1.5 border-t-2 border-black" />
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="col-span-1 md:col-span-5">
+          <h2 class="mb-4">Specimens: Pre-Alpha NFTs</h2>
+          <hr class="border-t-2 border-black mb-4" />
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
+        </div>
+        <div>
+          <a class="hover:text-indigo-600" href="https://zora.co/collect/zora:0x3dd69e07427b4fc4be62c7a69dee960134ac5230/5">
+            <img src="images/rena/pre-alpha/WIP-004.jpg">
+            <p>⛓️ Zora</p>
+          </a>
         </div>
       </div>
     </div>
 
-    <div class="px-4 md:px-8 w-full pb-5">
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div>
-          <h2 class="font-bold text-lg mb-2">CJK</h2>
-          <ol class="list-decimal list-inside">
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-          </ol>
-          <p>More...</p>
-        </div>
-        <div>
-          <h2 class="font-bold text-lg mb-2">Neo-Grotesk</h2>
-          <ol class="list-decimal list-inside">
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-          </ol>
-          <p>More...</p>
-        </div>
-        <div>
-          <h2 class="font-bold text-lg mb-2">Old-Style</h2>
-          <ol class="list-decimal list-inside">
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-          </ol>
-          <p>More...</p>
-        </div>
-        <div>
-          <h2 class="font-bold text-lg mb-2">AI/ML Models</h2>
-          <ol class="list-decimal list-inside">
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-          </ol>
-          <p>More...</p>
-        </div>
-        <div>
-          <h2 class="font-bold mb-2">Datasets</h2>
-          <ol class="list-decimal list-inside">
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-            <li>Under Construction 👷</li>
-          </ol>
-          <p>More...</p>
-        </div>
-      </div>
-    </div>
 
-    <footer class="w-full px-4 md:px-8 text-left text-gray-600">
-      <hr class="border-t-2 border-black pb-5" />
-      © 2024 |
+    <footer class="w-full px-4 md:px-8 text-gray-600">
+      <hr class="border-t-2 border-black mb-8" />
+      <p class="mb-8">2024 |
       <a href="https://twitter.com/fontgarden">Font.Garden on Twitter/X</a> |
       <a href="https://github.com/fontgarden">Font.Garden on GitHub</a>
+      </p>
     </footer>
   </body>
 </html>

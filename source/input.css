@@ -32,9 +32,101 @@
   h4,
   h5,
   h6,
-  p,
+  p {
+    margin-top: 1rem;
+  }
   span {
     font-size: inherit; /* Ensures that these elements inherit the body's font size */
     line-height: inherit;
   }
+  a:hover {
+    text-decoration: underline; /* Add underline on hover */
+    text-decoration-color: #4f46e5; /* Custom underline color on hover */
+  }
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+/*
+
+input[type=range] {
+    -webkit-appearance: none;
+    margin: 10px 0;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 16px;
+    background: none;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 8px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: black;
+    border: 1px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -4px;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: black;
+    border: 1px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type=range]::-ms-thumb {
+    width: 16px;
+    height: 16px;
+    background: black;
+    border: 1px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: 0;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: white;
+}
+
+input[type=range]:focus::-moz-range-track {
+    background: white;
+}
+
+input[type=range]:focus::-ms-track {
+    background: white;
+}
+
+*/
+
 }
