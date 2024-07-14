@@ -15,17 +15,17 @@
     font-size: 16px; /* This sets the standard font size, which is used to calculate rem units */
     font-family: Rena, system-ui, sans-serif;
     font-optical-sizing: auto; /* Ensure optical sizing is enabled */
-    font-variation-settings: 'opsz' 14; /* Set optical size to 14 */ont-variation-settings: 'opsz' 14; /* Set optical size to 14 */
+    font-variation-settings: 'opsz' 14; /* Set optical size to 14 */
   }
 
   body {
     font-size: 1.5rem; /* This will be equivalent to the Tailwind .text-2xl class size */
     line-height: 1.7rem;
-    font-variation-settings: 'opsz' 72; /* Set optical size to 14 */ont-variation-settings: 'opsz' 14; /* Set optical size to 14 */
+    font-variation-settings: 'opsz' 72; /* Set optical size to 72 */
   }
 
   h1 {
-    font-variation-settings: 'opsz' 144; /* Set optical size to 14 */ont-variation-settings: 'opsz' 14; /* Set optical size to 14 */
+    font-variation-settings: 'opsz' 144; /* Set optical size to 144 */
   }
   h2,
   h3,
