@@ -449,7 +449,7 @@ video {
 html {
   font-size: 16px;
   /* This sets the standard font size, which is used to calculate rem units */
-  font-family: Rena, system-ui, sans-serif;
+  font-family: 'Bezy Grotesk', system-ui, sans-serif;
   font-optical-sizing: auto;
   /* Ensure optical sizing is enabled */
   font-variation-settings: 'opsz' 14;
@@ -912,10 +912,6 @@ input[type=range]:focus::-ms-track {
 
 .mt-10 {
   margin-top: 2.5rem;
-}
-
-.mt-16 {
-  margin-top: 4rem;
 }
 
 .mt-2 {
@@ -2227,6 +2223,11 @@ input[type=range]:focus::-ms-track {
   vertical-align: super;
 }
 
+.text-7xl {
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
 .text-8xl {
   font-size: 6rem;
   line-height: 1;
@@ -2245,16 +2246,6 @@ input[type=range]:focus::-ms-track {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
-}
-
-.text-6xl {
-  font-size: 3.75rem;
-  line-height: 1;
-}
-
-.text-7xl {
-  font-size: 4.5rem;
-  line-height: 1;
 }
 
 .font-bold {
@@ -2331,6 +2322,14 @@ input[type=range]:focus::-ms-track {
 
 .leading-snug {
   line-height: 1.375;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+.tracking-tighter {
+  letter-spacing: -0.05em;
 }
 
 .text-\[\#336699\]\/\[\.35\] {
@@ -2719,9 +2718,9 @@ input[type=range]:focus::-ms-track {
 }
 
 @font-face {
-  font-family: 'Rena';
+  font-family: 'Bezy Grotesk';
 
-  src: url('fonts/RenaVF.woff2') format('woff2');
+  src: url('fonts/BezyGrotesk-Regular.woff2') format('woff2');
 
   font-weight: normal;
 
