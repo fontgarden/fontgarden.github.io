@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Rena" pageTitle="Rena">
+  <div class="px-4 md:px-8 w-full mt-4 mb-4">
+    <hr class="mt-4 mb-1.5 border-t-2 border-black" />
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      
+      <div class="col-span-1 md:col-span-2 " >
+        <h2 class="mb-4">About Rena</h2>
+        <hr class="border-t-2 border-black mb-4" />
+        <p class="leading-snug">Rena is a neo-grotesk grid based typeface designed by Eli Heuer in 2024. It take inspiration from grid-based typefaces like Replica, but uses a higer resoltion 4 unit grid for better optical adjustments. This grid based system has many aditional advantages, the make it easier for contributors to make pull requests, improvments, and language extensions without working closly with the original designer, and it allowes for a powers-of-2 based design system that helps LLMs to more effectily train on and augment the original design. It's all just compression and interpolation.</p>
+      </div>
+      
+      <div class="col-span-1 md:col-span-2 md:px-4">
+        <h2 class="mb-4">Font Info</h2>
+        <hr class="border-t-2 border-black mb-5" />
+          <p class="mt-4 my-1.5">Designer: <a class="m-0 hover:text-indigo-600" href="/rena">Eli Heuer</a></p>
+          <p class="my-1.5">Publisher: <a class="m-0 hover:text-indigo-600" href="/rena">Font Garden</a></p>
+          <p class="my-1.5">Font Engineer: <a class="m-0 hover:text-indigo-600" href="/rena">Eli Heuer</a></p>
+          <p class="my-1.5">License: <a class="m-0 hover:text-indigo-600" href="/rena">SIL Open Font License OFL version 1.1</a></p>
+          <p class="my-1.5">UPM: <a class="m-0 hover:text-indigo-600" href="/rena">1024</a></p>
+          <p class="my-1.5">File Size: <a class="m-0 hover:text-indigo-600" href="/rena">RenaVF.woff2 14kb</a></p>
+          <p class="my-1.5">Version: <a class="m-0 hover:text-indigo-600" href="/rena">Pre-Alpha v0.1.4</a></p>
+      </div>
+      
+      <div>
+        <h2 class="mb-4">Download</h2>
+        <hr class="border-t-2 border-black mb-4" />
+          <p class="mt-4 my-1.5">GitHub: <a class="m-0 hover:text-indigo-600" href="/rena">Pre-Alpha v0.1.4</a></p>
+          <hr class="border-t-2 border-black mt-4 mb-0" />
+          <h2 class="mt-5 mb-4">Funding</h2>
+          <hr class="border-t-2 border-black mb-4" />
+          <p class="my-1.5">Ethereum ENS: <a class="m-0 hover:text-indigo-600" href="/rena">elih.eth</a></p>
+          <p class="my-1.5">Bitcoin: <a class="m-0 hover:text-indigo-600" href="/rena">1A1zP1e...</a></p>
+          <p class="my-1.5">Solana: <a class="m-0 hover:text-indigo-600" href="/rena">CmyaFShf...</a></p>
+          <p class="my-1.5">Pre-Alpha NFTs: <a class="m-0 hover:text-indigo-600" href="/rena">Zora</a></p>
+          <p class="my-1.5">Base Memecoin: <a class="m-0 hover:text-indigo-600" href="/rena">0x3ajR1e...</a></p>
+      </div>
+    
+    </div>
+  </div>
+ 
+
+  <div class="px-4 md:px-8 w-full mb-4">
+    <hr class="border-t-2 border-black mb-2" />
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="col-span-1 md:col-span-5">
+        <h2 class="mb-4">Interactive Specimen</h2>
+        <label for="opticalSizeSlider">Optical Size: <span id="sliderValue">144</span></label>
+        <input type="range" id="opticalSizeSlider" min="14" max="144" value="144">
+        
+        <hr class="border-t-2 border-black mb-8 mt-4" />
+        <h1 class="sampleText text-8xl mb-3">ABCDEFGHIJKLMNOPQRSTUVWXYZ</h1>
+        <h1 class="sampleText text-8xl mb-3">abcdefghijklmnopqrstuvwxyz</h1>
+        <h1 class="sampleText text-8xl mb-3">1234567890!?.,:;</h1>
+        
+        <hr class="border-t-2 border-black mb-8 mt-8" />
+        <h1 class="sampleText text-8xl mb-3">Northwest Traditions</h1>
+        <h1 dir="rtl" class="sampleText text-8xl mb-3">أشهد يا إلهي بأنّك خلقتني</h1>
+        <hr class="border-t-2 border-black mb-4 mt-10" />
+      </div>
+      <div class="col-span-1 md:col-span-1">
+        <h2 class="mb-4">Text Sample: Base</h2>
+        <hr class="border-t-2 border-black mb-4 mt-4" />
+        <p class="sampleText text-base mb-3">The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.</p>
+        <p class="sampleText text-base mb-3">The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves. The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works. The fonts and derivatives, however, cannot be released under any other type of license. The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.</p>
+      </div>
+      <div class="col-span-1 md:col-span-1">
+        <h2 class="mb-4">Text Sample: Large</h2>
+        <hr class="border-t-2 border-black mb-4 mt-4" />
+        <p class="sampleText text-lg mb-3">The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.</p>
+      </div>
+      <div class="col-span-1 md:col-span-1">
+        <h2 class="mb-4">Text Sample: XL</h2>
+        <hr class="border-t-2 border-black mb-4 mt-4" />
+        <p class="sampleText text-xl mb-3">The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById('opticalSizeSlider') as HTMLInputElement;
+    const sliderValue = document.getElementById('sliderValue');
+    const sampleTexts = document.querySelectorAll('.sampleText');
+
+    if (slider && sliderValue) {
+      slider.addEventListener('input', function() {
+        const value = this.value;
+        sliderValue.textContent = value;
+        sampleTexts.forEach(text => {
+          (text as HTMLElement).style.fontVariationSettings = `'opsz' ${value}`;
+        });
+      });
+    }
+  </script>
+</Layout>
