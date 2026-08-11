@@ -11,26 +11,96 @@
 }
 
 @layer base {
-  html {
-    font-size: 16px;
-    font-family: 'Virtua Grotesk', system-ui, sans-serif;
-    font-weight: 400;
-    background-color: #ffffff;
-    color: #000000;
+  :root {
+    color-scheme: dark;
+    --color-ink: #ececea;
+    --color-paper: #10120f;
+    --color-muted: #737b6f;
+    --color-rule: #ececea24;
+    /* One fluid text size for the whole page; h1 is 1.6x this. */
+    --text-small: min(calc(0.3 * 1.2vw + 1rem), 1.54rem);
+    --text-h1: calc(var(--text-small) * 1.6);
+    /* Width of the fixed gradient panel on the right. */
+    --field: 10px;
   }
 
-  a:hover {
-    text-decoration: underline;
-    text-decoration-color: theme('colors.accent');
+  @media (min-width: 640px) {
+    :root {
+      --field: clamp(30vw, calc(100vw - 4rem - 47.6rem - 4rem), 40vw);
+    }
+  }
+
+  html {
+    font-family: 'Virtua Grotesk', system-ui, sans-serif;
+    font-weight: 400;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-size: var(--text-small);
+    line-height: 1.5;
   }
 
   code {
     font-family: inherit;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   ::selection {
-    background: theme('colors.accent');
-    color: #ffffff;
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+/* The fixed, rounded, animated gradient panel on the right. */
+.field-panel {
+  background:
+    linear-gradient(
+      170deg,
+      #10120f 0%,
+      #1b2c1e 22%,
+      #2f5233 42%,
+      #6f8f4f 58%,
+      #d9822b 76%,
+      #ff4e00 90%,
+      #2a160b 100%
+    );
+  background-size: 100% 220%;
+  animation: field-drift 24s ease-in-out infinite alternate;
+}
+
+@keyframes field-drift {
+  from {
+    background-position: 50% 0%;
+  }
+  to {
+    background-position: 50% 100%;
+  }
+}
+
+/* Film grain over the gradient. */
+.field-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  image-rendering: pixelated;
+  mix-blend-mode: overlay;
+}
+
+/* Hero slot: phrases rotate in place. */
+.slot-phrase {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slot-phrase.is-shown {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-panel {
+    animation: none;
   }
 }

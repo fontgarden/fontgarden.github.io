@@ -2,152 +2,210 @@
 import Layout from '../layouts/Layout.astro';
 
 const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
+
+const heroPhrases = [
+  'For Arabic.',
+  'For Nastaʿliq.',
+  'For Latin.',
+  'For the scripts and styles that OpenType never served.',
+];
 ---
 
 <Layout title="Font Garden — Fonts that are neural networks">
-  <main class="mx-auto max-w-3xl px-6 pb-24 pt-10 md:pt-16">
-    <header class="mb-20 md:mb-28">
-      <a href="/" class="text-lg tracking-tight hover:text-accent">Font Garden</a>
-    </header>
+  <!-- Fixed gradient field panel, right side -->
+  <div
+    class="field-panel pointer-events-none fixed top-[12px] right-[12px] z-20 h-[calc(100dvh-24px)] w-[var(--field)] overflow-hidden rounded-[14px] select-none"
+    aria-hidden="true"
+  >
+    <div class="field-grain absolute inset-0"></div>
+  </div>
 
+  <!-- Wordmark -->
+  <header>
+    <a
+      href="/"
+      class="fixed top-8 left-6 z-30 text-small font-medium tracking-tight sm:top-10 sm:left-10 lg:top-12 lg:left-16"
+      >Font Garden</a
+    >
+  </header>
+
+  <main
+    class="relative z-10 my-8 flex flex-col px-6 pr-[calc(var(--field)+1.5rem)] pt-16 sm:my-10 sm:px-10 sm:pr-[calc(var(--field)+2.5rem)] sm:pt-20 lg:my-12 lg:px-16 lg:pr-[calc(var(--field)+4rem)] lg:pt-24"
+  >
     <!-- Hero -->
-    <section class="mb-20 md:mb-28">
-      <h1 class="text-4xl md:text-6xl leading-[1.05] tracking-tight">
+    <section>
+      <h1 class="text-h1 font-medium text-balance leading-tight">
         We are building fonts that are neural networks.
       </h1>
-      <p class="mt-8 text-xl md:text-2xl leading-snug text-neutral-500">
-        For Arabic. For Nastaʿliq. For Latin. For the scripts and styles that
-        OpenType never served.
-      </p>
+      <div class="mt-6 grid text-small text-muted" id="hero-slot" aria-label={heroPhrases.join(' ')}>
+        {heroPhrases.map((p, i) => (
+          <span class={`slot-phrase${i === 0 ? ' is-shown' : ''}`} aria-hidden="true">{p}</span>
+        ))}
+      </div>
     </section>
 
     <!-- Problem -->
-    <section class="mb-16 space-y-5 text-lg md:text-xl leading-relaxed">
-      <p>
-        An OpenType font is a box of fixed shapes: one outline per glyph,
-        reused everywhere, in cells that digital type inherited from metal
-        sorts. Latin fits this system. Much of the written world does not.
-      </p>
-      <p>
-        Naskh, and above all Nastaʿliq, is one continuous, context-dependent
-        stroke. The OpenType workaround is thousands of glyphs and
-        substitution rules, and the result has never matched the manuscripts
-        it comes from.
-      </p>
+    <section class="my-10 max-w-[72ch] md:my-14">
+      <div class="flex flex-col gap-5 text-small text-ink">
+        <p>
+          An OpenType font is a box of fixed shapes: one outline per glyph,
+          reused everywhere, in cells that digital type inherited from metal
+          sorts. Latin fits this system. Much of the written world does not.
+        </p>
+        <p>
+          Naskh, and above all Nastaʿliq, is one continuous, context-dependent
+          stroke. The OpenType workaround is thousands of glyphs and
+          substitution rules, and the result has never matched the manuscripts
+          it comes from.
+        </p>
+      </div>
     </section>
 
     <!-- Format -->
-    <section class="mb-16 space-y-5 text-lg md:text-xl leading-relaxed">
-      <h2 class="text-sm uppercase tracking-widest text-neutral-500">
-        The NeuralType format
-      </h2>
-      <p>
-        Our answer is NeuralType, the <code>.ntf</code> font format. A
-        <code>.ntf</code> file is a small neural network. The character, its
-        joining form, and settings such as elongation go into the network. The
-        letterform comes out and is traced into vector outlines at the moment
-        you type it. The shapes are computed, not retrieved.
-      </p>
-      <p>
-        Computed does not mean random. The same text at the same settings
-        produces identical outlines on every machine. Learned axes such as
-        weight and elongation are continuous numbers: variable fonts without
-        masters. The file is a short header and the network weights. The
-        weights are the font.
-      </p>
-      <p>
-        The spec and the Rust rendering engine are open source under
-        Apache-2.0 or MIT at
-        <a href="https://github.com/eliheuer/post-opentype" class="underline hover:text-accent"
-          >github.com/eliheuer/post-opentype</a
-        >. Live demos, with real editable text set by neural fonts, are at
-        <a href="https://elih.net/blog/neuraltype" class="underline hover:text-accent"
-          >elih.net/blog/neuraltype</a
-        >.
-      </p>
+    <section class="my-10 max-w-[72ch] md:my-14">
+      <p class="mb-4 text-small text-muted">The NeuralType format</p>
+      <div class="flex flex-col gap-5 text-small text-ink">
+        <p>
+          Our answer is NeuralType, the <code>.ntf</code> font format. A
+          <code>.ntf</code> file is a small neural network. The character, its
+          joining form, and settings such as elongation go into the network.
+          The letterform comes out and is traced into vector outlines at the
+          moment you type it. The shapes are computed, not retrieved.
+        </p>
+        <p>
+          Computed does not mean random. The same text at the same settings
+          produces identical outlines on every machine. Learned axes such as
+          weight and elongation are continuous numbers: variable fonts without
+          masters. The file is a short header and the network weights. The
+          weights are the font.
+        </p>
+        <p>
+          The spec and the Rust rendering engine are open source under
+          Apache-2.0 or MIT at
+          <a
+            href="https://github.com/eliheuer/post-opentype"
+            class="underline-offset-4 hover:underline"
+            >github.com/eliheuer/post-opentype</a
+          >. Live demos, with real editable text set by neural fonts, are at
+          <a
+            href="https://elih.net/blog/neuraltype"
+            class="underline-offset-4 hover:underline"
+            >elih.net/blog/neuraltype</a
+          >.
+        </p>
+      </div>
     </section>
 
     <!-- How we work -->
-    <section class="mb-16 space-y-5 text-lg md:text-xl leading-relaxed">
-      <h2 class="text-sm uppercase tracking-widest text-neutral-500">
-        How we work
-      </h2>
-      <p>
-        These fonts are grown more than they are drawn. A teacher describes
-        the letterforms, a small model learns them, and the trained model
-        becomes the font. We tend our fonts after release: retrain them,
-        extend them to new scripts, and refine them.
-      </p>
-      <p>
-        Our work continues the international typographic style, extended to
-        the scripts that modernism ignored, with a focus on the Perso-Arabic
-        script. Every font is open. Every model ships with open weights. The
-        training data and the specs are published.
-      </p>
+    <section class="my-10 max-w-[72ch] md:my-14">
+      <p class="mb-4 text-small text-muted">How we work</p>
+      <div class="flex flex-col gap-5 text-small text-ink">
+        <p>
+          These fonts are grown more than they are drawn. A teacher describes
+          the letterforms, a small model learns them, and the trained model
+          becomes the font. We tend our fonts after release: retrain them,
+          extend them to new scripts, and refine them.
+        </p>
+        <p>
+          Our work continues the international typographic style, extended to
+          the scripts that modernism ignored, with a focus on the Perso-Arabic
+          script. Every font is open. Every model ships with open weights. The
+          training data and the specs are published.
+        </p>
+      </div>
     </section>
 
     <!-- Plan -->
-    <section class="mb-16 text-lg md:text-xl leading-relaxed">
-      <h2 class="text-sm uppercase tracking-widest text-neutral-500">
-        The plan
-      </h2>
-      <ol class="mt-5 space-y-8">
-        <li>
-          <h3 class="font-bold">1. Define the format</h3>
-          <p class="mt-2">
+    <section class="my-10 max-w-[72ch] md:my-14">
+      <p class="mb-4 text-small text-muted">The plan</p>
+      <ol class="my-4 flex flex-col gap-6 text-small text-ink">
+        <li class="flex gap-4">
+          <span class="w-4 shrink-0 tabular-nums text-muted">1</span>
+          <span>
+            <span class="font-medium">Define the format.</span>
             Publish the <code>.ntf</code> spec, the rendering engine, and live
             demos. This work is underway and open source.
-          </p>
+          </span>
         </li>
-        <li>
-          <h3 class="font-bold">2. Release fonts and models</h3>
-          <p class="mt-2">
+        <li class="flex gap-4">
+          <span class="w-4 shrink-0 tabular-nums text-muted">2</span>
+          <span>
+            <span class="font-medium">Release fonts and models.</span>
             A first catalog of <code>.ntf</code> fonts and open-weight models,
             free under open licenses. Coming soon.
-          </p>
+          </span>
         </li>
-        <li>
-          <h3 class="font-bold">3. Build the platform</h3>
-          <p class="mt-2">
+        <li class="flex gap-4">
+          <span class="w-4 shrink-0 tabular-nums text-muted">3</span>
+          <span>
+            <span class="font-medium">Build the platform.</span>
             Distribution for <code>.ntf</code> fonts, hosted APIs for our
             models, and tools to train and tend your own. This is the
             business.
-          </p>
+          </span>
         </li>
       </ol>
     </section>
 
     <!-- Who -->
-    <section class="mb-16 space-y-5 text-lg md:text-xl leading-relaxed">
-      <h2 class="text-sm uppercase tracking-widest text-neutral-500">Who</h2>
-      <p>
+    <section class="my-10 max-w-[72ch] md:my-14">
+      <p class="mb-4 text-small text-muted">Who</p>
+      <p class="text-small text-ink">
         Font Garden is founded by
-        <a href="https://elih.net" class="underline hover:text-accent">Eli Heuer</a>,
-        a type designer and font engineer. The research notes and demos behind
-        the format are on
-        <a href="https://elih.net" class="underline hover:text-accent">elih.net</a>.
+        <a href="https://elih.net" class="underline-offset-4 hover:underline"
+          >Eli Heuer</a
+        >, a type designer and font engineer. The research notes and demos
+        behind the format are on
+        <a href="https://elih.net" class="underline-offset-4 hover:underline"
+          >elih.net</a
+        >.
       </p>
     </section>
 
     <!-- Contact -->
-    <section class="mb-24 text-lg md:text-xl leading-relaxed">
-      <h2 class="text-sm uppercase tracking-widest text-neutral-500">
-        Stay in touch
-      </h2>
-      <p class="mt-5">
+    <section class="my-10 max-w-[72ch] md:my-14">
+      <p class="mb-4 text-small text-muted">Stay in touch</p>
+      <p class="text-small text-ink">
         We will announce the first fonts and models by email.
-        <a href={contact} class="underline hover:text-accent">Write to us</a>
+        <a href={contact} class="underline-offset-4 hover:underline"
+          >Write to us</a
+        >
         to get the announcement, or to talk about the format, the models, or
         the seed round.
       </p>
     </section>
 
-    <footer class="border-t border-black pt-4 text-base text-neutral-500">
-      <p>
-        Font Garden ·
-        <a href="https://github.com/fontgarden" class="hover:text-accent">GitHub</a> ·
-        <a href={contact} class="hover:text-accent">Contact</a>
-      </p>
+    <footer class="mt-20 md:mt-28">
+      <nav class="flex items-center gap-5 text-small text-ink">
+        <a
+          href="https://github.com/fontgarden"
+          class="min-w-0 truncate underline-offset-4 hover:underline">GitHub</a
+        >
+        <span class="hidden h-px w-8 min-w-1.5 shrink-[999] bg-rule sm:block"></span>
+        <a
+          href="https://elih.net"
+          class="hidden underline-offset-4 hover:underline sm:inline"
+          >elih.net</a
+        >
+        <span class="h-px min-w-1.5 flex-1 bg-rule"></span>
+        <a href={contact} class="underline-offset-4 hover:underline"
+          >eli@elih.net</a
+        >
+      </nav>
     </footer>
   </main>
+
+  <script>
+    const slot = document.getElementById('hero-slot');
+    const phrases = slot ? slot.querySelectorAll('.slot-phrase') : [];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (phrases.length > 1 && !reduced.matches) {
+      let i = 0;
+      setInterval(() => {
+        phrases[i].classList.remove('is-shown');
+        i = (i + 1) % phrases.length;
+        phrases[i].classList.add('is-shown');
+      }, 2400);
+    }
+  </script>
 </Layout>
