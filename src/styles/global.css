@@ -20,13 +20,27 @@
     /* One fluid text size for the whole page; h1 is 1.6x this. */
     --text-small: min(calc(0.3 * 1.2vw + 1rem), 1.54rem);
     --text-h1: calc(var(--text-small) * 1.6);
+    --text-logo: calc(var(--text-small) * 5.2);
+    /* Shared page margin: the gradient panel inset and the text margin. */
+    --margin: 16px;
     /* Width of the fixed gradient panel on the right. */
     --field: 10px;
   }
 
   @media (min-width: 640px) {
     :root {
-      --field: clamp(30vw, calc(100vw - 4rem - 47.6rem - 4rem), 40vw);
+      --margin: 24px;
+      --field: clamp(
+        30vw,
+        calc(100vw - 4 * var(--margin) - 47.6rem),
+        40vw
+      );
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --margin: 32px;
     }
   }
 
@@ -45,7 +59,7 @@
 
   code {
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   ::selection {
@@ -99,8 +113,44 @@
   opacity: 1;
 }
 
+/* Fade the content out as it scrolls up behind the wordmark. */
+/* Solid past the logotype's bottom edge, then a soft ramp, so content
+   is fully faded before it reaches the wordmark. */
+.top-fade {
+  background: linear-gradient(to bottom, var(--color-paper) 62%, transparent);
+}
+
+/* Characters bouncing around the gradient panel. */
+.dvd-char {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: calc(var(--text-small) * 4);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-ink);
+  will-change: transform;
+  user-select: none;
+}
+
+.dvd-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--text-small) * 8);
+  height: auto;
+  will-change: transform;
+  user-select: none;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .field-panel {
     animation: none;
+  }
+
+  .dvd-char,
+  .dvd-img {
+    display: none;
   }
 }

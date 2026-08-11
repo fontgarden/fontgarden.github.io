@@ -14,27 +14,35 @@ const heroPhrases = [
 <Layout title="Font Garden — Fonts that are neural networks">
   <!-- Fixed gradient field panel, right side -->
   <div
-    class="field-panel pointer-events-none fixed top-[12px] right-[12px] z-20 h-[calc(100dvh-24px)] w-[var(--field)] overflow-hidden rounded-[14px] select-none"
+    id="field-panel"
+    class="field-panel pointer-events-none fixed top-[var(--margin)] right-[var(--margin)] z-20 h-[calc(100dvh-2*var(--margin))] w-[var(--field)] overflow-hidden rounded-[14px] select-none"
     aria-hidden="true"
   >
     <div class="field-grain absolute inset-0"></div>
+  </div>
+
+  <!-- Fade content out as it scrolls up behind the wordmark -->
+  <div
+    class="top-fade pointer-events-none fixed inset-x-0 top-0 z-[15] h-[calc(var(--margin)+var(--text-logo)*2)]"
+    aria-hidden="true"
+  >
   </div>
 
   <!-- Wordmark -->
   <header>
     <a
       href="/"
-      class="fixed top-8 left-6 z-30 text-small font-medium tracking-tight sm:top-10 sm:left-10 lg:top-12 lg:left-16"
-      >Font Garden</a
+      class="fixed top-[var(--margin)] left-[var(--margin)] z-30 text-[length:var(--text-logo)] leading-none tracking-tight"
+      >Font.Garden</a
     >
   </header>
 
   <main
-    class="relative z-10 my-8 flex flex-col px-6 pr-[calc(var(--field)+1.5rem)] pt-16 sm:my-10 sm:px-10 sm:pr-[calc(var(--field)+2.5rem)] sm:pt-20 lg:my-12 lg:px-16 lg:pr-[calc(var(--field)+4rem)] lg:pt-24"
+    class="relative z-10 flex flex-col pl-[var(--margin)] pr-[calc(var(--field)+2*var(--margin))] pt-[calc(var(--margin)+var(--text-logo)*2.2)] pb-[var(--margin)]"
   >
     <!-- Hero -->
     <section>
-      <h1 class="text-h1 font-medium text-balance leading-tight">
+      <h1 class="text-h1 text-balance leading-tight">
         We are building fonts that are neural networks.
       </h1>
       <div class="mt-6 grid text-small text-muted" id="hero-slot" aria-label={heroPhrases.join(' ')}>
@@ -122,7 +130,7 @@ const heroPhrases = [
         <li class="flex gap-4">
           <span class="w-4 shrink-0 tabular-nums text-muted">1</span>
           <span>
-            <span class="font-medium">Define the format.</span>
+            <span>Define the format.</span>
             Publish the <code>.ntf</code> spec, the rendering engine, and live
             demos. This work is underway and open source.
           </span>
@@ -130,7 +138,7 @@ const heroPhrases = [
         <li class="flex gap-4">
           <span class="w-4 shrink-0 tabular-nums text-muted">2</span>
           <span>
-            <span class="font-medium">Release fonts and models.</span>
+            <span>Release fonts and models.</span>
             A first catalog of <code>.ntf</code> fonts and open-weight models,
             free under open licenses. Coming soon.
           </span>
@@ -138,7 +146,7 @@ const heroPhrases = [
         <li class="flex gap-4">
           <span class="w-4 shrink-0 tabular-nums text-muted">3</span>
           <span>
-            <span class="font-medium">Build the platform.</span>
+            <span>Build the platform.</span>
             Distribution for <code>.ntf</code> fonts, hosted APIs for our
             models, and tools to train and tend your own. This is the
             business.
@@ -206,6 +214,93 @@ const heroPhrases = [
         i = (i + 1) % phrases.length;
         phrases[i].classList.add('is-shown');
       }, 2400);
+    }
+
+    // DVD-screensaver bounce: each character of "Font.Garden" drifts
+    // around the gradient panel and bounces off its edges.
+    const panel = document.getElementById('field-panel');
+    if (panel && !reduced.matches && panel.clientWidth > 120) {
+      const spawn = (el) => {
+        panel.appendChild(el);
+        const speed = 30 + Math.random() * 50;
+        const angle = Math.random() * Math.PI * 2;
+        return {
+          el,
+          x: Math.random() * (panel.clientWidth - 40),
+          y: Math.random() * (panel.clientHeight - 60),
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+        };
+      };
+      const chars = 'FontGarden'.split('').map((ch) => {
+        const el = document.createElement('span');
+        el.className = 'dvd-char';
+        el.textContent = ch;
+        return spawn(el);
+      });
+      const rose = document.createElement('img');
+      rose.src = '/graphics/rose-001.png';
+      rose.alt = '';
+      rose.className = 'dvd-img';
+      chars.push(spawn(rose));
+      let last = performance.now();
+      const step = (now) => {
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        const w = panel.clientWidth;
+        const h = panel.clientHeight;
+        for (const c of chars) {
+          const cw = c.el.offsetWidth;
+          const chh = c.el.offsetHeight;
+          c.r = Math.max(cw, chh) / 2;
+          c.x += c.vx * dt;
+          c.y += c.vy * dt;
+          if (c.x <= 0) { c.x = 0; c.vx = Math.abs(c.vx); }
+          if (c.x >= w - cw) { c.x = w - cw; c.vx = -Math.abs(c.vx); }
+          if (c.y <= 0) { c.y = 0; c.vy = Math.abs(c.vy); }
+          if (c.y >= h - chh) { c.y = h - chh; c.vy = -Math.abs(c.vy); }
+        }
+        // Elastic collisions between letters (equal mass, circle bodies).
+        for (let a = 0; a < chars.length; a++) {
+          for (let b = a + 1; b < chars.length; b++) {
+            const A = chars[a];
+            const B = chars[b];
+            const ax = A.x + A.r;
+            const ay = A.y + A.r;
+            const bx = B.x + B.r;
+            const by = B.y + B.r;
+            const dx = bx - ax;
+            const dy = by - ay;
+            const dist = Math.hypot(dx, dy) || 1;
+            const minDist = (A.r + B.r) * 0.8;
+            if (dist < minDist) {
+              const nx = dx / dist;
+              const ny = dy / dist;
+              // Push the pair apart so they do not stick together.
+              const overlap = (minDist - dist) / 2;
+              A.x -= nx * overlap;
+              A.y -= ny * overlap;
+              B.x += nx * overlap;
+              B.y += ny * overlap;
+              // Swap the velocity components along the collision normal
+              // if the letters are moving toward each other.
+              const va = A.vx * nx + A.vy * ny;
+              const vb = B.vx * nx + B.vy * ny;
+              if (va - vb > 0) {
+                A.vx += (vb - va) * nx;
+                A.vy += (vb - va) * ny;
+                B.vx += (va - vb) * nx;
+                B.vy += (va - vb) * ny;
+              }
+            }
+          }
+        }
+        for (const c of chars) {
+          c.el.style.transform = `translate(${c.x}px, ${c.y}px)`;
+        }
+        requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
     }
   </script>
 </Layout>
