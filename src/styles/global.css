@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Virtua Grotesk';
+  src: url('fonts/VirtuaGroteskVF.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    font-family: 'Virtua Grotesk', system-ui, sans-serif;
+    font-weight: 400;
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-decoration-color: theme('colors.accent');
+  }
+
+  code {
+    font-family: inherit;
+    font-weight: 700;
+  }
+
+  ::selection {
+    background: theme('colors.accent');
+    color: #ffffff;
+  }
+}
