@@ -2,13 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 
 const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
-
-const heroPhrases = [
-  'For Arabic.',
-  'For Nastaʿliq.',
-  'For Latin.',
-  'For the scripts and styles that OpenType never served.',
-];
 ---
 
 <Layout title="Font Garden — Fonts that are neural networks">
@@ -43,13 +36,9 @@ const heroPhrases = [
     <!-- Hero -->
     <section>
       <h1 class="text-h1 text-balance leading-tight">
-        We are building fonts that are neural networks.
+        We are developing NeuralType™, a post-OpenType font format where each
+        font contains a neural network.
       </h1>
-      <div class="mt-6 grid text-small text-muted" id="hero-slot" aria-label={heroPhrases.join(' ')}>
-        {heroPhrases.map((p, i) => (
-          <span class={`slot-phrase${i === 0 ? ' is-shown' : ''}`} aria-hidden="true">{p}</span>
-        ))}
-      </div>
     </section>
 
     <!-- Intro -->
@@ -58,7 +47,7 @@ const heroPhrases = [
         <p>
           Font.Garden is a US-based open-weight AI lab rethinking global
           script typography from the ground up for the 21st century. We
-          created NeuralType, a post-OpenType font format where the font is a
+          created NeuralType™, a post-OpenType font format where the font is a
           neural network. We train and progressively release open-weight
           vector graphics models, and charge for API access to our frontier
           models.
@@ -67,10 +56,7 @@ const heroPhrases = [
           We believe the aesthetics of our time will emerge as a consequence
           of perceiving abundance as more threat than affordance. No one
           wants to dig through font catalogs filled with slop, so our
-          business model aligns incentives toward quality over quantity. We
-          are neomodernists with more sympathy for Vignelli than for anything
-          the legacy font industry has to offer. We are going to disrupt
-          everything about the font industry, and nothing can stop this.
+          business model aligns incentives toward quality over quantity.
         </p>
       </div>
     </section>
@@ -221,17 +207,7 @@ const heroPhrases = [
   </main>
 
   <script>
-    const slot = document.getElementById('hero-slot');
-    const phrases = slot ? slot.querySelectorAll('.slot-phrase') : [];
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (phrases.length > 1 && !reduced.matches) {
-      let i = 0;
-      setInterval(() => {
-        phrases[i].classList.remove('is-shown');
-        i = (i + 1) % phrases.length;
-        phrases[i].classList.add('is-shown');
-      }, 2400);
-    }
 
     // DVD-screensaver bounce: each character of "Font.Garden" drifts
     // around the gradient panel and bounces off its edges.

@@ -102,17 +102,6 @@
   mix-blend-mode: overlay;
 }
 
-/* Hero slot: phrases rotate in place. */
-.slot-phrase {
-  grid-area: 1 / 1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.slot-phrase.is-shown {
-  opacity: 1;
-}
-
 /* Fade the content out as it scrolls up behind the wordmark. */
 /* Solid past the logotype's bottom edge, then a soft ramp, so content
    is fully faded before it reaches the wordmark. */
