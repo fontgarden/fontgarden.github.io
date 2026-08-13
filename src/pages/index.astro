@@ -25,7 +25,8 @@ const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
   <header>
     <a
       href="/"
-      class="fixed top-[var(--margin)] left-[var(--margin)] z-30 text-[length:var(--text-logo)] leading-none tracking-tight"
+      id="wordmark"
+      class="fixed top-[var(--margin)] left-[var(--margin)] z-30 text-[length:var(--text-logo)] leading-none tracking-tight whitespace-nowrap"
       >Font.Garden</a
     >
   </header>
@@ -74,6 +75,29 @@ const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
 
   <script>
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Size the wordmark so its right edge sits one margin away from the
+    // gradient panel, matching its top and left margins. The fitted size
+    // is written back to --text-logo so the fade zone and the content
+    // offset follow it.
+    const wordmark = document.getElementById('wordmark');
+    const panelEl = document.getElementById('field-panel');
+    const fitWordmark = () => {
+      if (!wordmark || !panelEl) return;
+      const margin = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--margin')
+      );
+      const target = panelEl.getBoundingClientRect().left - 2 * margin;
+      if (target <= 0) return;
+      wordmark.style.fontSize = '100px';
+      const width = wordmark.getBoundingClientRect().width;
+      const size = (100 * target) / width;
+      wordmark.style.fontSize = `${size}px`;
+      document.documentElement.style.setProperty('--text-logo', `${size}px`);
+    };
+    document.fonts.ready.then(fitWordmark);
+    window.addEventListener('resize', fitWordmark);
+    fitWordmark();
 
     // DVD-screensaver bounce: each character of "Font.Garden" drifts
     // around the gradient panel and bounces off its edges.

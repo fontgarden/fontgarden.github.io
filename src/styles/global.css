@@ -30,11 +30,8 @@
   @media (min-width: 640px) {
     :root {
       --margin: 24px;
-      --field: clamp(
-        30vw,
-        calc(100vw - 4 * var(--margin) - 47.6rem),
-        40vw
-      );
+      /* The panel's left edge sits at the horizontal middle. */
+      --field: calc(50vw - var(--margin));
     }
   }
 
