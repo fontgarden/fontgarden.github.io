@@ -106,7 +106,7 @@
 /* Solid past the logotype's bottom edge, then a soft ramp, so content
    is fully faded before it reaches the wordmark. */
 .top-fade {
-  background: linear-gradient(to bottom, var(--color-paper) 62%, transparent);
+  background: linear-gradient(to bottom, var(--color-paper) 55%, transparent);
 }
 
 /* Characters bouncing around the gradient panel. */
