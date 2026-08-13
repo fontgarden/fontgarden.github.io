@@ -34,9 +34,9 @@ const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
     class="relative z-10 flex flex-col pl-[var(--margin)] pr-[calc(var(--field)+2*var(--margin))] pt-[calc(var(--margin)+var(--text-logo)*2.2)] pb-[var(--margin)]"
   >
     <!-- Hero -->
-    <section>
-      <h1 class="text-h1 text-balance leading-tight">
-        We are developing NeuralType™, a post-OpenType font format where each
+    <section class="max-w-[72ch]">
+      <h1 class="text-small text-ink">
+        We are developing NeuralType, a post-OpenType font format where each
         font contains a neural network.
       </h1>
     </section>
@@ -47,7 +47,7 @@ const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
         <p>
           Font.Garden is a US-based open-weight AI lab rethinking global
           script typography from the ground up for the 21st century. We
-          created NeuralType™, a post-OpenType font format where the font is a
+          created NeuralType, a post-OpenType font format where the font is a
           neural network. We train and progressively release open-weight
           vector graphics models, and charge for API access to our frontier
           models.
@@ -59,131 +59,6 @@ const contact = 'mailto:eli@elih.net?subject=Font%20Garden';
           business model aligns incentives toward quality over quantity.
         </p>
       </div>
-    </section>
-
-    <!-- Format -->
-    <section class="my-10 max-w-[72ch] md:my-14">
-      <p class="mb-4 text-small text-muted">The NeuralType format</p>
-      <div class="flex flex-col gap-5 text-small text-ink">
-        <p>
-          An OpenType font is a box of fixed shapes: one outline per glyph,
-          reused everywhere, in cells that digital type inherited from metal
-          sorts. Latin fits this system. Much of the written world does not.
-        </p>
-        <p>
-          Naskh, and above all Nastaʿliq, is one continuous, context-dependent
-          stroke. The OpenType workaround is thousands of glyphs and
-          substitution rules, and the result has never matched the manuscripts
-          it comes from.
-        </p>
-        <p>
-          Our answer is NeuralType, the <code>.ntf</code> font format. A
-          <code>.ntf</code> file is a small neural network. The character, its
-          joining form, and settings such as elongation go into the network.
-          The letterform comes out and is traced into vector outlines at the
-          moment you type it. The shapes are computed, not retrieved.
-        </p>
-        <p>
-          Computed does not mean random. The same text at the same settings
-          produces identical outlines on every machine. Learned axes such as
-          weight and elongation are continuous numbers: variable fonts without
-          masters. The file is a short header and the network weights. The
-          weights are the font.
-        </p>
-        <p>
-          The spec and the Rust rendering engine are open source under
-          Apache-2.0 or MIT at
-          <a
-            href="https://github.com/eliheuer/post-opentype"
-            class="underline-offset-4 hover:underline"
-            >github.com/eliheuer/post-opentype</a
-          >. Live demos, with real editable text set by neural fonts, are at
-          <a
-            href="https://elih.net/blog/neuraltype"
-            class="underline-offset-4 hover:underline"
-            >elih.net/blog/neuraltype</a
-          >.
-        </p>
-      </div>
-    </section>
-
-    <!-- How we work -->
-    <section class="my-10 max-w-[72ch] md:my-14">
-      <p class="mb-4 text-small text-muted">How we work</p>
-      <div class="flex flex-col gap-5 text-small text-ink">
-        <p>
-          These fonts are grown more than they are drawn. A teacher describes
-          the letterforms, a small model learns them, and the trained model
-          becomes the font. We tend our fonts after release: retrain them,
-          extend them to new scripts, and refine them.
-        </p>
-        <p>
-          Our work continues the international typographic style, extended to
-          the scripts that modernism ignored, with a focus on the Perso-Arabic
-          script. Every font is open. Every model ships with open weights. The
-          training data and the specs are published.
-        </p>
-      </div>
-    </section>
-
-    <!-- Plan -->
-    <section class="my-10 max-w-[72ch] md:my-14">
-      <p class="mb-4 text-small text-muted">The plan</p>
-      <ol class="my-4 flex flex-col gap-6 text-small text-ink">
-        <li class="flex gap-4">
-          <span class="w-4 shrink-0 tabular-nums text-muted">1</span>
-          <span>
-            <span>Define the format.</span>
-            Publish the <code>.ntf</code> spec, the rendering engine, and live
-            demos. This work is underway and open source.
-          </span>
-        </li>
-        <li class="flex gap-4">
-          <span class="w-4 shrink-0 tabular-nums text-muted">2</span>
-          <span>
-            <span>Release fonts and models.</span>
-            A first catalog of <code>.ntf</code> fonts and open-weight models,
-            free under open licenses. Coming soon.
-          </span>
-        </li>
-        <li class="flex gap-4">
-          <span class="w-4 shrink-0 tabular-nums text-muted">3</span>
-          <span>
-            <span>Build the platform.</span>
-            Distribution for <code>.ntf</code> fonts, hosted APIs for our
-            models, and tools to train and tend your own. This is the
-            business.
-          </span>
-        </li>
-      </ol>
-    </section>
-
-    <!-- Who -->
-    <section class="my-10 max-w-[72ch] md:my-14">
-      <p class="mb-4 text-small text-muted">Who</p>
-      <p class="text-small text-ink">
-        Font Garden is founded by
-        <a href="https://elih.net" class="underline-offset-4 hover:underline"
-          >Eli Heuer</a
-        >, a type designer and font engineer. The research notes and demos
-        behind the format are on
-        <a href="https://elih.net" class="underline-offset-4 hover:underline"
-          >elih.net</a
-        >.
-      </p>
-    </section>
-
-    <!-- Contact -->
-    <section class="my-10 max-w-[72ch] md:my-14">
-      <p class="mb-4 text-small text-muted">Stay in touch</p>
-      <p class="text-small text-ink">
-        We will announce the first fonts and models by email.
-        <a href={contact} class="underline-offset-4 hover:underline"
-          >Write to us</a
-        >
-        to get the announcement, or to talk about the format, the models, or
-        the seed round.
-      </p>
     </section>
 
     <footer class="mt-20 md:mt-28">
