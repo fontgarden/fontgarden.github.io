@@ -1,0 +1,30 @@
+---
+import Layout from './Layout.astro';
+import SiteFrame from '../components/SiteFrame.astro';
+import '../styles/docs.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={`${title} — Font.Garden`} description={description}>
+  <SiteFrame />
+
+  <main
+    class="relative z-10 flex min-h-[100dvh] flex-col pl-[var(--margin)] pr-[calc(var(--field)+2*var(--margin))] pt-[calc(var(--margin)+var(--text-logo)*1.25)] pb-[var(--margin)]"
+  >
+    <div class="docs max-w-[72ch]">
+      <slot />
+    </div>
+
+    <footer class="mt-auto pt-6">
+      <nav class="flex items-center gap-5 text-small text-ink">
+        <a href="/docs/" class="underline-offset-4 hover:underline">Documentation</a>
+      </nav>
+    </footer>
+  </main>
+</Layout>

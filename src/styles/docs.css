@@ -1,0 +1,206 @@
+/* Documentation styles. The chapter structure is adapted from the Google
+   Fonts Guide (googlefonts.github.io/gf-guide, Apache-2.0). The visual
+   treatment follows the landing page: one text size, hairline rules,
+   no filled surfaces, everything in Virtua Grotesk. */
+
+/* Prose */
+
+.doc h1 {
+  font-size: var(--text-h1);
+  line-height: 1.25;
+  margin: 0 0 1.5rem;
+}
+
+.doc h2 {
+  margin: 2.5rem 0 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.doc h3 {
+  color: var(--color-muted);
+  margin: 1.75rem 0 0.5rem;
+}
+
+.doc p,
+.doc ul,
+.doc ol,
+.doc table,
+.doc pre,
+.doc figure,
+.doc blockquote {
+  margin: 0 0 1rem;
+}
+
+.doc ul,
+.doc ol {
+  padding-left: 1.4em;
+}
+
+.doc ul {
+  list-style: disc;
+}
+
+.doc ol {
+  list-style: decimal;
+}
+
+.doc li {
+  margin: 0.25rem 0;
+}
+
+.doc a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--color-muted);
+}
+
+.doc a:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.doc pre {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 14px;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.doc th,
+.doc td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.4em 0.8em 0.4em 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.doc th {
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.doc hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: 2rem 0;
+}
+
+.doc img {
+  max-width: 100%;
+  border-radius: 14px;
+}
+
+.doc blockquote {
+  padding-left: 1rem;
+  border-left: 1px solid var(--color-rule);
+  color: var(--color-muted);
+}
+
+/* Chapter blocks carried over from the Google Fonts Guide */
+
+.callout {
+  margin: 0 0 2rem;
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.context-reading,
+.next-reading {
+  color: var(--color-muted);
+  line-height: 1.8;
+  margin: 2rem 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.next-reading {
+  margin: 3rem 0 0;
+}
+
+.context-reading a,
+.next-reading a {
+  color: var(--color-ink);
+}
+
+.toc {
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+  color: var(--color-muted);
+}
+
+.toc li {
+  margin: 0.15rem 0;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.index-link {
+  display: inline-block;
+  margin: 0 0 1.5rem;
+  color: var(--color-muted);
+}
+
+.index-link:hover {
+  color: var(--color-ink);
+}
+
+mark {
+  display: inline-block;
+  padding: 0 0.5em;
+  border: 1px solid var(--color-rule);
+  border-radius: 2em;
+  background: none;
+  color: var(--color-muted);
+  font-size: 0.75em;
+  line-height: 1.7;
+  vertical-align: 0.15em;
+  margin-right: 0.6em;
+  white-space: nowrap;
+}
+
+/* Index page */
+
+.docs-index h2 {
+  margin: 2.5rem 0 0.25rem;
+}
+
+.docs-index .section-description {
+  color: var(--color-muted);
+  margin: 0 0 1rem;
+}
+
+.docs-index ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.docs-index li {
+  margin: 0.4rem 0;
+}
+
+.docs-index li a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.docs-index .legend {
+  margin: 1rem 0;
+}
+
+.doc h1 mark {
+  font-size: calc(var(--text-small) * 0.75);
+  vertical-align: 0.35em;
+}
