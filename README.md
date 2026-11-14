@@ -53,4 +53,14 @@ the chapter that describes it in the same session:
 | corrections or the drafting evaluation | `learning.md` |
 | a Fontspector check of the profile | `qa.md` |
 
-Run `pnpm build` before a commit. A push to `main` publishes the site.
+`scripts/check_guide.py` compares the guide with checkouts of those
+repositories. It fails when a chapter names an `fgtools` command or a `make`
+target that does not exist, and when a command or a template target has no
+chapter. CI runs it on each push and each Monday.
+
+```
+python3 scripts/check_guide.py --tools ~/GH/fontgarden/fontgarden-tools \
+  --template ~/GH/fontgarden/font-project-template --reference ~/GH/repos/virtua-grotesk
+```
+
+Run it and `pnpm build` before a commit. A push to `main` publishes the site.

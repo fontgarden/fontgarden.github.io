@@ -1,0 +1,36 @@
+name: Check the guide
+
+# Compares the guide with the tools, the project template and the reference
+# project. The weekly run finds a change in those repositories that the guide
+# does not describe yet.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: fontgarden/fontgarden-tools
+          path: checkouts/tools
+      - uses: actions/checkout@v4
+        with:
+          repository: fontgarden/font-project-template
+          path: checkouts/template
+      - uses: actions/checkout@v4
+        with:
+          repository: eliheuer/virtua-grotesk
+          path: checkouts/reference
+      - run: >
+          python3 scripts/check_guide.py --tools checkouts/tools
+          --template checkouts/template --reference checkouts/reference
