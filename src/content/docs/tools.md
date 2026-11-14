@@ -66,7 +66,7 @@ export FONTGARDEN_REFERENCE_FONTS=~/GH/fontgarden/reference-fonts
 fgtools fetch-reference-fonts
 ```
 
-The command downloads 34 text families from [google/fonts](https://github.com/google/fonts). Each family goes to its own folder with its `OFL.txt`. `--family NAME` adds a family. Commands that take reference fonts use the collection by default.
+The command downloads the trusted families from [google/fonts](https://github.com/google/fonts). Each family goes to its own folder with its `OFL.txt`. The list is `fontgarden/reference_fonts.toml` in fontgarden-tools, with the reason for each family. The designer decides which families it holds. The first list has 9: Source Sans 3, Source Serif 4, IBM Plex Sans, Inter, Roboto, Noto Sans, Fira Sans, Work Sans and EB Garamond. Commands that take reference fonts use the collection by default.
 
 The `reference-fonts/` folder of a project is separate. It holds the few fonts that `make proof-web` shows beside that font.
 
