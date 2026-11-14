@@ -17,10 +17,27 @@ These commands read the UFO masters. They do not need a build.
 | --- | --- |
 | `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `sources/design.toml`. |
 | `make check-changes` | Compares the sources with `main`. It fails when a green glyph changed, or when a glyph with changed contours is not purple. |
+| `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
 | `make lint` | Finds structural faults in the GLIF files, differences between the masters and faults of the curves. |
 | `make test` | Checks the repository layout and the references in the documents. |
 
 The design checks are a filter. They do not measure quality. On 2026-11-10 they passed 50 of the 72 glyphs that are green in both masters of Virtua Grotesk. Thus a finding is a reason to look, not an error.
+
+## Accented letters
+
+An accented letter is a composite of a base letter and a mark. `fgtools check-accents` fits one anchor for each base and one for each mark to all accented letters of a master, with medians. It lists each letter whose mark is not at the fitted position, and each letter whose mark is not where the `top` or `bottom` anchors of its parts are.
+
+`fgtools evaluate-accent-placement` measures the method on compiled fonts, where the positions of the designer are known. On 34 OFL families of Google Fonts, 6900 marks, on 2026-11-14:
+
+| method | top marks within 0.8% of the em |
+| --- | ---: |
+| from the outlines only | 36% |
+| outlines, with the constant of each mark from the other letters | 70% |
+| from the anchors that the other accented letters imply | 98% |
+
+The third method needs another mark on the same base and another base with the same mark. It predicts 86% of the marks. Bottom marks are harder: an ogonek joins a stroke and is not centered.
+
+A listed letter is a reason to look. A mark on the stem of L is correct, and is not where the centered marks predict.
 
 ## Fontspector
 

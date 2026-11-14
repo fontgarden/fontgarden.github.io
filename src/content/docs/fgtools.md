@@ -22,6 +22,8 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools status` | `make status` | Writes `STATUS.md` from the mark colors. |
 | `fgtools queue` | `make queue` | Ranks the glyphs that most composites wait on. |
 | `fgtools check-design` | `make check-design` | Checks glyphs against the grid and the stroke targets. `--ready` lists the composites that can be green. |
+| `fgtools check-accents` | `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict. |
+| `fgtools evaluate-accent-placement` | | Tests the accent placement methods on compiled fonts. |
 | `fgtools check-changes` | `make check-changes` | Compares the sources with a base revision. |
 | `fgtools lint-glifs`, `lint-curves` | `make lint` | Structural faults and curve faults. |
 | `fgtools build` | `make build` | Builds the fonts with the gftools builder and fontc. |
