@@ -49,7 +49,7 @@ Long and unattended tasks have a contract in `.agents/tasks/`: the goal, the acc
 
 The designer installs or discards each proposal. A coding agent connected through MCP can read a glyph, measure it, render a proof and propose an edit.
 
-Note: the weight-debt tool of Runebender marks installed drafts orange. The rule of the source repositories is purple for a draft that is not reviewed, and `fgtools check-changes` expects purple.
+The Weight debt block of Runebender marks installed drafts purple. In the grading of Runebender, only green glyphs are frozen references, and red is the only grade that permits the replacement of a whole outline.
 
 ## Commit drafts before grading
 
