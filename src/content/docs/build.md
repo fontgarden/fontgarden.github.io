@@ -4,53 +4,62 @@ section: production
 label: learn
 order: 310
 summary: How the compiled fonts are produced from the sources.
-callout: Every project builds the same way. A fresh clone, a virtual environment, and <code>make build</code> must produce the fonts in <code>fonts/</code>. If a build needs any other step, the project is not ready.
-background: [tools, upstream]
+callout: Every repository builds the same way. A fresh clone, <code>make setup</code> and <code>make build</code> produce the fonts in <code>fonts/</code>. The compiler is fontc, through the gftools builder.
+background: [tools, sources]
 next: [qa]
 ---
 
 ## The build
 
 ```
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+make setup
 make build
 ```
 
-`make build` runs `build.sh`, which:
+`make build` runs `fgtools build`, which does these steps:
 
-1. Removes the previous `fonts/` output and intermediate files.
-2. Runs the gftools builder on `sources/config.yaml`. The builder calls fontmake to compile the designspace into a variable font and the named instances into static TTFs.
-3. Runs any project fix-up scripts on the compiled fonts, for example to set name table entries.
-4. Lists the files written to `fonts/variable` and `fonts/ttf`.
+1. It removes the previous fonts directory.
+2. It copies the sources to a temporary directory. The copy has one glyph order in all masters.
+3. It runs the gftools builder on `sources/config.yaml`, with fontc as the compiler.
+4. It writes the fonts to `fonts/variable` and `fonts/ttf`.
+
+A project can add its own corrections after this step. Virtua Grotesk has `scripts/build.sh`, which runs `fgtools build` and then `scripts/fix_gf_metadata.py`.
+
+A plain `gftools builder sources/config.yaml`, as the Google Fonts packager runs it, builds the same fonts with fontmake.
 
 ## config.yaml
 
-The gftools builder recipe. A minimal file:
+`config.yaml` is the recipe of the gftools builder. A minimal file:
 
 ```yaml
 sources:
-  - Family.designspace
-familyName: Family
+  - Style.designspace
+familyName: Style
 buildVariable: true
 buildStatic: true
 buildOTF: false
 buildWebfont: false
 ```
 
-The recipe describes how to build. The designspace and the UFOs remain the only sources of truth for the outlines and metrics.
+The file must be valid strictyaml. Write instance coordinates in block style, not as `{wght: 400}`.
 
-## Alternative compiler
+The recipe describes how to build. The designspace and the UFOs are the only sources of truth for the outlines and the metrics. A project with one master names its UFO in `sources` and sets `buildVariable: false`.
 
-Projects also provide `make build-fontc`, which runs the same sources through `fontc`, the Rust compiler. Use it to confirm that the sources do not depend on fontmake-specific behavior. The catalog ships the fontmake build until the two produce equivalent output.
+## Features and anchors
 
-## Snapshots
+OpenType features are in the UFO `features.fea`. A variable font uses one feature file for all masters. An anchor that moves between masters is written with a variable value, for example `(wght=400:360 wght=700:400)`.
 
-`build.sh` records a snapshot of the source state it built from. This lets a proof or a report be matched to the exact source revision. Do not edit sources between a build and the review of its output.
+Glyphs that the fonts do not export are listed in `public.skipExportGlyphs`, in the lib of each UFO and of the designspace. Do not list a glyph that another glyph uses as a component.
+
+## Compare two builds
+
+`make diff` builds the sources of `main` and of the working tree, and compares the two builds with diffenator3. The HTML reports are in `out/diff/`. The exit status is 1 when a glyph image or a word image differs.
+
+Run it after each source edit. Every changed glyph, word, table or language result must be one that the edit explains.
 
 ## What not to do
 
 - Do not edit a compiled font with a table editor and commit it.
 - Do not build from instance UFOs that were generated earlier.
-- Do not put generated intermediate files inside `sources`.
+- Do not put generated intermediate files in `sources`.
+- Do not edit the sources between a build and the review of its output.

@@ -32,3 +32,25 @@ pnpm preview
 - `src/styles/global.css` — Tailwind directives, `@font-face`, base styles
 - `src/styles/fonts/` — woff2 fonts used by the site (refreshed by `~/Desktop/rebuild-virtua.sh`)
 - `public/` — static assets served as-is (favicon, CNAME)
+
+## Keep the guide current
+
+The guide describes the Font.Garden system: the project template
+(`fontgarden/font-project-template`), the tools (`fontgarden/fontgarden-tools`),
+the QA profile (`fontgarden/fontspector-fontgarden`), the tracing tools
+(`img2glyph`, `img2bez`, `img2ufo`) and the reference project
+(`eliheuer/virtua-grotesk`). Those repositories are the source of the facts.
+
+When a command, a rule, a grade or the layout changes in one of them, update
+the chapter that describes it in the same session:
+
+| change | chapter |
+| --- | --- |
+| a `fgtools` command or a make target | `fgtools.md`, and `build.md` or `qa.md` |
+| the template or `fgtools customize` | `start.md`, `sources.md` |
+| the specimen intake or the tracing tools | `specimen.md`, `tools.md` |
+| mark colors and their policy | `grades.md`, `proposals.md` |
+| corrections or the drafting evaluation | `learning.md` |
+| a Fontspector check of the profile | `qa.md` |
+
+Run `pnpm build` before a commit. A push to `main` publishes the site.

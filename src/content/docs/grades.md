@@ -2,34 +2,43 @@
 title: Glyph grades
 section: system
 label: must
-order: 220
-summary: The four-color grade that every glyph carries, and what each color permits.
-callout: Quality is tracked per glyph, not per font. Each glyph in a UFO carries a mark color in its <code>lib.plist</code>, the same color Runebender shows in the glyph grid. The color is the grade. The corpus tools, the review tools and the build reports all read it.
-background: [grid]
-next: [outlines, dataset]
+order: 230
+summary: The mark color of each glyph, which records its state and whether it can train a model.
+callout: Quality is tracked for each glyph, not for each font. Each glyph in a UFO has a mark color, the same color that Runebender shows in the glyph grid. Purple is a draft that the designer has not reviewed. Red, orange and yellow are the designer's grades. Green is approved. The tools and the reports read the color.
+background: [grid, structure]
+next: [proposals, learning, dataset]
 ---
 
-## The four grades
+## The grades
 
-| color | meaning | use in training |
+| color | meaning | trains |
 | --- | --- | --- |
-| green | Finished and approved by a human. The only gold standard. | yes |
-| yellow | Close to finished. Reviewed, with a known remaining issue. | by decision, logged per experiment |
-| orange | Better than nothing. A machine draft or an untouched trace. | never |
-| red | Empty, placeholder, or wrong. | never |
+| purple | A draft by a model, an agent or the tracer. The designer has not reviewed it. | no |
+| red | Broken. The glyph can be replaced. | no |
+| orange | Better, but not good enough. Edit it and keep the useful construction. | no |
+| yellow | Close. Edit it without a new drawing. A glyph can stay yellow for a long time. | no |
+| green | Approved as close to final. The contours are frozen. | yes |
 
-A source has mixed quality. A whole-font grade would hide this, so there is none.
+Two more colors mark composites in Virtua Grotesk. Blue is a composite that needs diagnosis. Pink is a composite that needs small edits. Neither is a reference.
 
-## Who sets the grade
+A source has mixed quality. A grade for the whole font would hide this, so there is none.
 
-- A human sets green. A tool may never promote a glyph to green.
-- A tool that drafts a glyph sets orange on what it wrote.
-- A human reviewing a draft moves it to yellow or green, or leaves it orange with a note.
-- Imported masters from released OFL fonts enter as yellow. They are trusted as designer work but not graded by us.
+## Who sets what
 
-## Where the grade lives
+- The designer grades contour glyphs. Only the designer moves a contour glyph to red, orange, yellow or green.
+- A tool or an agent that draws or traces a glyph marks it purple.
+- An agent can mark a composite green when all its parts are green and `fgtools check-design --ready` lists it.
+- An agent does not change the contours of a green glyph, and does not change a component donor that a green glyph uses.
 
-The UFO `public.markColor` key in each glyph's `lib`. Runebender reads and writes it. Scripts read it with any UFO library. The reference values:
+`fgtools check-changes` enforces these rules on a set of source changes. It fails when a green glyph changed, or when a glyph with changed contours is not purple.
+
+## Only green trains
+
+Training data comes from green glyphs only. If drafts trained the next model, the model would learn its own errors. Only green glyphs are references for a new drawing.
+
+## Where the grade is stored
+
+The grade is the UFO `public.markColor` key in the `lib` of each glyph. Runebender reads and writes it. The reference values:
 
 | color | markColor |
 | --- | --- |
@@ -37,13 +46,16 @@ The UFO `public.markColor` key in each glyph's `lib`. Runebender reads and write
 | yellow | `1,1,0,1` |
 | orange | `1,0.5,0,1` |
 | red | `1,0,0,1` |
+| purple | `0.54,0.44,0.88,1` |
 
-Projects may use nearby values. The corpus tools classify by hue, not by exact match.
+`sources/design.toml` of each project lists every value that its sources use for a color, with the policy of the color. The tools read the colors from that file.
 
 ## Reports
 
-`make scoreboard` writes `documentation/scoreboard.md`, a count of glyphs per color per master. The number of green glyphs is the measure of a family's progress. A family can enter the catalog with yellow glyphs. It cannot enter with orange or red glyphs in its declared character set.
+`make status` writes `STATUS.md`, a count of glyphs for each color, master and script. The number of green glyphs is the measure of progress. The release target is every glyph green in every master.
 
-## Debt
+`make corrections` lists the reviews of purple drafts from the Git history. See [Corrections and drafting evaluation](/docs/learning/).
 
-An unfinished second master often holds copies of the first master's outlines that have not yet been changed. These are red. Marking them honestly matters: a corpus built from a Bold master with unbolded copies teaches the model that bolding changes nothing. This defect was found in an early Virtua Grotesk corpus and is the reason the grade system exists.
+## Bold debt
+
+A heavier master that is not complete usually holds copies of the outlines of the base master. These copies are red. An early Virtua corpus contained a Bold master in which 37 percent of the glyphs were such copies. As a result, a third of the pair training taught the model that a Bold is the same as a Regular. A plain baseline found the fault. The loss curve did not. The corpus builder now also drops a pair whose mean point movement is less than 8 units.

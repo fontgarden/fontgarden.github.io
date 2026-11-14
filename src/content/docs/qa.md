@@ -3,41 +3,65 @@ title: Quality assurance
 section: production
 label: learn
 order: 320
-summary: The checks and proofs that run on every build.
-callout: Three kinds of review run on every family. Automated checks with fontspector, printed and browser proofs, and the grid and grade reports. The first two are standard in open font production. The third is specific to this system.
+summary: The checks and proofs that run on the sources and on every build.
+callout: Four kinds of review run on every style. Checks of the sources, checks of the compiled fonts with Fontspector, a comparison of builds with diffenator3, and proofs that a person reads. Automated checks do not see a wrong shape, so a person looks at every proof.
 background: [build, grades]
-next: [dataset, publishing]
+next: [learning, dataset]
 ---
 
-## fontspector
+## Checks of the sources
 
-[fontspector](https://github.com/fonttools/fontspector) runs profile-based checks on compiled fonts. It replaced Fontbakery. Each project provides two targets:
+These commands read the UFO masters. They do not need a build.
 
-- `make qa` runs the development profile. It carries a documented list of excluded checks, for problems that are known and accepted while a family is in progress. The exclusions are listed in `documentation/qa.md`.
-- `make qa-full` runs the complete profile with no exclusions. A family must pass this before it enters the catalog.
+| command | use |
+| --- | --- |
+| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `sources/design.toml`. |
+| `make check-changes` | Compares the sources with `main`. It fails when a green glyph changed, or when a glyph with changed contours is not purple. |
+| `make lint` | Finds structural faults in the GLIF files, differences between the masters and faults of the curves. |
+| `make test` | Checks the repository layout and the references in the documents. |
 
-Read failures in full. A check that fails on every glyph usually points at one source problem, not many.
+The design checks are a filter. They do not measure quality. On 2026-11-10 they passed 50 of the 72 glyphs that are green in both masters of Virtua Grotesk. Thus a finding is a reason to look, not an error.
+
+## Fontspector
+
+[Fontspector](https://github.com/fonttools/fontspector) runs checks on the compiled fonts. It replaced Fontbakery. The collection uses the Font.Garden profile, which includes the Google Fonts profile and adds four requirements:
+
+| check | requirement |
+| --- | --- |
+| `fontgarden/unitsperem` | The em is 1024 units. |
+| `fontgarden/grid` | Every master of a variable font has its on-curve points and advance widths on the 2-unit grid. |
+| `fontgarden/license` | The font has the SIL Open Font License 1.1. |
+| `opentype/vendor_id` | The vendor ID is `FTGD`. |
+
+Each repository provides three targets:
+
+- `make qa` works offline. It leaves out the checks in `[qa.exclude]` of `sources/design.toml`. Each exclusion has a reason.
+- `make qa-full` runs all checks, with the network checks. A style must pass this before a release.
+- `make qa-package PACKAGE=<directory>` checks an assembled google/fonts package.
+
+An exclusion is known development debt. Do not add an exclusion to hide a new failure. Reports go to `out/qa/`. A FAIL gives a failing exit status. A WARN needs review.
+
+The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](https://github.com/fontgarden/fontspector-fontgarden). It has no release yet.
+
+## Comparison of builds
+
+`make diff` compares the build of the working tree with the build of `main`. See [Build the fonts](/docs/build/). An agent runs it after each source edit and reports each change that the edit does not explain.
 
 ## Proofs
 
-`make proof` builds the fonts and writes a PDF proof to `documentation/proofs/proof.pdf` with `designbot proof`. The proof introspects the font: axes, instances, character set, metrics and features. It needs no per-project configuration.
+`make proof-web` builds the fonts and serves them beside the fonts in `reference-fonts/`, in a browser, at one em size and weight. It has four modes: Compare, Toggle between two builds, Waterfall, and Text. If a reference font does not have a glyph, the proof shows the missing code points. It does not use a fallback font.
 
-`make review` writes a browser proof with `diff3proof` to `out/review`. Use it to compare two builds or to inspect shaping of connected scripts.
-
-Proofs are committed to `documentation/proofs` when a release is tagged, so that a reviewer can see what was shipped without building.
-
-## Grid and grade reports
-
-- `make lint-grid` checks source coordinates against the grid rules in [The power-of-two grid](/docs/grid/).
-- `make grid-qa` writes a per-glyph report with the grade, the grid conformance and the popcounts.
-- `make scoreboard` updates the color inventory in `documentation/scoreboard.md`.
-
-These reports are inputs to the corpus. A glyph that fails them is excluded from training regardless of its color.
+The samples are live browser text for Latin, Hebrew and Arabic. `sources/proof-samples.toml` adds samples for a project. Browser rendering is not release QA.
 
 ## Connected scripts
 
-Arabic and Hebrew need real shaping to review. Render test lines with a shaping engine, not with a glyph viewer. Projects with these scripts provide a target such as `make qa-hebrew` that renders a fixed text in each weight and checks mark attachment.
+Arabic and Hebrew need real shaping for a review. Render test lines with a shaping engine, not with a glyph viewer. Keep a reference renderer built on HarfBuzz and FreeType beside the renderer of the project. Then a fault of the font can be told from a fault of the renderer.
 
-## Local review
+## After a source edit
 
-Before you open a pull request, run in this order: `make build`, `make qa`, `make proof`. Look at the proof. Automated checks do not see a wrong shape.
+1. Run `make check-changes` and `make check-design` for the edited glyphs.
+2. Run `make build`.
+3. Run `make diff`.
+4. Look at the rendered glyphs in words, beside the reference fonts.
+
+Command success is not visual review. The designer gives the verdict on drawings.

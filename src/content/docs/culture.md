@@ -1,31 +1,33 @@
 ---
-title: Open fonts and open weights
+title: Post-authorship and open weights
 section: introduction
 label: start
 order: 10
-summary: The licensing and provenance rules that every Font Garden project follows.
-callout: Every font in the Font Garden catalog is released under the SIL Open Font License. Every model we release has open weights. Every training corpus is built from sources whose license permits it. This chapter explains why these three rules exist and what they mean for a contributor.
-next: [neuraltype, tools]
+summary: The position the collection takes on authorship, licensing and provenance.
+callout: Font Garden is one authorless collection. There are no families signed by a designer, no reserved font names and no scraped training data. Fonts are OFL. Model weights are open. Every sample in the corpus can be traced to a source file, a revision and a grade. This chapter explains the position and what it means for a contributor.
+next: [collection, neuraltype]
 ---
+
+## One collection, no authors
+
+Most type is published as families by named designers. A font AI trained on such a catalog learns the drawing habits of hundreds of people and spends its capacity reconciling them. Normalizing the fonts afterward removes information.
+
+Font Garden takes a different approach. A small team draws a core set by hand on one grid system, local models draft the rest in the same conventions, and a person grades every glyph. The result is an open font library held to one standard, in which every glyph is also clean training data.
+
+Nobody signs a glyph. The drawings and the corrections are the expert data, and they belong to the collection. This follows the authorless commons of the International Typographic Style, in which the system matters more than the hand that executed it. The practice is described in the posts [Diffuse Value Capture](https://elih.net/blog/diffuse-value-capture/) and [Local AI in Runebender](https://elih.net/blog/local-ai-in-runebender/).
 
 ## Three rules
 
-1. Fonts are published under the [SIL Open Font License 1.1](https://openfontlicense.org) (OFL). Anyone can use, study, modify and redistribute them.
-2. Model weights are published under an open license. The first release, Virtua-12M-v0.1, is on Hugging Face at `fontgarden/virtua` under Apache-2.0.
-3. Training data comes only from sources that permit it. The default source is our own catalog, which we draw on the grid system described in this guide. OFL fonts from other authors can enter a corpus only with their license files intact and a record of where they came from.
+1. Fonts are published under the [SIL Open Font License 1.1](https://openfontlicense.org) without a Reserved Font Name. The OFL FAQ states that a font made by a model trained on OFL sources is a derivative work and stays under the OFL. The collection accepts this.
+2. Model weights are published under Apache-2.0. Tools and engines are published under Apache-2.0 or MIT. Both are permissive licenses, like the OFL without its reserved name clause.
+3. Training targets come only from the collection's own sources. A foreign font may be an input to a tool, for example as a reference raster. It is never a training target. Compiled fonts are never used as sources. See [The collection is the dataset](/docs/dataset/).
 
 ## Why provenance matters
 
-Most font generation models are trained on scraped data. The fonts are collected from the web, rasterized, and used without the author's knowledge. The type design community has rejected this practice.
+Models trained on scraped fonts cannot say where a shape came from. The collection can. Each sample records the repository, the revision, the glyph name, the master and the grade. The corpus manifest is public. A project that already trained on scraped data cannot adopt this position later, so it is a durable difference rather than a marketing claim.
 
-Font Garden takes the opposite position. The dataset is published. Every sample can be traced to a source file, a license and a grade. This stance cannot be adopted later by a project that already trained on scraped data, so it is a durable difference, not a marketing claim.
+## What this means for a contributor
 
-## What open means for contributors
-
-- Your source files, not only the compiled fonts, are public once a family is in the catalog. A private repository is acceptable while a project is in progress.
+- Your drawings become part of the collection under the OFL, with your name in `CONTRIBUTORS.txt` and, if you hold copyright, in `AUTHORS.txt`. There is no per-family credit.
+- Everything you draw on the grid is training data. If you do not want your work used this way, do not contribute it. There is no separate opt-out.
 - You keep your copyright. The OFL requires attribution and forbids selling the font by itself. It does not transfer ownership.
-- A family in the catalog is also training data. If you do not want your work used this way, do not submit it to the catalog. There is no separate opt-out.
-
-## Reserved font names
-
-The OFL lets an author reserve the font name. Font Garden families do not use Reserved Font Names. A fork must still change the name under the OFL's modification terms, but we do not add the extra legal restriction. This keeps derived families and model outputs simple to redistribute.

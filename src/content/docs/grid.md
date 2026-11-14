@@ -1,59 +1,72 @@
 ---
-title: The power-of-two grid
+title: The dyadic grid
 section: system
 label: must
 order: 210
-summary: The unit system that makes Font Garden sources readable as training data.
-callout: Families in the Font Garden catalog are drawn on a power-of-two grid. The em is 1024 units. New geometry sits on multiples of 8. The source floor is 2. This chapter gives the rules and the reason for them. The machine-readable version of the rules for a family lives in its <code>design/system/contract.json</code>.
-background: [neuraltype, upstream]
-next: [grades, outlines]
+summary: The dyadic self-labeling grid system that every source in the collection is drawn on.
+callout: "Every source in the collection is drawn on a dyadic self-labeling grid system, nested grids built on powers of two. The em is 1024 units. Structural points sit on the 8-unit grid. Optical corrections drop to the 2-unit subgrid. Measurements are labeled by popcount. The grids record most of the drawing intent automatically, so the sources are labeled training data without extra work. This chapter is the specification. The reasoning is in <a href=\"https://elih.net/blog/virtua-grotesk/\">Virtua Grotesk: Grid Systems for Dataset Engineering</a>."
+background: [neuraltype, sources]
+next: [structure, grades]
 ---
 
-## Metrics
+## The em
+
+The em is 1024 units, 2 to the tenth power. The industry default of 1000 is PostScript's coordinate system and reads as a percentage of the body, but it fails two requirements of the pipeline.
+
+1. **Normalize exactly.** Dividing a coordinate by the em must give a number the machine holds exactly, and the proportions of the design must land on whole coordinates. A fraction is exact only when its denominator is a power of two. A 96-unit stem over 1024 is 0.09375, exact. Over 1000 it is 0.096, which has no finite binary form.
+2. **Close under the operations.** Halving, subdividing and interpolating must land back on the grid. 1024 halves ten times down to 1. 1000 stops after three: 500, 250, 125. Nine sixteenths of the em is 576 on 1024 and 562.5 on 1000, and font coordinates are integers.
+
+## Vertical metrics
 
 The reference values, from Virtua Grotesk:
 
-| metric | value |
-| --- | --- |
-| em (unitsPerEm) | 1024 |
-| cap height and ascender | 768 |
-| x-height | 576 |
-| descender | -256 |
+| metric | value | fraction of the em |
+| --- | --- | --- |
+| cap height and ascender | 768 | 3/4 |
+| x-height | 576 | 9/16 |
+| descender | -256 | 1/4 |
 
-A new family may choose other vertical metrics, but each must be a sum of few powers of two, and the em must be 1024. Drawing metrics are distinct from the line-box and clipping metrics in `fontinfo.plist`.
+A new style may choose other metrics, but each must be a dyadic fraction of the em. Drawing metrics are distinct from the line-box and clipping metrics in `fontinfo.plist`.
 
-## Grid levels
+## The positional hierarchy
 
-- **8 units.** New machine-drawn geometry, handles, advance widths and sidebearings sit on the 8-unit grid. Kerning values are multiples of 8.
-- **2 units.** The source floor. No coordinate in a source master is odd.
-- **Off-grid human corrections.** A human may place a point off the 8-grid to make an optical correction. Such points are protected. Never snap an inherited human drawing to pass a check meant for new drafts.
+Two grids classify point positions.
 
-Check source masters on their own lattice. Interpolated instances and the quadratic curves of a compiled TrueType font do not stay on the lattice, and their values are never a reason to move a source point.
+- **The 2-unit grid is the law.** Every coordinate in a source master is even. The tokenizer has one token per 2-unit position, and the round trip from UFO to tokens and back is exact only because the sources and the codec share this grid. Odd coordinates and floats are rejected, not rounded.
+- **The 8-unit grid is the structural default.** New points, handles, advance widths, sidebearings and kerning values sit on it. Machine drafts land on it. In the human-drawn sources about 85 percent of points are on it.
+- **A point on the 2-unit grid but off the 8-unit grid records a fine optical correction.** Such points are made by a person and are protected. Never snap an inherited human drawing to pass a check meant for new drafts.
 
-## Why powers of two
+Check the masters on their own lattice. Interpolated instances and the quadratic curves of a compiled TrueType font do not stay on the lattice, and their values are never a reason to move a source point.
 
-A coordinate on this grid is a short sum of powers of two. The number of terms in that sum, its popcount, tells a model something about the point without any extra label:
+## The measurement hierarchy
 
-- A coordinate such as 512 (one term) or 520 = 512 + 8 (two terms) is default grid geometry.
-- A coordinate such as 98 = 64 + 32 + 2 (three terms) marks a place where the designer made an optical correction, for example the compensation on the round side of an `o`.
+Every integer is a unique sum of distinct powers of two. The number of terms is its popcount. The collection uses popcount to label handle lengths, stems, counters and other structural spans.
 
-The grid is therefore self-labeling. The default structure and the deliberate departures from it are both visible in the numbers. A model trained on many such sources learns where optical corrections happen and how large they are. This is the central idea of the system: the catalog is the dataset, and the grid is what makes the dataset legible.
+| popcount | example | meaning |
+| --- | --- | --- |
+| 1 | 64, 128, 256 | a pure power, the default |
+| 2 | 96 = 64 + 32 | a short sum |
+| 3 | 104 = 64 + 32 + 8 | a finer adjustment |
+| 4 or more | 23 = 16 + 4 + 2 + 1 | a long decomposition, usually an optical correction |
 
-Two consequences follow:
+The count is descriptive. A 64-unit stem is too light and 128 too heavy, so the Regular stem of Virtua is 96 = 64 + 32. Where 96 is too light the design uses 112 = 64 + 32 + 16. Both are valid. A high popcount marks a place where the designer made a specific decision, and that mark is teaching signal. Runebender labels each measurement with its decomposition and colors it by popcount. The colors identify the count. They do not indicate errors.
 
-1. High popcount is not a fault. Do not round a measurement to lower its count.
-2. Grid membership describes positions. Popcount describes measurements. Keep the two ideas separate when you review a glyph.
+Grid membership describes positions. Popcount describes measurements. Keep the two ideas separate when you review a glyph, and never round a measurement to lower its count.
 
-## Sidebearings and counters
+## Interpolation
 
-Sidebearings are the hard constraint. They stay on the 8-grid because kerning is in multiples of 8. When a target width forces the geometry off the grid, change the counter or the advance, not the sidebearing.
+Stems and other structural spans in corresponding masters differ by a value that halves cleanly. Virtua's Regular stem is 96 and its Bold stem is 192; the difference of 96 splits evenly, so the half-weight stem is 144 and every quarter lands on the 8-unit grid. Endpoints of 90 and 180 would not close this way. When you set the spans of a new master, choose values whose differences are themselves on the grid.
 
-Worked example from the capital O of Virtua Grotesk. A counter of 512 and a side of 108 give a width of 728. Half of 728 is 364, which is not a multiple of 8, so the glyph cannot have both sidebearings on the 8-grid and a centered counter. The wrong fix is a sidebearing of 44. The right fix is a sidebearing of 48 and a counter of 520, which gives a width of 736 and a center at 416. The side of 108 is the stroke weight and stays as it is.
+## Spacing
+
+Sidebearings and kerning default to the 8-unit grid, because kerning is done in multiples of 8. Of Virtua Regular's 84 kerning pairs, all but two sit on it; the two exceptions use the 2-unit grid for a finer optical adjustment. The sidebearing is the hard constraint. When a target width forces the geometry off the grid, change the counter or the advance, not the sidebearing. A counter of 520 = 512 + 8 is correct. A sidebearing of 44 is not.
 
 ## Priority
 
-Curve quality comes before grid tidiness. A smooth, continuous curve with an untidy popcount is correct. A curve bent to hit round numbers is a defect. See [Outline conventions](/docs/outlines/).
+Curve quality comes before grid tidiness. A smooth, continuous curve with an untidy popcount is correct. A curve bent to hit round numbers is a defect. See [Outline structure](/docs/structure/).
 
 ## Checking
 
-Each project provides `make lint-grid`, which checks the source outlines against the grid rules, and `make grid-qa`, which writes a per-glyph report with grades and popcounts.
+- `make check-design` checks glyphs against the 2-unit grid and the stroke targets, and reports the points that are off the 8-unit grid.
+- `make qa` runs the Fontspector check `fontgarden/grid` on the compiled variable font: every master has its on-curve points and advance widths on the 2-unit grid.
+- `sources/design.toml` holds the grid values and the stroke targets of a style. The tools read it. People edit it.

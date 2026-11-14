@@ -6,40 +6,40 @@ export const SECTIONS: Record<string, { title: string; description: string }> = 
   introduction: {
     title: 'Introduction: the basics',
     description:
-      'The concepts, tools and knowledge you need before you work on a Font Garden project.',
+      'What the collection is, the position it takes on authorship and licensing, the font format it is built toward, and the tools.',
   },
   sources: {
-    title: 'The source repository: project files',
+    title: 'Sources: the files of the collection',
     description:
-      'The required layout of a font project on GitHub, so that builds, checks and training all read the same files.',
+      'The source tree, the license files and the hosting practice that the build, the checks and the corpus tools depend on.',
   },
   system: {
-    title: 'The design system: grid and grades',
+    title: 'Engineering rules: grid, structure and grades',
     description:
-      'The rules that make a source usable as training data: the power-of-two grid, the glyph grades and the outline conventions.',
+      'The requirements every source in the collection meets. They are stricter than ordinary font production because every glyph is also training data.',
   },
   production: {
-    title: 'Production: building and testing fonts',
+    title: 'Production: building and testing',
     description:
-      'How to build OpenType fonts from the sources, check them and proof them.',
+      'How the OpenType fonts are compiled from the sources, checked and proofed.',
   },
   data: {
-    title: 'Training data and models',
+    title: 'Data and models',
     description:
-      'How graded sources become a corpus, and how the open-weight models are released.',
+      'How graded sources become a corpus, how the models are trained and evaluated, and what is released.',
   },
-  catalog: {
-    title: 'The catalog: publishing on font.garden',
+  contributing: {
+    title: 'Contributing',
     description:
-      'The process for adding a family to the Font Garden catalog.',
+      'How drawings and corrections enter the collection.',
   },
 };
 
 export const LABELS: Record<string, { text: string; color: string; meaning: string }> = {
   start: { text: 'start', color: 'blue', meaning: 'Read first if you are new to the project.' },
-  must: { text: 'must→', color: 'green', meaning: 'A requirement. Every family in the catalog follows it.' },
+  must: { text: 'must→', color: 'green', meaning: 'A requirement. Every source in the collection follows it.' },
   learn: { text: 'learn', color: 'yellow', meaning: 'Background and reference material.' },
-  team: { text: 'team', color: 'brown', meaning: 'Process notes for people who publish families.' },
+  team: { text: 'team', color: 'brown', meaning: 'Process notes for people who grade and merge work.' },
   nerd: { text: 'nerd', color: 'purple', meaning: 'Technical detail on the data and the models.' },
-  templ: { text: 'templ', color: 'grey', meaning: 'A template you can copy into your repository.' },
+  templ: { text: 'templ', color: 'grey', meaning: 'A template you can copy.' },
 };
