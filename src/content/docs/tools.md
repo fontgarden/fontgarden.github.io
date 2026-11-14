@@ -57,6 +57,19 @@ cargo install --git https://github.com/fontgarden/img2ufo
 - `img2bez` traces a raster into cubic outlines on the grid.
 - `img2ufo` traces the labeled crops and writes them into a UFO, with placement, spacing and metrics.
 
+## Reference fonts
+
+One shared collection of OFL fonts serves every comparison and measurement: the accent placement evaluation, proofs and checks. It is not a source of outlines.
+
+```
+export FONTGARDEN_REFERENCE_FONTS=~/GH/fontgarden/reference-fonts
+fgtools fetch-reference-fonts
+```
+
+The command downloads 34 text families from [google/fonts](https://github.com/google/fonts). Each family goes to its own folder with its `OFL.txt`. `--family NAME` adds a family. Commands that take reference fonts use the collection by default.
+
+The `reference-fonts/` folder of a project is separate. It holds the few fonts that `make proof-web` shows beside that font.
+
 ## Optional tools
 
 - `diffenator3`, for `make diff`, which compares two builds.

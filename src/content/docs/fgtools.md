@@ -32,6 +32,7 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
 | `fgtools corrections` | `make corrections` | Lists the reviews of purple drafts from the Git history. |
 | `fgtools evaluate-drafting` | | Tests a drafting method on held-out green glyphs. |
+| `fgtools fetch-reference-fonts` | | Downloads the shared OFL reference fonts from Google Fonts. |
 | `fgtools customize` | `make customize` | Renames a project made from the template. |
 | `fgtools install-tools` | `make setup` | Installs the pinned fontc and Fontspector binaries. |
 
