@@ -53,7 +53,7 @@ The layout follows the Google Fonts project template, with the Font.Garden files
 | `config.yaml` | The recipe of the gftools builder. A project is a directory that contains this file. |
 | `design.toml` | The grid, the stroke targets, the mark colors, the QA exclusions and the start date of the corrections list. |
 | `held-out-glyphs.toml` | The cases of the drafting evaluation. |
-| `proof-samples.toml` | Optional. Text samples for the web proof. |
+| `proof-samples.toml` | Optional. Text samples for the web proof and for the proof view and the Proof section of Runebender. |
 | `specimen/` | Optional. The specimen image and `labels.json`, for a font traced from a specimen. |
 
 Only drawn `<source>` masters are training data. Instances are not. Generated files go to `out/`, which Git ignores.
