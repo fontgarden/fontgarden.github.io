@@ -38,6 +38,8 @@ The designer approves or rejects each change. One correction is not a rule. When
 
 ## Is the system better?
 
+A review pass changes glyphs that are not purple, for example orange glyphs that the designer redraws. Commit the sources before the pass, and commit each glyph after the designer saves it, with the reason in the commit message. `make corrections SINCE=<commit>` lists each glyph that changed after that commit: the version at the commit is the draft, and the mark at HEAD is the grade.
+
 The summary of `make corrections` gives these numbers for each month:
 
 - the grades that the designer gave
