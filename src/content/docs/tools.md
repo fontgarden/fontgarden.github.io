@@ -37,7 +37,13 @@ Runebender is the editor used on the collection. It reads and writes UFO and des
 
 Runebender shows the mark color of each glyph, which this system uses as a grade. It labels each measurement with its decomposition into powers of two. See [Glyph grades](/docs/grades/) and [The dyadic grid](/docs/grid/).
 
-`make runebender` opens the sources of a project in the Runebender web editor. Edits to the source files load again in the browser.
+Install Runebender with Cargo. The command `runebender` must be on `PATH`:
+
+```
+cargo install --locked --git https://github.com/fontgarden/runebender runebender
+```
+
+Run the same command again to update it. `make runebender` opens the sources of a project in the editor. `fgtools check-design` and the MCP server of a coding agent use the same command.
 
 `fgtools check-design` uses the Runebender binary for measurement. If the binary is not on `PATH`, set `RUNEBENDER` to its path.
 
@@ -62,7 +68,7 @@ cargo install --git https://github.com/fontgarden/img2ufo
 One shared collection of OFL fonts serves every comparison and measurement: the accent placement evaluation, proofs and checks. It is not a source of outlines.
 
 ```
-export FONTGARDEN_REFERENCE_FONTS=~/GH/fontgarden/reference-fonts
+export FONTGARDEN_REFERENCE_FONTS=~/reference-fonts
 fgtools fetch-reference-fonts
 ```
 

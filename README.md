@@ -54,13 +54,14 @@ the chapter that describes it in the same session:
 | a Fontspector check of the profile | `qa.md` |
 
 `scripts/check_guide.py` compares the guide with checkouts of those
-repositories. It fails when a chapter names an `fgtools` command or a `make`
+repositories. Give the path of each checkout; the example assumes they are
+beside this one. It fails when a chapter names an `fgtools` command or a `make`
 target that does not exist, and when a command or a template target has no
 chapter. CI runs it on each push and each Monday.
 
 ```
-python3 scripts/check_guide.py --tools ~/GH/fontgarden/fontgarden-tools \
-  --template ~/GH/fontgarden/font-project-template --reference ~/GH/repos/virtua-grotesk
+python3 scripts/check_guide.py --tools ../fontgarden-tools \
+  --template ../font-project-template --reference ../virtua-grotesk
 ```
 
 Run it and `pnpm build` before a commit. A push to `main` publishes the site.
