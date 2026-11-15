@@ -18,6 +18,7 @@ These commands read the UFO masters. They do not need a build.
 | `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `sources/design.toml`. |
 | `make check-changes` | Compares the sources with `main`. It fails when a green glyph changed, or when a glyph with changed contours is not purple. |
 | `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
+| `make accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
 | `make lint` | Finds structural faults in the GLIF files, differences between the masters and faults of the curves. |
 | `make test` | Checks the repository layout and the references in the documents. |
 
@@ -38,6 +39,21 @@ An accented letter is a composite of a base letter and a mark. `fgtools check-ac
 The third method needs another mark on the same base and another base with the same mark. It predicts 86% of the marks. Bottom marks are harder: an ogonek joins a stroke and is not centered.
 
 A listed letter is a reason to look. A mark on the stem of L is correct, and is not where the centered marks predict.
+
+### Build the accented letters
+
+Two commands write the accented letters, and both change nothing without `--write`:
+
+1. `fgtools place-anchors` adds the `top`, `bottom`, `_top` and `_bottom` anchors that are missing. An anchor that is in the sources does not change. Green glyphs are left out without `--include-green`.
+2. `fgtools build-accented-letters` adds each accented letter of a set that is not in the sources, as a purple composite at the offset that the anchors give, in every master. The default set is the 145 accented letters of the Google Fonts Latin Core glyph set. The command lists the letters that it does not build: a letter with two marks, the caron of d, t, l and L, and the comma accent of g.
+
+A trial on Virtua Grotesk on 2026-11-15 removed all 145 accented letters from a copy of both masters and built them again. With the anchors of the designer in place, 96% of the composites were within 8 units of the position of the designer. With the anchors also removed, 60% were within 8 units and 80% within 20 units.
+
+### Review the accented letters
+
+`make accent-proofs` draws one row for each accented letter: the project in the first column, then the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `out/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
+
+An agent that can read images then reviews every letter with the skill `accent-review`, and gives each one a verdict: `correct`, `fault` or `designer`. The agent corrects a purple letter with a fault and reports the others. The task contract is `.agents/tasks/accented-letters.md` of the project. A verdict is not approval: the designer grades the letters.
 
 ## Fontspector
 

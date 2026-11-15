@@ -23,6 +23,9 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools queue` | `make queue` | Ranks the glyphs that most composites wait on. |
 | `fgtools check-design` | `make check-design` | Checks glyphs against the grid and the stroke targets. `--ready` lists the composites that can be green. |
 | `fgtools check-accents` | `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict. |
+| `fgtools place-anchors` | | Adds the accent anchors that are missing on the base letters and the marks. Writes only with `--write`. |
+| `fgtools build-accented-letters` | | Adds the accented letters of a set as purple composites. Writes only with `--write`. |
+| `fgtools render-accent-proofs` | `make accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
 | `fgtools evaluate-accent-placement` | | Tests the accent placement methods on compiled fonts. |
 | `fgtools check-changes` | `make check-changes` | Compares the sources with a base revision. |
 | `fgtools lint-glifs`, `lint-curves` | `make lint` | Structural faults and curve faults. |
