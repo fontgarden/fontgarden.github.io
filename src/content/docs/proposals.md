@@ -26,7 +26,7 @@ A request to clean a glyph is the smallest change to the current drawing, usuall
 3. The agent runs `make check-changes` and `make diff`. It reports each changed glyph, word or table that the edit does not explain.
 4. The agent renders the same text in the font and in the reference fonts, with Runebender or `make proof-web`.
 5. The designer reviews and grades.
-6. When the designer asks, the agent runs `make corrections` and proposes a change for each open correction. See [Corrections and drafting evaluation](/docs/learning/).
+6. When the designer asks, the agent runs `fgtools corrections` and proposes a change for each open correction. See [Corrections and drafting evaluation](/docs/learning/).
 
 The reference fonts do not dictate the design. Use them to compare visual weight, spacing and the consistency of the outlines.
 
@@ -53,7 +53,7 @@ The Weight debt block of Runebender marks installed drafts purple. In the gradin
 
 ## Commit drafts before grading
 
-The difference between a purple draft and the outline that the designer kept shows where the method was wrong and by how much. For that record to exist, the draft must be committed before the review starts. `make corrections` reads these two commits.
+The difference between a purple draft and the outline that the designer kept shows where the method was wrong and by how much. For that record to exist, the draft must be committed before the review starts. `fgtools corrections` reads these two commits.
 
 ## The trust ladder
 

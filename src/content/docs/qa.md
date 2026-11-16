@@ -15,12 +15,12 @@ These commands read the UFO masters. They do not need a build.
 
 | command | use |
 | --- | --- |
-| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `context.md`. |
+| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `CONTEXT.md`. |
 | `make check-changes` | Compares the sources with `main`. It fails when a green glyph changed, or when a glyph with changed contours is not purple. |
-| `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
-| `make accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
-| `make lint` | Finds structural faults in the GLIF files, differences between the masters and faults of the curves. |
-| `make test` | Checks the repository layout and the references in the documents. |
+| `fgtools check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
+| `fgtools render-accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
+| `fgtools lint-glifs`, `fgtools lint-curves` | Finds structural faults in the GLIF files, differences between the masters and faults of the curves. |
+| `make test` | Builds, then runs the tests of the repository and the Fontspector checks. |
 
 The design checks are a filter. They do not measure quality. On 2026-11-10 they passed 50 of the 72 glyphs that are green in both masters of Virtua Grotesk. Thus a finding is a reason to look, not an error.
 
@@ -51,7 +51,7 @@ A trial on Virtua Grotesk on 2026-11-15 removed all 145 accented letters from a 
 
 ### Review the accented letters
 
-`make accent-proofs` draws one row for each accented letter: the project in the first column, then the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `out/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
+`fgtools render-accent-proofs` draws one row for each accented letter: the project in the first column, then the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `out/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
 
 An agent that can read images then reviews every letter with the skill `accent-review`, and gives each one a verdict: `correct`, `fault` or `designer`. The agent corrects a purple letter with a fault and reports the others. The task contract is `.agents/tasks/accented-letters.md` of the project. A verdict is not approval: the designer grades the letters.
 
@@ -68,9 +68,9 @@ An agent that can read images then reviews every letter with the skill `accent-r
 
 Each repository provides three targets:
 
-- `make qa` works offline. It leaves out the checks in `[qa.exclude]` of `context.md`. Each exclusion has a reason.
-- `make qa-full` runs all checks, with the network checks. A style must pass this before a release.
-- `make qa-package PACKAGE=<directory>` checks an assembled google/fonts package.
+- `make qa` works offline. It leaves out the checks in `[qa.exclude]` of `CONTEXT.md`. Each exclusion has a reason.
+- `fgtools qa --full` runs all checks, with the network checks. A style must pass this before a release.
+- `fgtools qa --package <directory>` checks an assembled google/fonts package.
 
 An exclusion is known development debt. Do not add an exclusion to hide a new failure. Reports go to `out/qa/`. A FAIL gives a failing exit status. A WARN needs review.
 

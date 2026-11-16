@@ -17,7 +17,7 @@ next: [licenses, grid]
 ├── CONTRIBUTORS.txt
 ├── OFL.txt
 ├── README.md
-├── context.md
+├── CONTEXT.md
 ├── STATUS.md
 ├── Makefile
 ├── requirements.in
@@ -26,9 +26,7 @@ next: [licenses, grid]
 │   ├── skills
 │   └── tasks
 ├── documentation
-│   ├── design
-│   ├── google-fonts.md
-│   └── qa.md
+│   └── google-fonts.md
 ├── fonts
 │   ├── ttf
 │   └── variable
@@ -59,9 +57,9 @@ Only drawn `<source>` masters are training data. Instances are not. Generated fi
 
 Files that people edit use TOML with comments. JSON is only for data that a program writes. `config.yaml` is YAML because gftools requires it.
 
-## context.md
+## CONTEXT.md
 
-`context.md` is the one design file of a project. It holds the numbered design rules of the style. Below a rule, a `toml` code block holds the values that the tools check for that rule:
+`CONTEXT.md` is the one design file of a project. It holds the numbered design rules of the style. Below a rule, a `toml` code block holds the values that the tools check for that rule:
 
 ````markdown
 R1. Every point is on the 2-unit grid. Structural points are on the 8-unit grid.
@@ -79,11 +77,11 @@ machine_draft = 8
 
 ## documentation
 
-`documentation/design/` describes the learning loop. `qa.md` describes the build and the checks. `google-fonts.md` gives the release scope and, for a traced font, the origin of the specimen.
+`documentation/google-fonts.md` is the one document of the release: the project facts, the QA, the package and, for a traced font, the origin of the specimen. The folder also holds the Google Fonts article. A project has no other documents: the design is in `CONTEXT.md`, and the way of work is in `AGENTS.md`.
 
 ## Agent files
 
-`AGENTS.md` gives the rules for coding agents. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report. `.agents/skills/` holds the shared skills.
+`AGENTS.md` gives the rules for coding agents. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report. `.agents/skills/` holds the review of the accented letters.
 
 ## What does not belong
 

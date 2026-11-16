@@ -13,23 +13,23 @@ next: [qa, dataset]
 
 1. **Choose.** `make queue` ranks the glyphs that most composites wait on. The designer names the glyphs.
 2. **Draft.** An agent or a model drafts the glyph, with a purple mark. The draft is committed before the designer edits it.
-3. **Measure.** `make check-design` compares the draft with the targets in `context.md`. A pass is a filter, not approval.
+3. **Measure.** `make check-design` compares the draft with the targets in `CONTEXT.md`. A pass is a filter, not approval.
 4. **Review.** The designer compares the glyph with the reference fonts, then grades it. The review commit changes the purple mark to red, orange, yellow or green.
-5. **Learn.** `make corrections` lists the open corrections. Each one becomes a change to the system.
+5. **Learn.** `fgtools corrections` lists the open corrections. Each one becomes a change to the system.
 
 ## The record is the Git history
 
 The draft commit and the review commit are the record of a decision. Do not copy drafts or corrections into files. Do not add worklogs or reports.
 
-`make corrections` reads the history. It finds each review of a purple draft and compares the draft with the first green version of the glyph. Until the glyph is green, it uses the latest version that is not purple. If the two differ, the review is a correction.
+`fgtools corrections` reads the history. It finds each review of a purple draft and compares the draft with the first green version of the glyph. Until the glyph is green, it uses the latest version that is not purple. If the two differ, the review is a correction.
 
-A correction is open until a tracked file or a later commit message cites the hash of its review commit. `[corrections] start` in `context.md` gives the first date that the list includes.
+A correction is open until a tracked file or a later commit message cites the hash of its review commit. `[corrections] start` in `CONTEXT.md` gives the first date that the list includes.
 
 ## How a correction changes the system
 
 | the correction shows | change |
 | --- | --- |
-| a mistake that a script can find | a value in `context.md`, or a check in the tools |
+| a mistake that a script can find | a value in `CONTEXT.md`, or a check in the tools |
 | a mistake that repeats | a rule entry in the design documents |
 | a decision that a drafting method has to learn | a case in `sources/held-out-glyphs.toml` |
 | a fault of one glyph only | one line in the record of the glyph |
@@ -38,7 +38,7 @@ The designer approves or rejects each change. One correction is not a rule. When
 
 ## Is the system better?
 
-The summary of `make corrections` gives these numbers for each month:
+The summary of `fgtools corrections` gives these numbers for each month:
 
 - the grades that the designer gave
 - the drafts that reached green without a change

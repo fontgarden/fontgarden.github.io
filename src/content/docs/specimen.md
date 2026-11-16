@@ -17,7 +17,7 @@ next: [grades, proposals]
 | 2. Label | an agent or a person | `sources/specimen/labels.json`, one Unicode value for each crop |
 | 3. Measure | an agent or a person | cap height, x-height, ascender and descender, in pixels |
 | 4. Trace and place | `img2ufo`, which uses `img2bez` | purple glyphs in the UFO, on the baseline, with first spacing |
-| 5. Build and check | `make build`, `make qa`, `make lint` | fonts and a QA report |
+| 5. Build and check | `fgtools lint-glifs`, `make test` | fonts and a QA report |
 | 6. Render and compare | a line of text in the built font | a list of placement faults and shape faults |
 
 ## Rules of the intake
@@ -45,7 +45,7 @@ A glyph of about 500 pixels gives a clean trace. A glyph of about 100 pixels giv
 - `sources/specimen/` holds the image and `labels.json`, and `documentation/google-fonts.md` states the origin of the specimen.
 - Every glyph of the specimen is in the UFO with its Unicode value, and is purple.
 - The vertical metrics come from the specimen, snapped to the 8-unit grid.
-- `make lint` reports no structural fault, `make build` succeeds, and `make qa` reports no FAIL outside the exclusions.
+- `fgtools lint-glifs` reports no structural fault, `make build` succeeds, and `make qa` reports no FAIL outside the exclusions.
 - `make status` is run and `make test` passes.
 
 ## Known limits

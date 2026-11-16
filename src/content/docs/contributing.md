@@ -20,10 +20,10 @@ A finished font from outside the system is not a contribution. It cannot be grad
 
 ## Before you open a pull request
 
-1. Every coordinate is even. `make lint` reports no fault.
+1. Every coordinate is even. `fgtools lint-glifs` reports no fault.
 2. The masters are compatible. The compatibility check of Runebender lists nothing.
 3. Every glyph that a model, an agent or the tracer drafted is purple. You do not set green on a contour glyph.
-4. `make check-changes`, `make build`, `make qa` and `make test` pass.
+4. `make check-changes` and `make test` pass.
 5. You ran `make diff` and looked at the rendered glyphs.
 6. Drafts and corrections are in separate commits.
 7. Your name is in `CONTRIBUTORS.txt`.
@@ -37,7 +37,7 @@ A finished font from outside the system is not a contribution. It cannot be grad
 
 ## A new style
 
-A new style starts from the project template. See [Start a font project](/docs/start/). Its design rules, with the grid and the stroke targets, are in `context.md`. The core set is graded before a model drafts from it. The maintainers decide when a style has enough green glyphs to enter the corpus and when its fonts are released.
+A new style starts from the project template. See [Start a font project](/docs/start/). Its design rules, with the grid and the stroke targets, are in `CONTEXT.md`. The core set is graded before a model drafts from it. The maintainers decide when a style has enough green glyphs to enter the corpus and when its fonts are released.
 
 ## Removal
 

@@ -48,13 +48,13 @@ The grade is the UFO `public.markColor` key in the `lib` of each glyph. Runebend
 | red | `1,0,0,1` |
 | purple | `0.54,0.44,0.88,1` |
 
-`context.md` of each project lists every value that its sources use for a color, with the policy of the color. The tools read the colors from that file.
+`CONTEXT.md` of each project lists every value that its sources use for a color, with the policy of the color. The tools read the colors from that file.
 
 ## Reports
 
 `make status` writes `STATUS.md`, a count of glyphs for each color, master and script. The number of green glyphs is the measure of progress. The release target is every glyph green in every master.
 
-`make corrections` lists the reviews of purple drafts from the Git history. See [Corrections and drafting evaluation](/docs/learning/).
+`fgtools corrections` lists the reviews of purple drafts from the Git history. See [Corrections and drafting evaluation](/docs/learning/).
 
 ## Bold debt
 

@@ -23,19 +23,19 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools queue` | `make queue` | Ranks the glyphs that most composites wait on. |
 | `fgtools check-design` | `make check-design` | Checks glyphs against the grid and the stroke targets. `--ready` lists the composites that can be green. |
 | `fgtools report-grid-levels` | | Counts the points on the 8-unit grid, on the 2-unit grid only, and off both, by script and mark color. |
-| `fgtools check-accents` | `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict. |
+| `fgtools check-accents` | | Lists the accented letters whose mark is not where the other accented letters predict. |
 | `fgtools place-anchors` | | Adds the accent anchors that are missing on the base letters and the marks. Writes only with `--write`. |
 | `fgtools build-accented-letters` | | Adds the accented letters of a set as purple composites. Writes only with `--write`. |
-| `fgtools render-accent-proofs` | `make accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
+| `fgtools render-accent-proofs` | | Draws each accented letter beside the reference fonts and measures it against them. |
 | `fgtools evaluate-accent-placement` | | Tests the accent placement methods on compiled fonts. |
 | `fgtools check-changes` | `make check-changes` | Compares the sources with a base revision. |
-| `fgtools lint-glifs`, `lint-curves` | `make lint` | Structural faults and curve faults. |
+| `fgtools lint-glifs`, `lint-curves` | | Structural faults and curve faults. |
 | `fgtools build` | `make build` | Builds the fonts with the gftools builder and fontc. |
 | `fgtools diff` | `make diff` | Compares two builds with diffenator3. |
-| `fgtools qa` | `make qa`, `make qa-full`, `make qa-package` | Runs Fontspector with the Font.Garden profile. |
+| `fgtools qa` | `make qa` | Runs Fontspector with the Font.Garden profile. |
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
-| `fgtools draft-weights` | `make draft-weights` | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `context.md`. Writes to `out/weights/`. |
-| `fgtools corrections` | `make corrections` | Lists the reviews of purple drafts from the Git history. |
+| `fgtools draft-weights` | | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `CONTEXT.md`. Writes to `out/weights/`. |
+| `fgtools corrections` | | Lists the reviews of purple drafts from the Git history. |
 | `fgtools evaluate-drafting` | | Tests a drafting method on held-out green glyphs. |
 | `fgtools fetch-reference-fonts` | | Downloads the shared OFL reference fonts from Google Fonts. |
 | `fgtools customize` | `make customize` | Renames a project made from the template. |

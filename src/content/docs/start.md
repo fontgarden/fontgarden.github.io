@@ -50,11 +50,11 @@ Only the designer can give these facts:
 
 | part | content |
 | --- | --- |
-| `context.md` | the design rules of the style and the values that the tools check |
+| `CONTEXT.md` | the design rules of the style and the values that the tools check |
 | `sources/` | a starter UFO, `config.yaml` and `held-out-glyphs.toml` |
 | `Makefile` | the commands, each of which calls `fgtools` |
-| `AGENTS.md`, `.agents/` | the rules, the skills and the task contracts for coding agents |
-| `documentation/` | the build and QA guide, the learning loop and the Google Fonts release notes |
+| `AGENTS.md`, `.agents/` | the way of work for coding agents, and the task contracts |
+| `documentation/` | the Google Fonts release document |
 | `tests/`, `.github/workflows/` | the layout test, the reference test and the CI build |
 
 ## After the start
