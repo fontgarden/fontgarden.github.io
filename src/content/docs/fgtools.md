@@ -34,7 +34,7 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools diff` | `make diff` | Compares two builds with diffenator3. |
 | `fgtools qa` | `make qa` | Runs Fontspector with the Font.Garden profile. |
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
-| `fgtools draft-weights` | | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `CONTEXT.md`. Writes to `out/weights/`. |
+| `fgtools draft-weights` | | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `CONTEXT.md`. Writes to `output/weights/`. |
 | `fgtools corrections` | | Lists the reviews of purple drafts from the Git history. |
 | `fgtools evaluate-drafting` | | Tests a drafting method on held-out green glyphs. |
 | `fgtools fetch-reference-fonts` | | Downloads the shared OFL reference fonts from Google Fonts. |

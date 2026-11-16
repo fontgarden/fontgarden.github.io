@@ -51,7 +51,7 @@ A trial on Virtua Grotesk on 2026-11-15 removed all 145 accented letters from a 
 
 ### Review the accented letters
 
-`fgtools render-accent-proofs` draws one row for each accented letter: the project in the first column, then the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `out/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
+`fgtools render-accent-proofs` draws one row for each accented letter: the project in the first column, then the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `output/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
 
 An agent that can read images then reviews every letter against the accent rules of `CONTEXT.md`, as the task contract `accented-letters` describes, and gives each one a verdict: `correct`, `fault` or `designer`. The agent corrects a purple letter with a fault and reports the others. The task contract is `.agents/tasks/accented-letters.md` of the project. A verdict is not approval: the designer grades the letters.
 
@@ -72,7 +72,7 @@ Each repository provides three targets:
 - `fgtools qa --full` runs all checks, with the network checks. A style must pass this before a release.
 - `fgtools qa --package <directory>` checks an assembled google/fonts package.
 
-An exclusion is known development debt. Do not add an exclusion to hide a new failure. Reports go to `out/qa/`. A FAIL gives a failing exit status. A WARN needs review.
+An exclusion is known development debt. Do not add an exclusion to hide a new failure. Reports go to `output/qa/`. A FAIL gives a failing exit status. A WARN needs review.
 
 The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](https://github.com/fontgarden/fontspector-fontgarden). It has no release yet.
 

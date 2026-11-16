@@ -52,7 +52,7 @@ The layout follows the Google Fonts project template, with the Font.Garden files
 | `proof-samples.toml` | Optional. Text samples for the web proof and for the proof view and the Proof section of Runebender. |
 | `specimen/` | Optional. The specimen image and `labels.json`, for a font traced from a specimen. |
 
-Only drawn `<source>` masters are training data. Instances are not. Generated files go to `out/`, which Git ignores.
+Only drawn `<source>` masters are training data. Instances are not. Generated files go to `output/`, which Git ignores.
 
 Files that people edit use TOML with comments. JSON is only for data that a program writes. `config.yaml` is YAML because gftools requires it.
 

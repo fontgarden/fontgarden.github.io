@@ -53,7 +53,7 @@ Glyphs that the fonts do not export are listed in `public.skipExportGlyphs`, in 
 
 ## Compare two builds
 
-`make diff` builds the sources of `main` and of the working tree, and compares the two builds with diffenator3. The HTML reports are in `out/diff/`. The exit status is 1 when a glyph image or a word image differs.
+`make diff` builds the sources of `main` and of the working tree, and compares the two builds with diffenator3. The HTML reports are in `output/diff/`. The exit status is 1 when a glyph image or a word image differs.
 
 Run it after each source edit. Every changed glyph, word, table or language result must be one that the edit explains.
 
