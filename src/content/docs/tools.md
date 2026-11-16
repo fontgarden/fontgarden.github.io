@@ -76,7 +76,7 @@ The command downloads the trusted families from [google/fonts](https://github.co
 
 ### Reference fonts of a project
 
-Each font has its own references. A project names them in `sources/design.toml`, each with the reason that it is a reference:
+Each font has its own references. A project names them in `context.md`, each with the reason that it is a reference:
 
 ```
 [reference_fonts.families]

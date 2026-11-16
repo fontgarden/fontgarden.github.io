@@ -17,6 +17,7 @@ next: [licenses, grid]
 ├── CONTRIBUTORS.txt
 ├── OFL.txt
 ├── README.md
+├── context.md
 ├── STATUS.md
 ├── Makefile
 ├── requirements.in
@@ -36,7 +37,6 @@ next: [licenses, grid]
 │   ├── Style-Regular.ufo
 │   ├── Style-Bold.ufo
 │   ├── config.yaml
-│   ├── design.toml
 │   ├── held-out-glyphs.toml
 │   └── specimen
 └── tests
@@ -51,7 +51,6 @@ The layout follows the Google Fonts project template, with the Font.Garden files
 | `Style-Master.ufo` | One UFO for each master. |
 | `Style.designspace` | The masters, the axes and the named instances. A project with one master has no designspace. |
 | `config.yaml` | The recipe of the gftools builder. A project is a directory that contains this file. |
-| `design.toml` | The grid, the stroke targets, the mark colors, the QA exclusions and the start date of the corrections list. |
 | `held-out-glyphs.toml` | The cases of the drafting evaluation. |
 | `proof-samples.toml` | Optional. Text samples for the web proof and for the proof view and the Proof section of Runebender. |
 | `specimen/` | Optional. The specimen image and `labels.json`, for a font traced from a specimen. |
@@ -60,9 +59,27 @@ Only drawn `<source>` masters are training data. Instances are not. Generated fi
 
 Files that people edit use TOML with comments. JSON is only for data that a program writes. `config.yaml` is YAML because gftools requires it.
 
+## context.md
+
+`context.md` is the one design file of a project. It holds the numbered design rules of the style. Below a rule, a `toml` code block holds the values that the tools check for that rule:
+
+````markdown
+R1. Every point is on the 2-unit grid. Structural points are on the 8-unit grid.
+
+```toml
+[grid]
+source = 2
+machine_draft = 8
+```
+````
+
+- Agents and people read the whole file. Runebender gives it to its agents.
+- `fgtools` reads only the `toml` blocks, as one TOML document: the grid, the stroke targets, the weights, the mark colors, the reference fonts, the QA exclusions and the start date of the corrections list.
+- A design value is stated only in this file.
+
 ## documentation
 
-`documentation/design/` holds the written design system of the style: the grid, the constructions, the rules and the learning loop. `qa.md` describes the build and the checks. `google-fonts.md` gives the release scope and, for a traced font, the origin of the specimen.
+`documentation/design/` describes the learning loop. `qa.md` describes the build and the checks. `google-fonts.md` gives the release scope and, for a traced font, the origin of the specimen.
 
 ## Agent files
 
@@ -74,7 +91,6 @@ The repository holds sources, tests and maintained documents. It does not hold r
 
 - No worklogs, handoffs, receipts, reports, plans, audits or dated documents. The Git history is the record of work.
 - A tracked file has at most 500 KB. A specimen scan in `sources/specimen/` can be larger.
-- A maintained document has at most 200 lines.
 
 `tests/test_repository_layout.py` enforces these rules in CI. Each tracked file must match a pattern in its `LAYOUT` list. `tests/test_documentation_references.py` fails when a document names a file or a `make` target that does not exist.
 

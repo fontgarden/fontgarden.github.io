@@ -13,7 +13,7 @@ next: [qa, dataset]
 
 1. **Choose.** `make queue` ranks the glyphs that most composites wait on. The designer names the glyphs.
 2. **Draft.** An agent or a model drafts the glyph, with a purple mark. The draft is committed before the designer edits it.
-3. **Measure.** `make check-design` compares the draft with the targets in `sources/design.toml`. A pass is a filter, not approval.
+3. **Measure.** `make check-design` compares the draft with the targets in `context.md`. A pass is a filter, not approval.
 4. **Review.** The designer compares the glyph with the reference fonts, then grades it. The review commit changes the purple mark to red, orange, yellow or green.
 5. **Learn.** `make corrections` lists the open corrections. Each one becomes a change to the system.
 
@@ -23,13 +23,13 @@ The draft commit and the review commit are the record of a decision. Do not copy
 
 `make corrections` reads the history. It finds each review of a purple draft and compares the draft with the first green version of the glyph. Until the glyph is green, it uses the latest version that is not purple. If the two differ, the review is a correction.
 
-A correction is open until a tracked file or a later commit message cites the hash of its review commit. `[corrections] start` in `sources/design.toml` gives the first date that the list includes.
+A correction is open until a tracked file or a later commit message cites the hash of its review commit. `[corrections] start` in `context.md` gives the first date that the list includes.
 
 ## How a correction changes the system
 
 | the correction shows | change |
 | --- | --- |
-| a mistake that a script can find | a value in `sources/design.toml`, or a check in the tools |
+| a mistake that a script can find | a value in `context.md`, or a check in the tools |
 | a mistake that repeats | a rule entry in the design documents |
 | a decision that a drafting method has to learn | a case in `sources/held-out-glyphs.toml` |
 | a fault of one glyph only | one line in the record of the glyph |

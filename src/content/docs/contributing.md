@@ -37,7 +37,7 @@ A finished font from outside the system is not a contribution. It cannot be grad
 
 ## A new style
 
-A new style starts from the project template. See [Start a font project](/docs/start/). Its metrics and grid rules are in `sources/design.toml`, and its written design system is in `documentation/design/`. The core set is graded before a model drafts from it. The maintainers decide when a style has enough green glyphs to enter the corpus and when its fonts are released.
+A new style starts from the project template. See [Start a font project](/docs/start/). Its design rules, with the grid and the stroke targets, are in `context.md`. The core set is graded before a model drafts from it. The maintainers decide when a style has enough green glyphs to enter the corpus and when its fonts are released.
 
 ## Removal
 

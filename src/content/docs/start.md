@@ -50,7 +50,8 @@ Only the designer can give these facts:
 
 | part | content |
 | --- | --- |
-| `sources/` | a starter UFO, `config.yaml`, `design.toml` and `held-out-glyphs.toml` |
+| `context.md` | the design rules of the style and the values that the tools check |
+| `sources/` | a starter UFO, `config.yaml` and `held-out-glyphs.toml` |
 | `Makefile` | the commands, each of which calls `fgtools` |
 | `AGENTS.md`, `.agents/` | the rules, the skills and the task contracts for coding agents |
 | `documentation/` | the build and QA guide, the learning loop and the Google Fonts release notes |

@@ -15,7 +15,7 @@ These commands read the UFO masters. They do not need a build.
 
 | command | use |
 | --- | --- |
-| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `sources/design.toml`. |
+| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `context.md`. |
 | `make check-changes` | Compares the sources with `main`. It fails when a green glyph changed, or when a glyph with changed contours is not purple. |
 | `make check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
 | `make accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
@@ -68,7 +68,7 @@ An agent that can read images then reviews every letter with the skill `accent-r
 
 Each repository provides three targets:
 
-- `make qa` works offline. It leaves out the checks in `[qa.exclude]` of `sources/design.toml`. Each exclusion has a reason.
+- `make qa` works offline. It leaves out the checks in `[qa.exclude]` of `context.md`. Each exclusion has a reason.
 - `make qa-full` runs all checks, with the network checks. A style must pass this before a release.
 - `make qa-package PACKAGE=<directory>` checks an assembled google/fonts package.
 
