@@ -13,7 +13,7 @@ next: [build, qa]
 
 A project is a directory that contains `sources/config.yaml`. The command uses the current directory or the nearest parent with that file. The masters are the `<source>` elements of the designspace, or the single UFO that `config.yaml` names.
 
-The tools do not change the UFO sources, with one exception: `fgtools customize` renames a new project.
+Most tools only read the UFO sources. Four commands change them, and say so: `fgtools edit`, `fgtools place-anchors --write`, `fgtools build-accented-letters --write` and `fgtools customize`.
 
 ## Commands
 
@@ -33,6 +33,8 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools build` | `make build` | Builds the fonts with the gftools builder and fontc. |
 | `fgtools diff` | `make diff` | Compares two builds with diffenator3. |
 | `fgtools qa` | `make qa`, `make test` | Runs Fontspector with the Font.Garden profile. |
+| `fgtools render` | | Draws glyphs large in one picture: the change, the filled glyph, its points, other glyphs of the project and the reference fonts. An agent reads the picture before and after every edit. |
+| `fgtools edit` | | Changes a glyph with a calculated operation: an edge moved to a coordinate, the sidebearings, or a mirrored copy of a donor. It marks the glyph purple and refuses a green glyph. |
 | `fgtools check-repository` | `make test` | Checks that every tracked file has a place in the layout, and that no document names a file or a `make` target that does not exist. |
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
 | `fgtools draft-weights` | | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `CONTEXT.md`. Writes to `output/weights/`. |
