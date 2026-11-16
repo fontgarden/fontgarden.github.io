@@ -23,7 +23,6 @@ next: [licenses, grid]
 ├── requirements.in
 ├── requirements.txt
 ├── .agents
-│   ├── skills
 │   └── tasks
 ├── documentation
 │   └── google-fonts.md
@@ -81,7 +80,7 @@ machine_draft = 8
 
 ## Agent files
 
-`AGENTS.md` gives the rules for coding agents. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report. `.agents/skills/` holds the review of the accented letters.
+`AGENTS.md` gives the rules for coding agents. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report.
 
 ## What does not belong
 
