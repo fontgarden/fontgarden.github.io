@@ -36,10 +36,9 @@ next: [licenses, grid]
 │   ├── config.yaml
 │   ├── held-out-glyphs.toml
 │   └── specimen
-└── scripts
 ```
 
-The layout follows the Google Fonts project template, with the Font.Garden files added. The tools are not in the repository. They are in [fgtools](https://github.com/fontgarden/fgtools). A `scripts` folder holds only the tools that one font needs.
+The layout follows the Google Fonts project template, with the Font.Garden files added. The tools are not in the repository. They are in [fgtools](https://github.com/fontgarden/fgtools). A Python file in `sources/` holds only what one font needs.
 
 ## sources
 
@@ -89,7 +88,7 @@ The repository holds sources, tests and maintained documents. It does not hold r
 - No worklogs, handoffs, receipts, reports, plans, audits or dated documents. The Git history is the record of work.
 - A tracked file has at most 500 KB. A specimen scan in `sources/specimen/` can be larger.
 
-`fgtools check-repository` enforces these rules, and `make test` runs it in CI. Each tracked file must have a place in the layout, which is the same for every Font.Garden project and is in fgtools. The command also fails when a document names a file or a `make` target that does not exist. `scripts/` is optional: it holds only what one font needs, for example its own Fontspector checks.
+`fgtools check-repository` enforces these rules, and `make test` runs it in CI. Each tracked file must have a place in the layout, which is the same for every Font.Garden project and is in fgtools. The command also fails when a document names a file or a `make` target that does not exist. A Python file in `sources/` is optional: it holds only what one font needs, for example its own Fontspector checks.
 
 ## Top-level files
 

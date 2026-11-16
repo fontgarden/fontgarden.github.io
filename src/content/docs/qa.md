@@ -74,7 +74,7 @@ An agent that can read images then reviews every letter against the accent rules
 | `fontgarden/precomposed_match` | A precomposed letter has the same ink as its base and mark sequence. |
 | `fontgarden/static_stat_weight` | A static font names its own weight in the STAT table. |
 
-A check that only one font needs is in that font's repository, in `scripts/fontspector_checks.py`. It is written as the checks of the profile are, and `fgtools qa` runs it with them, in the section "This font". Virtua Grotesk has two: modern Hebrew is covered, and the `a` switches to its bold form at weight 500.
+A check that only one font needs is in that font's repository, in `sources/fontspector_checks.py`. It is written as the checks of the profile are, and `fgtools qa` runs it with them, in the section "This font". Virtua Grotesk has two: modern Hebrew is covered, and the `a` switches to its bold form at weight 500.
 
 Each repository provides three targets:
 
