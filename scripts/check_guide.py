@@ -3,7 +3,7 @@
 
     python3 scripts/check_guide.py --tools DIR --template DIR --reference DIR
 
-DIR are checkouts of fontgarden-tools, font-project-template and the
+DIR are checkouts of fgtools, font-project-template and the
 reference project (virtua-grotesk). The check fails when:
 
 - a chapter names an `fgtools` command that the tools do not have
@@ -48,7 +48,7 @@ def main():
         for command in re.findall(CODE + r'fgtools ([a-z][a-z-]*)', text):
             named_commands.add(command)
             if command not in commands:
-                faults.append(f'{name}.md: `fgtools {command}` is not a command of fontgarden-tools')
+                faults.append(f'{name}.md: `fgtools {command}` is not a command of fgtools')
         # `fgtools lint-glifs`, `lint-curves`: a command named without the prefix.
         named_commands |= set(re.findall(r'`([a-z][a-z-]*)`', text)) & commands
         for target in re.findall(CODE + r'make ([a-z][a-z0-9-]*)', text):

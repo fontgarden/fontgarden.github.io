@@ -4,7 +4,7 @@ section: production
 label: learn
 order: 305
 summary: The shared command of the Font.Garden source tools, and the make targets that call it.
-callout: The tools of all Font.Garden fonts are in one Python package, <a href="https://github.com/fontgarden/fontgarden-tools">fontgarden-tools</a>, with one command, <code>fgtools</code>. A source repository pins the package to a commit and calls it from its Makefile. Change a general tool in the package, not in a font repository.
+callout: The tools of all Font.Garden fonts are in one Python package, <a href="https://github.com/fontgarden/fgtools">fgtools</a>, with one command, <code>fgtools</code>. A source repository pins the package to a commit and calls it from its Makefile. Change a general tool in the package, not in a font repository.
 background: [tools, sources]
 next: [build, qa]
 ---
@@ -41,15 +41,15 @@ The tools do not change the UFO sources, with one exception: `fgtools customize`
 | `fgtools customize` | `make customize` | Renames a project made from the template. |
 | `fgtools install-tools` | `make setup` | Installs the pinned fontc and Fontspector binaries. |
 
-`fgtools COMMAND --help` lists the arguments of a command. The full reference is the [README of fontgarden-tools](https://github.com/fontgarden/fontgarden-tools#commands).
+`fgtools COMMAND --help` lists the arguments of a command. The full reference is the [README of fgtools](https://github.com/fontgarden/fgtools#commands).
 
 ## The pin
 
-`requirements.txt` of a source repository pins fontgarden-tools to a commit. To use a newer version, change the commit in `requirements.in` and `requirements.txt`, then run `make setup`.
+`requirements.txt` of a source repository pins fgtools to a commit. To use a newer version, change the commit in `requirements.in` and `requirements.txt`, then run `make setup`.
 
 ## A change to a tool
 
-1. Make the change in fontgarden-tools, with a test.
+1. Make the change in fgtools, with a test.
 2. Run the tests of the package. To run them on a real project too, set `FONTGARDEN_TEST_PROJECT` to its root.
 3. Update the pin in each font repository that needs the change.
 4. Update the chapter of this guide that describes the command.

@@ -14,7 +14,7 @@ background: [sources, structure, grades, proposals]
 - Corrections to purple drafts, which move them toward green.
 - A new style: a core set of glyphs on the grid, drawn by hand or traced from a specimen that is free to use.
 - Script extension: Arabic, Hebrew or another script consistent with an existing style.
-- Code: tools and checks, in [fontgarden-tools](https://github.com/fontgarden/fontgarden-tools).
+- Code: tools and checks, in [fgtools](https://github.com/fontgarden/fgtools).
 
 A finished font from outside the system is not a contribution. It cannot be graded, and its structure does not pass the checks.
 

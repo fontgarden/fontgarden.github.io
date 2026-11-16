@@ -36,7 +36,7 @@ pnpm preview
 ## Keep the guide current
 
 The guide describes the Font.Garden system: the project template
-(`fontgarden/font-project-template`), the tools (`fontgarden/fontgarden-tools`),
+(`fontgarden/font-project-template`), the tools (`fontgarden/fgtools`),
 the QA profile (`fontgarden/fontspector-fontgarden`), the tracing tools
 (`img2glyph`, `img2bez`, `img2ufo`) and the reference project
 (`eliheuer/virtua-grotesk`). Those repositories are the source of the facts.
@@ -60,7 +60,7 @@ target that does not exist, and when a command or a template target has no
 chapter. CI runs it on each push and each Monday.
 
 ```
-python3 scripts/check_guide.py --tools ../fontgarden-tools \
+python3 scripts/check_guide.py --tools ../fgtools \
   --template ../font-project-template --reference ../virtua-grotesk
 ```
 

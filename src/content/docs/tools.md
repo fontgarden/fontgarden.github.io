@@ -26,7 +26,7 @@ next: [start, fgtools, hosting]
 In a source repository, `make setup` does three things:
 
 1. It creates the virtual environment `.venv`.
-2. It installs the pinned `requirements.txt`. This includes [fontgarden-tools](https://github.com/fontgarden/fontgarden-tools), pinned to a commit, and gftools.
+2. It installs the pinned `requirements.txt`. This includes [fgtools](https://github.com/fontgarden/fgtools), pinned to a commit, and gftools.
 3. It runs `fgtools install-tools`. This installs the fontc and Fontspector release binaries into `.venv/bin`, after a check of their SHA-256 checksums.
 
 Do not install the tools globally. `requirements.in` lists the direct dependencies. See [The fgtools command](/docs/fgtools/).
@@ -72,7 +72,7 @@ export FONTGARDEN_REFERENCE_FONTS=~/reference-fonts
 fgtools fetch-reference-fonts
 ```
 
-The command downloads the trusted families from [google/fonts](https://github.com/google/fonts). Each family goes to its own folder with its `OFL.txt`. The list is `fontgarden/reference_fonts.toml` in fontgarden-tools, with the reason for each family. The designer decides which families it holds. The first list has 9: Source Sans 3, Source Serif 4, IBM Plex Sans, Inter, Roboto, Noto Sans, Fira Sans, Work Sans and EB Garamond. Commands that take reference fonts use the collection by default.
+The command downloads the trusted families from [google/fonts](https://github.com/google/fonts). Each family goes to its own folder with its `OFL.txt`. The list is `fontgarden/reference_fonts.toml` in fgtools, with the reason for each family. The designer decides which families it holds. The first list has 9: Source Sans 3, Source Serif 4, IBM Plex Sans, Inter, Roboto, Noto Sans, Fira Sans, Work Sans and EB Garamond. Commands that take reference fonts use the collection by default.
 
 ### Reference fonts of a project
 
