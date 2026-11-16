@@ -20,7 +20,7 @@ These commands read the UFO masters. They do not need a build.
 | `fgtools check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
 | `fgtools render-accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |
 | `fgtools lint-glifs`, `fgtools lint-curves` | Finds structural faults in the GLIF files, differences between the masters and faults of the curves. |
-| `make test` | Builds, then runs the tests of the repository and the Fontspector checks. |
+| `make test` | Builds, then runs `fgtools check-repository` and the Fontspector checks. |
 
 The design checks are a filter. They do not measure quality. On 2026-11-10 they passed 50 of the 72 glyphs that are green in both masters of Virtua Grotesk. Thus a finding is a reason to look, not an error.
 
@@ -65,6 +65,16 @@ An agent that can read images then reviews every letter against the accent rules
 | `fontgarden/grid` | Every master of a variable font has its on-curve points and advance widths on the 2-unit grid. |
 | `fontgarden/license` | The font has the SIL Open Font License 1.1. |
 | `opentype/vendor_id` | The vendor ID is `FTGD`. |
+| `fontgarden/visible_ink` | Every visible character has ink at every weight. |
+| `fontgarden/mark_glyphs` | Combining marks have the mark class and an advance of 0. |
+| `fontgarden/marks_attach` | Combining marks attach to their bases. |
+| `fontgarden/stacked_marks` | Two marks above a letter keep 16 units between them. |
+| `fontgarden/arabic_joins` | Arabic joining forms meet the kashida without a gap. |
+| `fontgarden/hebrew_marks_clear` | Hebrew accents and meteg clear the vowel point. |
+| `fontgarden/precomposed_match` | A precomposed letter has the same ink as its base and mark sequence. |
+| `fontgarden/static_stat_weight` | A static font names its own weight in the STAT table. |
+
+A check that only one font needs is in that font's repository, in `scripts/fontspector_checks.py`. It is written as the checks of the profile are, and `fgtools qa` runs it with them, in the section "This font". Virtua Grotesk has two: modern Hebrew is covered, and the `a` switches to its bold form at weight 500.
 
 Each repository provides three targets:
 

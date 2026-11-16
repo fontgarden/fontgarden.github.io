@@ -55,7 +55,7 @@ Only the designer can give these facts:
 | `Makefile` | the commands, each of which calls `fgtools` |
 | `AGENTS.md`, `.agents/` | the way of work for coding agents, and the task contracts |
 | `documentation/` | the Google Fonts release document |
-| `tests/`, `.github/workflows/` | the layout test, the reference test and the CI build |
+| `.github/workflows/` | the CI build, which runs `make test` |
 
 ## After the start
 
