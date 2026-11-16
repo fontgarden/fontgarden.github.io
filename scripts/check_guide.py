@@ -35,7 +35,7 @@ def main():
     parser.add_argument('--reference', type=Path, required=True)
     args = parser.parse_args()
 
-    cli = (args.tools / 'fontgarden/cli.py').read_text()
+    cli = (args.tools / 'fgtools/cli.py').read_text()
     commands = set(re.findall(r"^    '([a-z-]+)': \(", cli, re.M))
     template_targets = make_targets(args.template / 'Makefile')
     targets = template_targets | make_targets(args.reference / 'Makefile')
