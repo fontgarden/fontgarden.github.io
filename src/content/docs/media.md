@@ -57,14 +57,16 @@ DesignBot draws all three. A glyph looks the same in the proof, in a README imag
 | Part | Place | Changes for each font |
 | --- | --- | --- |
 | The canvases and their safe areas | fgtools, `fgtools/media_canvases.toml` | No |
+| The default formats: one DesignBot script for each | fgtools, `fgtools/media_formats/` | No |
 | The runner, the checks and the review page | fgtools, the command `fgtools media` | No |
-| The values that each script gets: canvas, font, metrics, brand | fgtools, the module `brief` | No |
 | The brand: the colors and the texts | The project, `documentation/media/brand.toml` | Yes |
-| The formats: the canvases, words, caption and alternative text of each | The project, `documentation/media/formats.toml` | Yes |
-| The format scripts | The project, `documentation/media/images/`, `carousels/` and `videos/`, one file for each format. The folder says what the format makes. | Yes |
+| The caption, the alternative text, the words and the canvases of a format | The project, `documentation/media/formats.toml`, optional | Yes |
+| A layout that only this font has | The project, a script in `documentation/media/images/`, `carousels/` or `videos/`, optional | Yes |
 | The rendered files | `output/media/`, which Git ignores | Not tracked |
 
-A new project starts with the format scripts of the template. The designer changes the brand first, and then the scripts.
+A new project has `brand.toml` only, and gets every default format. An improvement of a default format reaches every font with the next version of fgtools. To change a layout for one font, `fgtools media --copy` with the name of the format copies the default script into the project. A script in the project with the name of a default format replaces it, and a script with a new name is a format of this font.
+
+A font at the start of its design has few glyphs, and the media use what it has. A text with a character that the font does not have is left out, a format that needs the family name is not rendered before the font can set it, and a font that can set no word of the brand shows the letters that exist. A picture never shows a system font.
 
 ### The canvases
 
@@ -124,10 +126,9 @@ Beside each render is a JSON record: the format, the canvas, the size, the capti
 
 | Check | State |
 | --- | --- |
-| The font has a glyph for each character of the brand texts. DesignBot draws a missing glyph with a system font, and a picture of another font is worse than no picture. | Built |
+| No picture shows a system font: text is drawn only when the font has every character of it | Built |
 | A format that needs a weight axis is not rendered for a font with one weight | Built |
 | The safe area can be drawn on each picture | Built |
-| No system font for text that a script writes itself | Planned, in DesignBot |
 | Text inside the safe area and inside its box | Planned |
 | Contrast of the colors of the brand | Planned |
 | A loop is seamless, and it has no more than three flashes in a second | Planned |
