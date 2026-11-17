@@ -92,7 +92,7 @@ The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](http
 
 ## Proofs
 
-`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: a cover with the facts of the font, the character set, a waterfall, and pages of text at reading sizes with different leading and tracking. DesignBot makes it with the command `designbot proof`. Print it to judge the color of the text.
+`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: the facts of the font, the character set, the scale of sizes, text at 8 and 16 points, spacing strings, kerning pairs and figures, diacritics, the weight axis, the short lines of `sources/proof-samples.toml`, and the joining forms and the marks of the Arabic script. Each script and each master has its pages, and a font shows only the pages that it has the glyphs for. The command is `fgtools media --proof`. It uses the layout system of [Proofs and media](../media/). Print the proof to judge the color of the text.
 
 `make proof-web` builds the fonts and serves them beside the fonts in `reference-fonts/`, in a browser, at one em size and weight. It has four modes: Compare, Toggle between two builds, Waterfall, and Text. If a reference font does not have a glyph, the proof shows the missing code points. It does not use a fallback font.
 

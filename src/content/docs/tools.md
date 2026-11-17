@@ -95,7 +95,7 @@ A key is a directory name of google/fonts under `ofl/`, so the upstream of a fam
 ## Optional tools
 
 - `diffenator3`, for `make diff`, which compares two builds.
-- `designbot`, the Rust graphics library used for specimens and proof sheets. `make proof` runs `designbot proof`, which writes the print proof. Install it with `cargo install --git https://github.com/eliheuer/designbot designbot-cli`.
+- `designbot`, the Rust graphics library used for specimens and proof sheets. `make proof`, `make specimen` and `make media` draw with it. Install it with `cargo install --git https://github.com/eliheuer/designbot designbot-cli`.
 - `font-ml`, which runs the task models locally.
 
 ## Fontbakery and fontmake

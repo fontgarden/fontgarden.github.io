@@ -15,7 +15,7 @@ This chapter is a specification. The column State says what is built. Where it s
 
 | Output | Reader | Command | State |
 | --- | --- | --- | --- |
-| Print proof | The designer, to find faults | `make proof`, which runs `designbot proof` | Built |
+| Print proof | The designer, to find faults | `make proof`, which runs `fgtools media --proof` | Built, 10 kinds of page |
 | Print specimen | A reader, on paper | `make specimen`, which runs `fgtools media --specimen` | Built |
 | Marketing media | The public, on social platforms | `make media`, which runs `fgtools media` | Built, 9 formats |
 | Technical images | A reader of a README or an article | The format `glyph` of the media | Built, 1 format |
@@ -32,7 +32,7 @@ A layout is not drawn by hand. It is placed on the lattice of the typeface, with
 | Every position is a multiple of the unit | 8 pixels |
 | The live area of a canvas is a whole number of modules; the margin is the rest | 1080 x 1350 has 16 x 20 modules |
 | The text area is the live area less one module on each side, inside the safe area of the platform | 14 x 18 modules |
-| Type sizes double | 32, 64, 128, 256, 512, 1024, and 24 for labels |
+| Type sizes double | 32, 64, 128, 256, 512, 1024, and 24 for labels. The print page has one size more, 16 pixels, which is 8 points on paper. |
 | The cap top of a line stands on a module line, and its start on a column line | |
 | A text is chosen to fit its measure. The size never changes to make a text fit. | A word at 256 pixels fills 99% of the measure |
 | One label size, one line weight, two inks and one accent | |
@@ -45,7 +45,7 @@ At an em of 1024 pixels, 1 pixel is 1 unit of the font. The grid of such a pictu
 | --- | --- | --- |
 | Lattice | `fgtools/media_layout.py` | Gives each canvas its live area and its text area |
 | Typesetter | `fgtools/media_layout.py` | Measures text in the font with HarfBuzz, fits a word to a measure, breaks a paragraph into lines |
-| Format | `fgtools/media_formats/`, one Python file for each | Places type, rules and paths on the lattice. It never names a pixel. |
+| Format | `fgtools/media_formats/`, one Python file for each. The pages of the print proof are in its folder `proofs/`. | Places type, rules and paths on the lattice. It never names a pixel. |
 | Checker | `fgtools/media_layout.py` | Finds a size that is not on the scale, a position off the unit, ink outside the text area, and more than two weights or three sizes in a picture |
 | Plotter | `fgtools/media_plotter.rs` | DesignBot draws the checked layout. It decides nothing. |
 
@@ -59,6 +59,7 @@ A layout with a fault is not written. The command names each fault and stops wit
 | The numbers of the lattice | `CONTEXT.md` of the project, the `[layout]` block | Yes |
 | The brand: the colors and the texts | `documentation/media/brand.toml` | Yes |
 | The caption, the alternative text and the canvases of a format | `documentation/media/formats.toml`, optional | Yes |
+| The texts of the print proof | `sources/proof-samples.toml`, optional. The web proof uses the same file. | Yes |
 | A layout that only this font has | A Python file in `documentation/media/images/`, `carousels/` or `videos/`, optional. The folder says what the format makes. | Yes |
 | The rendered files | `output/media/` and `output/specimen/`, which Git ignores | Not tracked |
 
@@ -97,7 +98,42 @@ The platforms change their safe areas each year, so they are data in `fgtools/me
 | Masters: the outlines of two masters with lines between matching points | Image or video | | Planned |
 | Before and after: one glyph at two commits | Video | | Planned |
 
+## The print proof
+
+The print proof is for the designer. Its pages are the same for every font, and a project cannot replace them.
+
+| Page | What it shows |
+| --- | --- |
+| Facts | The format `release` |
+| Character set | Every encoded character, one in each module |
+| Sizes | One line at 128, 64, 32, 16 and 8 points, for each script and each master |
+| Reading | A text at 8 on 12 points and at 16 on 24 points, for each script and each master |
+| Spacing | Each letter between two straight and two round control letters |
+| Kerning and figures | Pairs, words, default and tabular figures |
+| Diacritics | Each letter with a mark beside its base letter |
+| Weights and interpolation | The format `weights`, and the glyphs of the brand at 11 steps of the axis |
+| Lines | The short samples of fgtools and of the project |
+| Arabic joining and Arabic marks | Each letter in its four forms, and each vowel mark on 12 letters |
+
+A sample line that mixes a script from the left with a script from the right is left out: DesignBot sets a line in one direction.
+
 The print specimen is the formats `release`, `text`, `words`, `weights`, `scripts`, `glyph` and `characters` on the `page` canvas, as one PDF.
+
+## A part only
+
+Each of the three commands makes all of its outputs, or the part that you name.
+
+| Wanted | Command |
+| --- | --- |
+| The names of the formats, the canvases and the pages | `make formats` |
+| Some pages of the print proof | `make proof PAGE="spacing kerning"` |
+| Some pages of the print specimen | `make specimen PAGE=words` |
+| One kind of media: `images`, `carousels` or `videos` | `make media FORMAT=videos` |
+| Some formats | `make media FORMAT="words glyph"` |
+| One format on one canvas | `make media FORMAT=weight-axis CANVAS=landscape` |
+| The technical image | `make media FORMAT=glyph` |
+
+A part of the proof or of the specimen is written to the file of the whole one. Each `make` target builds the fonts first. `.venv/bin/fgtools media` with the same names renders the fonts that exist, without a build.
 
 ## One render
 
