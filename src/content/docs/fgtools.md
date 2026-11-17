@@ -33,7 +33,8 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools build` | `make build` | Builds the fonts with the gftools builder and fontc. |
 | `fgtools diff` | `make diff` | Compares two builds with diffenator3. |
 | `fgtools qa` | `make qa`, `make test` | Runs Fontspector with the Font.Garden profile. |
-| `fgtools render` | | Draws glyphs large in one picture: the change, the filled glyph, its points, other glyphs of the project and the reference fonts. An agent reads the picture before and after every edit. Under each glyph it sets the glyph in a line of text, sharp and blurred, to show its color. |
+| `fgtools render` | | Draws glyphs large in one picture: the change, the filled glyph, its points, other glyphs of the project and the reference fonts. An agent reads the picture before and after every edit. Under each glyph it sets the glyph in a block of text, sharp and blurred, beside the same block in a reference font, to show its color. |
+| `fgtools measure-picture` | | Measures the glyphs in a picture of one line of text, for example a screenshot of another font that the designer gives as an example: width, top, bottom and strokes, in cap heights and H stems. |
 | `fgtools edit` | | Changes a glyph with a calculated operation: an edge moved to a coordinate, the sidebearings, or a mirrored copy of a donor. It marks the glyph purple and refuses a green glyph. |
 | `fgtools check-repository` | `make test` | Checks that every tracked file has a place in the layout, that no document names a file or a `make` target that does not exist, and that a `## Contents` chapter lists the chapters of its document. |
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
