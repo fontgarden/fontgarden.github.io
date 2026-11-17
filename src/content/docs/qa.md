@@ -92,6 +92,8 @@ The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](http
 
 ## Proofs
 
+`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: a cover with the facts of the font, the character set, a waterfall, and pages of text at reading sizes with different leading and tracking. DesignBot makes it with the command `designbot proof`. Print it to judge the color of the text.
+
 `make proof-web` builds the fonts and serves them beside the fonts in `reference-fonts/`, in a browser, at one em size and weight. It has four modes: Compare, Toggle between two builds, Waterfall, and Text. If a reference font does not have a glyph, the proof shows the missing code points. It does not use a fallback font.
 
 The samples are live browser text for Latin, Hebrew and Arabic. `sources/proof-samples.toml` adds samples for a project. Runebender reads the same file: its proof view and the Proof section of the right panel offer the samples of the script of the current glyph, drawn from the live outline while you edit. In Runebender, a sample text can contain `{glyph}`, the current glyph; the web proof shows it as written. Browser rendering is not release QA.
