@@ -37,6 +37,7 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools measure-picture` | | Measures the glyphs in a picture of one line of text, for example a screenshot of another font that the designer gives as an example: width, top, bottom and strokes, in cap heights and H stems. |
 | `fgtools edit` | | Changes a glyph with a calculated operation: an edge moved to a coordinate, the sidebearings, or a mirrored copy of a donor. It marks the glyph purple and refuses a green glyph. |
 | `fgtools check-repository` | `make test` | Checks that every tracked file has a place in the layout, that no document names a file or a `make` target that does not exist, and that a `## Contents` chapter lists the chapters of its document. |
+| `fgtools media` | `make media` | Renders the marketing media of the project with DesignBot: each format of `documentation/media/brand.toml` on each of its canvases, as images, carousels and video for Instagram, LinkedIn and X. The canvases with their safe areas are in fgtools; the brand and the scripts are in the project. |
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
 | `fgtools draft-weights` | | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `CONTEXT.md`. Writes to `output/weights/`. |
 | `fgtools corrections` | | Lists the reviews of purple drafts from the Git history. |
