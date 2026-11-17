@@ -19,6 +19,7 @@ This chapter is a specification. The column State says what is built. Where it s
 | Print specimen | A reader, on paper | `make specimen`, which runs `fgtools media --specimen` | Built |
 | Marketing media | The public, on social platforms | `make media`, which runs `fgtools media` | Built, 9 formats |
 | Technical images | A reader of a README or an article | The format `glyph` of the media | Built, 1 format |
+| All of them | GitHub Pages | `make site`, which runs the three commands and then `fgtools site` | Built |
 
 DesignBot draws all of them. A glyph looks the same in the proof, in the specimen and in a video.
 
@@ -132,8 +133,12 @@ Each of the three commands makes all of its outputs, or the part that you name.
 | Some formats | `make media FORMAT="words glyph"` |
 | One format on one canvas | `make media FORMAT=weight-axis CANVAS=landscape` |
 | The technical image | `make media FORMAT=glyph` |
+| The pictures with the lattice drawn on them | `make media LATTICE=1` |
+| A copy of a default format, to change it for this font | `make copy-format FORMAT=words` |
 
 A part of the proof or of the specimen is written to the file of the whole one. Each `make` target builds the fonts first. `.venv/bin/fgtools media` with the same names renders the fonts that exist, without a build.
+
+The last line of each command is `Open:` and the file to look at: the review page of the media, the PDF of the proof or the specimen, a picture or the diff report. Most terminals open the link with a Command-click.
 
 ## One render
 
@@ -149,7 +154,7 @@ Beside each render is a JSON record: the format, the canvas, the size, the capti
 | 2. Check | The checker verifies each layout against the rules | Built |
 | 3. Plot | DesignBot draws the layouts | Built |
 | 4. Review | The designer reads the review page | Page built, approval planned |
-| 5. Publish | CI renders the proof, the specimen and the media, `fgtools site` collects them into `output/site/`, and CI publishes that folder on GitHub Pages. Turn Pages on once in the settings of the repository, with the source "GitHub Actions". | Built |
+| 5. Publish | CI runs `make site`: it renders the proof, the specimen and the media, `fgtools site` collects them into `output/site/`, and CI publishes that folder on GitHub Pages. Turn Pages on once in the settings of the repository, with the source "GitHub Actions". | Built |
 | 6. Post | Posts with a caption, alternative text and a link for each platform, and a record of what was posted | Planned |
 
 ## What a person decides
