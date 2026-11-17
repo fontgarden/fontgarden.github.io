@@ -15,7 +15,7 @@ These commands read the UFO masters. They do not need a build.
 
 | command | use |
 | --- | --- |
-| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `CONTEXT.md`. |
+| `make check-design GLYPHS="n a"` | Compares glyphs with the grid and the stroke targets in `CONTEXT.md`, and their color in text with the reference fonts. |
 | `make check-changes` | Compares the sources with `main`. It fails when a green glyph changed, or when a glyph with changed contours is not purple. |
 | `fgtools check-accents` | Lists the accented letters whose mark is not where the other accented letters predict, or not where the anchors of its parts are. |
 | `fgtools render-accent-proofs` | Draws each accented letter beside the reference fonts and measures it against them. |

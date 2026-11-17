@@ -13,7 +13,7 @@ next: [qa, dataset]
 
 1. **Choose.** `make queue` ranks the glyphs that most composites wait on. The designer names the glyphs.
 2. **Draft.** An agent or a model drafts the glyph, with a purple mark. Where an edit is a calculation, the agent uses `fgtools edit`, which calculates the points. The draft is committed before the designer edits it.
-3. **Look and measure.** `fgtools render` draws the glyph large: the change, the filled glyph, its points, the donors and the reference fonts. The agent reads this picture before and after every edit. `make check-design` compares the draft with the targets in `CONTEXT.md`. A pass is a filter, not approval.
+3. **Look and measure.** `fgtools render` draws the glyph large: the change, the filled glyph, its points, the donors and the reference fonts. Under the glyph it sets the glyph in a line of text, sharp and blurred: in the blurred line a glyph that is too heavy is a dark spot. The agent reads this picture before and after every edit. `make check-design` compares the draft with the targets in `CONTEXT.md`. A pass is a filter, not approval.
 4. **Second review.** A second agent gets only the picture, `CONTEXT.md` and the glyph names. It gives each glyph the verdict `pass`, or `fault` with the rule number. The first agent corrects the faults before the designer sees the draft.
 5. **Review.** The designer compares the glyph with the reference fonts, then grades it. The review commit changes the purple mark to red, orange, yellow or green.
 6. **Learn.** `fgtools corrections` lists the open corrections. Each one becomes a change to the system.
