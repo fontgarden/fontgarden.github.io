@@ -59,8 +59,9 @@ DesignBot draws all three. A glyph looks the same in the proof, in a README imag
 | The canvases and their safe areas | fgtools, `fgtools/media_canvases.toml` | No |
 | The runner, the checks and the review page | fgtools, the command `fgtools media` | No |
 | The values that each script gets: canvas, font, metrics, brand | fgtools, the module `brief` | No |
-| The brand: colors, texts, and the canvases of each format | The project, `documentation/media/brand.toml` | Yes |
-| The format scripts | The project, `documentation/media/`, one file for each format | Yes |
+| The brand: the colors and the texts | The project, `documentation/media/brand.toml` | Yes |
+| The formats: the canvases, words, caption and alternative text of each | The project, `documentation/media/formats.toml` | Yes |
+| The format scripts | The project, `documentation/media/images/`, `carousels/` and `videos/`, one file for each format. The folder says what the format makes. | Yes |
 | The rendered files | `output/media/`, which Git ignores | Not tracked |
 
 A new project starts with the format scripts of the template. The designer changes the brand first, and then the scripts.
@@ -103,7 +104,7 @@ One format gives many posts, because one value changes between instances.
 
 ### One render
 
-A render is one file in `output/media/<format>/`, named `<family>_<format>_<canvas>` with its extension. An image is a PNG. A carousel is numbered PNG pages and one PDF, which is the document post of LinkedIn. A video is an MP4: H.264, 30 frames in a second, with a silent audio track.
+A render is one file in `output/media/<folder>/<format>/`, named `<family>_<format>_<canvas>` with its extension. The folder is `images`, `carousels` or `videos`, as in the sources. An image is a PNG. A carousel is numbered PNG pages and one PDF, which is the document post of LinkedIn. A video is an MP4: H.264, 30 frames in a second, with a silent audio track.
 
 Beside each render is a JSON record: the format, the canvas, the size, the caption, the alternative text and the commit of the sources. `output/media/index.html` shows every render on one page for review.
 
