@@ -114,7 +114,7 @@ Beside each render is a JSON record: the format, the canvas, the size, the capti
 | 1. Render | `make media` renders each format on each of its canvases | Built |
 | 2. Check | Automatic checks of each render | Partly built |
 | 3. Review | The designer reads the review page and approves renders | Page built, approval planned |
-| 4. Publish | CI renders the proof and the media and publishes them on GitHub Pages. The README shows pictures from there. | Planned |
+| 4. Publish | CI renders the proof and the media, `fgtools site` collects them into `output/site/`, and CI publishes that folder on GitHub Pages. A README shows pictures from there. Turn Pages on once in the settings of the repository, with the source "GitHub Actions". | Built |
 | 5. Compose | Posts get their renders, caption, alternative text and link for each platform | Planned |
 | 6. Export | A file for a scheduling tool, or a call to the platform | Planned |
 | 7. Record | The address of each post, so that no post repeats and results can be compared | Planned |
