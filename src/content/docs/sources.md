@@ -57,7 +57,7 @@ Files that people edit use TOML with comments. JSON is only for data that a prog
 
 ## CONTEXT.md
 
-`CONTEXT.md` is the one design file of a project. It holds the numbered design rules of the style. Below a rule, a `toml` code block holds the values that the tools check for that rule:
+`CONTEXT.md` is the one design file of a project. It starts with a description of the font, a table of contents and the chapter "The idea", which gives the purpose and the precedents of the design in prose. Text about the design in a README, a specimen or an article comes from there. The chapters after that hold the numbered design rules of the style. Below a rule, a `toml` code block holds the values that the tools check for that rule:
 
 ````markdown
 R1. Every point is on the 2-unit grid. Structural points are on the 8-unit grid.
@@ -88,7 +88,7 @@ The repository holds sources, tests and maintained documents. It does not hold r
 - No worklogs, handoffs, receipts, reports, plans, audits or dated documents. The Git history is the record of work.
 - A tracked file has at most 500 KB. A specimen scan in `sources/specimen/` can be larger.
 
-`fgtools check-repository` enforces these rules, and `make test` runs it in CI. Each tracked file must have a place in the layout, which is the same for every Font.Garden project and is in fgtools. The command also fails when a document names a file or a `make` target that does not exist. A Python file in `sources/` is optional: it holds only what one font needs, for example its own Fontspector checks.
+`fgtools check-repository` enforces these rules, and `make test` runs it in CI. Each tracked file must have a place in the layout, which is the same for every Font.Garden project and is in fgtools. The command also fails when a document names a file or a `make` target that does not exist. When a document has a chapter `## Contents`, the command fails when that chapter and the `##` chapters of the document differ. A Python file in `sources/` is optional: it holds only what one font needs, for example its own Fontspector checks.
 
 ## Top-level files
 
