@@ -27,7 +27,7 @@ In a source repository, `make setup` does three things:
 
 1. It creates the virtual environment `.venv`.
 2. It installs the pinned `requirements.txt`. This includes [fgtools](https://github.com/fontgarden/fgtools), pinned to a commit, and gftools.
-3. It runs `fgtools install-tools`. This installs the fontc and Fontspector release binaries into `.venv/bin`, after a check of their SHA-256 checksums.
+3. It runs `fgtools install-tools`. This installs the fontc and Fontspector release binaries into `.venv/bin`, after a check of their SHA-256 checksums. It also compiles DesignBot from the commit that fgtools pins, with Cargo, into `.venv/bin`. The first compile takes about two minutes and needs the `cargo` command from https://rustup.rs. Then it names `ffmpeg` and `runebender` if they are missing.
 
 Do not install the tools globally. `requirements.in` lists the direct dependencies. See [The fgtools command](/docs/fgtools/).
 
@@ -95,7 +95,6 @@ A key is a directory name of google/fonts under `ofl/`, so the upstream of a fam
 ## Optional tools
 
 - `diffenator3`, for `make diff`, which compares two builds.
-- `designbot`, the Rust graphics library used for specimens and proof sheets. `make proof`, `make specimen` and `make media` draw with it. Install it with `cargo install --git https://github.com/eliheuer/designbot designbot-cli`.
 - `font-ml`, which runs the task models locally.
 
 ## Fontbakery and fontmake

@@ -45,7 +45,7 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools evaluate-drafting` | | Tests a drafting method on held-out green glyphs. |
 | `fgtools fetch-reference-fonts` | `make reference-fonts` | Downloads the shared OFL reference fonts from Google Fonts. |
 | `fgtools customize` | `make customize` | Renames a project made from the template. |
-| `fgtools install-tools` | `make setup` | Installs the pinned fontc and Fontspector binaries. |
+| `fgtools install-tools` | `make setup` | Installs the pinned fontc and Fontspector binaries, and compiles the pinned DesignBot. |
 
 `fgtools COMMAND --help` lists the arguments of a command. The full reference is the [README of fgtools](https://github.com/fontgarden/fgtools#commands).
 
