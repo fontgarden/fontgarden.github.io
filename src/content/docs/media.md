@@ -3,146 +3,125 @@ title: Proofs and media
 section: production
 label: learn
 order: 330
-summary: The print proof, the technical images and the marketing media of a font, and how one system renders all of them.
-callout: A project made from the template renders its proof and its marketing media with two commands. The parts that are the same for every font are in DesignBot and fgtools. The parts that give a font its own style are a small folder in the project. No rendered file is tracked in Git.
+summary: The print proof, the print specimen, the technical images and the marketing media of a font, and the one layout system that makes them.
+callout: A project made from the template renders its proof, its specimen and its marketing media with three commands. Every picture is laid out on the lattice of the typeface, and a checker verifies each layout before DesignBot draws it. No rendered file is tracked in Git.
 background: [build, qa]
 next: [learning]
 ---
 
 This chapter is a specification. The column State says what is built. Where it says "planned", the chapter is correct and the tool is not finished.
 
-## Three kinds of output
+## The outputs
 
-| Kind | Reader | Same for every font | Made by | State |
-| --- | --- | --- | --- | --- |
-| Print proof | The designer, on paper | Yes | `make proof`, which runs `designbot proof` | Built |
-| Technical images | A reader of a README or an article | Yes | DesignBot, from the font file | Planned |
-| Marketing media | The public, on social platforms | No: one style for each font | `make media`, which runs `fgtools media` | Built, 7 formats |
+| Output | Reader | Command | State |
+| --- | --- | --- | --- |
+| Print proof | The designer, to find faults | `make proof`, which runs `designbot proof` | Built |
+| Print specimen | A reader, on paper | `make specimen`, which runs `fgtools media --specimen` | Built |
+| Marketing media | The public, on social platforms | `make media`, which runs `fgtools media` | Built, 9 formats |
+| Technical images | A reader of a README or an article | The format `glyph` of the media | Built, 1 format |
 
-DesignBot draws all three. A glyph looks the same in the proof, in a README image and in a video.
+DesignBot draws all of them. A glyph looks the same in the proof, in the specimen and in a video.
 
-## The print proof
+## The layout system
 
-`make proof` writes `output/proof/proof.pdf`. DesignBot reads everything from the font file: the axes, the instances, the character set, the features and the metrics. A project holds no proof code.
+A layout is not drawn by hand. It is placed on the lattice of the typeface, with the numbers of the `[layout]` block of `CONTEXT.md` of the project.
 
-| Page | State |
+| Rule | Value in a font with an em of 1024 units |
 | --- | --- |
-| Cover with the facts of the font, character set, waterfall | Built |
-| Text at reading sizes, with leading and tracking | Built |
-| Spacing, figures, accents, kerning | Built |
-| Weight waterfall, interpolation | Built |
-| Arabic: character set, joining, marks, running text | Built |
-| Vertical metrics, drawn from the outlines | Planned |
-| OpenType features, off and on | Planned |
-| Hebrew pages | Planned |
-| Glyphs under review, in a block of text beside a reference font | Planned |
-| The same text in the font and in a reference font, in two colors | Planned |
+| The module is the large step of the design grid | 64 pixels |
+| Every position is a multiple of the unit | 8 pixels |
+| The live area of a canvas is a whole number of modules; the margin is the rest | 1080 x 1350 has 16 x 20 modules |
+| The text area is the live area less one module on each side, inside the safe area of the platform | 14 x 18 modules |
+| Type sizes double | 32, 64, 128, 256, 512, 1024, and 24 for labels |
+| The cap top of a line stands on a module line, and its start on a column line | |
+| A text is chosen to fit its measure. The size never changes to make a text fit. | A word at 256 pixels fills 99% of the measure |
+| One label size, one line weight, two inks and one accent | |
 
-## The marketing media
+At an em of 1024 pixels, 1 pixel is 1 unit of the font. The grid of such a picture is the grid of the drawing.
 
-### Terms
+### The parts
 
-| Term | Meaning |
-| --- | --- |
-| Canvas | One size of picture or video that the platforms accept, with its safe area. The same for every font. |
-| Format | One kind of picture, for example a specimen poster. A DesignBot script that holds the layout. |
-| Brand | The colors and the texts of one font. |
-| Instance | One format with one set of values, for example the glyph detail of the letter a. |
-| Render | One instance on one canvas: one file, with a record. |
-| Post | One or more renders with a caption, alternative text and a link, for one platform. |
-| Campaign | A group of posts with one purpose, for example a release. |
+| Part | Place | Work |
+| --- | --- | --- |
+| Lattice | `fgtools/media_layout.py` | Gives each canvas its live area and its text area |
+| Typesetter | `fgtools/media_layout.py` | Measures text in the font with HarfBuzz, fits a word to a measure, breaks a paragraph into lines |
+| Format | `fgtools/media_formats/`, one Python file for each | Places type, rules and paths on the lattice. It never names a pixel. |
+| Checker | `fgtools/media_layout.py` | Finds a size that is not on the scale, a position off the unit, ink outside the text area, and more than two weights or three sizes in a picture |
+| Plotter | `fgtools/media_plotter.rs` | DesignBot draws the checked layout. It decides nothing. |
 
-### Where each part is
+A layout with a fault is not written. The command names each fault and stops with an error.
+
+## Where each part is
 
 | Part | Place | Changes for each font |
 | --- | --- | --- |
-| The canvases and their safe areas | fgtools, `fgtools/media_canvases.toml` | No |
-| The default formats: one DesignBot script for each | fgtools, `fgtools/media_formats/` | No |
-| The runner, the checks and the review page | fgtools, the command `fgtools media` | No |
-| The brand: the colors and the texts | The project, `documentation/media/brand.toml` | Yes |
-| The caption, the alternative text, the words and the canvases of a format | The project, `documentation/media/formats.toml`, optional | Yes |
-| A layout that only this font has | The project, a script in `documentation/media/images/`, `carousels/` or `videos/`, optional | Yes |
-| The rendered files | `output/media/`, which Git ignores | Not tracked |
+| The layout system, the default formats, the canvases, the word lists | fgtools | No |
+| The numbers of the lattice | `CONTEXT.md` of the project, the `[layout]` block | Yes |
+| The brand: the colors and the texts | `documentation/media/brand.toml` | Yes |
+| The caption, the alternative text and the canvases of a format | `documentation/media/formats.toml`, optional | Yes |
+| A layout that only this font has | A Python file in `documentation/media/images/`, `carousels/` or `videos/`, optional. The folder says what the format makes. | Yes |
+| The rendered files | `output/media/` and `output/specimen/`, which Git ignores | Not tracked |
 
-A new project has `brand.toml` only, and gets every default format. An improvement of a default format reaches every font with the next version of fgtools. To change a layout for one font, `fgtools media --copy` with the name of the format copies the default script into the project. A script in the project with the name of a default format replaces it, and a script with a new name is a format of this font.
+A new project has `brand.toml` only, and gets every default format. An improvement of a default format reaches every font with the next version of fgtools. To change a layout for one font, `fgtools media --copy` with the name of the format copies the default script into the project.
 
-A font at the start of its design has few glyphs, and the media use what it has. A text with a character that the font does not have is left out, a format that needs the family name is not rendered before the font can set it, and a font that can set no word of the brand shows the letters that exist. A picture never shows a system font.
+A font at the start of its design has few glyphs, and the formats use what it has. A text with a character that the font does not have is left out, and a font that can set no word shows the letters that exist. A picture never shows a system font.
 
-### The canvases
+## The canvases
 
-| Canvas | Size | Use | Safe area: top, right, bottom, left |
+| Canvas | Size | Text area in modules | Use |
 | --- | --- | --- | --- |
-| `portrait` | 1080 x 1350 | Feed image and carousel on Instagram, LinkedIn, X and Mastodon. The page of a LinkedIn document. | 0, 40, 0, 40 |
-| `vertical` | 1080 x 1920 | Instagram Reel and Story, and TikTok | 270, 195, 672, 120 |
-| `landscape` | 1920 x 1080 | Video and wide image on X, LinkedIn and Mastodon | 54, 96, 54, 96 |
-| `square` | 1080 x 1080 | A page or a profile that needs a square | 54, 54, 54, 54 |
-| `card` | 1200 x 630 | The link preview | 15, 0, 15, 0 |
+| `portrait` | 1080 x 1350 | 14 x 18 | Feed image and carousel on Instagram, LinkedIn, X and Mastodon. The page of a LinkedIn document. |
+| `vertical` | 1080 x 1920 | 11 x 14 | Instagram Reel and Story, and TikTok |
+| `landscape` | 1920 x 1080 | 26 x 14 | Video and wide image on X, LinkedIn and Mastodon |
+| `square` | 1080 x 1080 | 14 x 14 | A page or a profile that needs a square |
+| `card` | 1200 x 630 | 16 x 6 | The link preview |
+| `page` | 1684 x 1190, written at half size | 22 x 14 | The page of the print specimen: A4 landscape, dark ink on a light ground |
 
-No platform of this list publishes its safe area. The values are from current guides, checked in November 2026. The platforms change these values each year, so they are data in one file, and `fgtools media --safe-areas` draws them on every picture.
+The platforms change their safe areas each year, so they are data in `fgtools/media_canvases.toml`. `fgtools media --lattice` draws the lattice and the text area on every picture.
 
-### The formats
+## The formats
 
-One format gives many posts, because one value changes between instances.
+| Format | Kind | What it shows | State |
+| --- | --- | --- | --- |
+| `words` | Image | One word for each weight at 256 pixels. Each word fills the measure. | Built |
+| `weights` | Image | One text at each weight, from the lightest to the heaviest | Built |
+| `text` | Image | The line of the brand at 64 pixels and the description of the font at 32 pixels | Built |
+| `scripts` | Image | One word in each script of the font | Built |
+| `release` | Image | The name, and the facts of the font from the font file | Built |
+| `link-card` | Image | The picture of a link | Built |
+| `glyph` | Carousel | One glyph on the grid of its design, with the points of the drawing and the metrics | Built |
+| `characters` | Carousel | The characters in cells of two modules, one group for each page | Built |
+| `weight-axis` | Video | One text across the weight axis. A square moves on a line, a whole number of units in each frame. | Built |
+| Features: the changed glyph in ink inside a gray word | Image | | Planned |
+| Similar characters, for example I, l and 1 | Image | | Planned |
+| Masters: the outlines of two masters with lines between matching points | Image or video | | Planned |
+| Before and after: one glyph at two commits | Video | | Planned |
 
-| Series | Format | Kind | Value that changes | State |
-| --- | --- | --- | --- | --- |
-| Release | `release`: name, version and facts from the font file | Image | Version | Built |
-| Release | `link-card`: the picture of a link | Image | Title | Built |
-| Release | Release notes: the glyphs that a version adds | Carousel | Version | Planned |
-| Glyphs | `specimen-poster`: words from the lightest to the heaviest weight | Image | Words | Built |
-| Glyphs | `glyph-detail`: one glyph on the grid with the metrics | Carousel | Glyph | Built |
-| Glyphs | `character-set`: one page for each group of characters | Carousel | Group | Built |
-| Glyphs | Annotated glyph: numbered features of the design on one glyph | Image | Glyph | Planned |
-| Glyphs | Similar characters, for example I, l and 1 | Image | Set | Planned |
-| Axis | `weight-axis`: one word across the weight axis | Video | Word | Built |
-| Axis | Weight numbers: each value set in its own weight | Image | Range | Planned |
-| Axis | Wave: rows of a word, each row later on the axis | Video | Word, script | Planned |
-| Axis | Masters: the outlines of two masters with lines between matching points | Image or video | Glyph | Planned |
-| Scripts | `scripts`: one line in each script of the font | Carousel | Lines | Built |
-| Scripts | Language sample | Carousel | Language | Planned |
-| Process | Before and after: one glyph at two commits | Video | Glyph, commits | Planned |
-| Process | Progress: the review state of the glyph set | Image | Date | Planned |
-| Use | Installation and CSS | Image | Text | Planned |
+The print specimen is the formats `release`, `text`, `words`, `weights`, `scripts`, `glyph` and `characters` on the `page` canvas, as one PDF.
 
-### One render
+## One render
 
-A render is one file in `output/media/<folder>/<format>/`, named `<family>_<format>_<canvas>` with its extension. The folder is `images`, `carousels` or `videos`, as in the sources. An image is a PNG. A carousel is numbered PNG pages and one PDF, which is the document post of LinkedIn. A video is an MP4: H.264, 30 frames in a second, with a silent audio track.
+A render is one file in `output/media/<folder>/<format>/`, named `<family>_<format>_<canvas>` with its extension. The folder is `images`, `carousels` or `videos`. An image is a PNG. A carousel is numbered PNG pages and one PDF, which is the document post of LinkedIn. A video is an MP4: H.264, 30 frames in a second, with a silent audio track.
 
 Beside each render is a JSON record: the format, the canvas, the size, the caption, the alternative text and the commit of the sources. `output/media/index.html` shows every render on one page for review.
 
-### Stages
+## Stages
 
 | Stage | What happens | State |
 | --- | --- | --- |
-| 1. Render | `make media` renders each format on each of its canvases | Built |
-| 2. Check | Automatic checks of each render | Partly built |
-| 3. Review | The designer reads the review page and approves renders | Page built, approval planned |
-| 4. Publish | CI renders the proof and the media, `fgtools site` collects them into `output/site/`, and CI publishes that folder on GitHub Pages. A README shows pictures from there. Turn Pages on once in the settings of the repository, with the source "GitHub Actions". | Built |
-| 5. Compose | Posts get their renders, caption, alternative text and link for each platform | Planned |
-| 6. Export | A file for a scheduling tool, or a call to the platform | Planned |
-| 7. Record | The address of each post, so that no post repeats and results can be compared | Planned |
+| 1. Compose | Each format places its elements on the lattice of each canvas | Built |
+| 2. Check | The checker verifies each layout against the rules | Built |
+| 3. Plot | DesignBot draws the layouts | Built |
+| 4. Review | The designer reads the review page | Page built, approval planned |
+| 5. Publish | CI renders the proof, the specimen and the media, `fgtools site` collects them into `output/site/`, and CI publishes that folder on GitHub Pages. Turn Pages on once in the settings of the repository, with the source "GitHub Actions". | Built |
+| 6. Post | Posts with a caption, alternative text and a link for each platform, and a record of what was posted | Planned |
 
-### Checks
+## What a person decides
 
-| Check | State |
-| --- | --- |
-| No picture shows a system font: text is drawn only when the font has every character of it | Built |
-| A format that needs a weight axis is not rendered for a font with one weight | Built |
-| The safe area can be drawn on each picture | Built |
-| Text inside the safe area and inside its box | Planned |
-| Contrast of the colors of the brand | Planned |
-| A loop is seamless, and it has no more than three flashes in a second | Planned |
-| Size, codec, duration and file size against the limits of each platform | Planned |
-| Alternative text and caption present, and inside the limit of each platform | Planned |
-| The same sources give the same file | Planned |
-
-### What a person decides
-
-- The words and the glyphs to show.
+- The words of the brand, and the glyphs to show.
 - The approval of each render.
 - The text of each caption. Alternative text for an image of text states the words, the typeface and the weight.
 - The date of a release, and whether a draft glyph can be shown in public.
-- Photographs of the font in use, with their credits.
 
 ## Platforms
 
@@ -157,4 +136,4 @@ Each platform encodes a file again. The export for a platform follows from the c
 | Instagram Reel and Story, TikTok | `vertical` | MP4, 3 seconds or longer. A Reel can be posted again on TikTok without a change. |
 | Video on X and LinkedIn | `landscape` | MP4 |
 
-Animated WebP and APNG are not accepted by any platform. Mastodon encodes video at a low bit rate that damages thin strokes, so a still image is better there.
+Mastodon encodes video at a low bit rate that damages thin strokes, so a still image is better there.
