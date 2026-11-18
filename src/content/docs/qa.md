@@ -76,13 +76,13 @@ An agent that can read images then reviews every letter against the accent rules
 
 A check that only one font needs is in that font's repository, in `sources/fontspector_checks.py`. It is written as the checks of the profile are, and `fgtools qa` runs it with them, in the section "This font". Virtua Grotesk has two: modern Hebrew is covered, and the `a` switches to its bold form at weight 500.
 
-Each repository provides three targets:
+Each repository has three targets for the checks:
 
-- `make qa` works offline. It leaves out the checks in `[qa.exclude]` of `CONTEXT.md`. Each exclusion has a reason.
-- `fgtools qa --full` runs all checks, with the network checks. A style must pass this before a release.
-- `fgtools qa --package <directory>` checks an assembled google/fonts package.
+- `make test` runs every check: the repository check, the Google Fonts checks, the Font.Garden checks and the checks of the font. Some Google Fonts checks need the internet. CI runs it on each push.
+- `make test-google-fonts` runs the Google Fonts checks only.
+- `make test-fontgarden` runs the Font.Garden checks and the checks of the font only.
 
-An exclusion is known development debt. Do not add an exclusion to hide a new failure. Reports go to `output/qa/`. A FAIL gives a failing exit status. A WARN needs review.
+All three leave out the known faults in `[qa.exclude]` of `CONTEXT.md`, each with its reason, so that a FAIL is a new fault. The fonts are ready for release when the list is empty. Do not add a check to the list to hide a new fault. With `NO_BUILD=1`, a target uses the fonts in `fonts/` and does not build them first. `fgtools qa --package <directory>` runs every check, with no exclusions, on an assembled google/fonts package. Reports go to `output/qa/`. A FAIL gives a failing exit status. A WARN needs review.
 
 The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](https://github.com/fontgarden/fontspector-fontgarden). It has no release yet.
 

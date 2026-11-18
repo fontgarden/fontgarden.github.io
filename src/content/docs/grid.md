@@ -70,5 +70,5 @@ Curve quality comes before grid tidiness. A smooth, continuous curve with an unt
 - `make check-design` checks glyphs against the 2-unit grid and the stroke targets, and reports the points that are off the 8-unit grid.
 - `fgtools report-grid-levels` counts the points at each level of the grid, by script and mark color, with the advances and kerning values off the 8-unit grid.
 - `make check-changes` lists, for each changed purple draft, the new points that are off the 8-unit grid. A point that the base revision has is not new. A new point off that grid needs a reason: a stroke value of the designer, or a derived point.
-- `make qa` runs the Fontspector check `fontgarden/grid` on the compiled variable font: every master has its on-curve points and advance widths on the 2-unit grid.
+- `make test` runs the Fontspector check `fontgarden/grid` on the compiled variable font: every master has its on-curve points and advance widths on the 2-unit grid.
 - `CONTEXT.md` holds the grid values and the stroke targets of a style, in `toml` blocks below its rules. The tools read the blocks. People edit them.

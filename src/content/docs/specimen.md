@@ -45,7 +45,7 @@ A glyph of about 500 pixels gives a clean trace. A glyph of about 100 pixels giv
 - `sources/specimen/` holds the image and `labels.json`, and `documentation/google-fonts.md` states the origin of the specimen.
 - Every glyph of the specimen is in the UFO with its Unicode value, and is purple.
 - The vertical metrics come from the specimen, snapped to the 8-unit grid.
-- `fgtools lint-glifs` reports no structural fault, `make build` succeeds, and `make qa` reports no FAIL outside the exclusions.
+- `fgtools lint-glifs` reports no structural fault, `make build` succeeds, and `make test` passes.
 - `make status` is run and `make test` passes.
 
 ## Known limits

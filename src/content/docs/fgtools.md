@@ -32,7 +32,7 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools lint-glifs`, `lint-curves` | | Structural faults and curve faults. |
 | `fgtools build` | `make build` | Builds the fonts with the gftools builder and fontc. |
 | `fgtools diff` | `make diff` | Compares two builds with diffenator3. |
-| `fgtools qa` | `make qa`, `make qa-full`, `make test` | Runs Fontspector with the Font.Garden profile. |
+| `fgtools qa` | `make test`, `make test-google-fonts`, `make test-fontgarden` | Runs the Fontspector checks: all of them, or the Google Fonts checks or the Font.Garden checks only. |
 | `fgtools render` | `make render` | Draws glyphs large in one picture: the change, the filled glyph, its points, other glyphs of the project and the reference fonts. An agent reads the picture before and after every edit. Under each glyph it sets the glyph in a block of text, sharp and blurred, beside the same block in a reference font, to show its color. |
 | `fgtools measure-picture` | | Measures the glyphs in a picture of one line of text, for example a screenshot of another font that the designer gives as an example: width, top, bottom and strokes, in cap heights and H stems. |
 | `fgtools edit` | | Changes a glyph with a calculated operation: an edge moved to a coordinate, the sidebearings, or a mirrored copy of a donor. It marks the glyph purple and refuses a green glyph. |
