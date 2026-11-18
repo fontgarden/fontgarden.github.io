@@ -47,7 +47,7 @@ Run the same command again to update it. `make runebender` opens the sources of 
 
 `fgtools check-design` uses the Runebender binary for measurement. If the binary is not on `PATH`, set `RUNEBENDER` to its path.
 
-Coding agents connect to the editor through MCP. An agent can read, measure, proof and propose. See [Proposals and grading](/docs/proposals/).
+Coding agents connect to the editor through MCP. An agent can read, measure, proof and propose. A project has a `.mcp.json` that starts `runebender mcp --live`, so that an agent tool that reads this file, for example OMP, gets the editor tools. A proposal shows in the open editor, and the designer applies or discards it there. See [Proposals and grading](/docs/proposals/).
 
 ## Tools for a specimen image
 
