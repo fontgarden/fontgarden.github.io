@@ -41,6 +41,8 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools site` | `make site` | Collects the print specimen, the print proof and the marketing media into `output/site/`. The CI of a project publishes this folder on GitHub Pages, so that no rendered file is tracked in Git. |
 | `fgtools proof-web` | `make proof-web` | Serves the font beside the reference fonts in a browser. |
 | `fgtools draft-weights` | | Drafts the masters of more weights, for example Thin and Black, from two masters and the stroke targets in `CONTEXT.md`. Writes to `output/weights/`. |
+| `fgtools draft-optical-size` | | Drafts the masters of the large optical size from the masters of the small one, with the spacing rule in `CONTEXT.md`. Writes to `output/optical-size/`, and to `sources/` with `--write`. |
+| `fgtools draft-grade` | | Drafts the masters of the grade axis into `sources/`: the outlines of a nearby weight on the advances of this weight. |
 | `fgtools corrections` | | Lists the reviews of purple drafts from the Git history. |
 | `fgtools evaluate-drafting` | | Tests a drafting method on held-out green glyphs. |
 | `fgtools fetch-reference-fonts` | `make reference-fonts` | Downloads the shared OFL reference fonts from Google Fonts. |

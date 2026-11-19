@@ -19,6 +19,7 @@ next: [licenses, grid]
 ├── README.md
 ├── CONTEXT.md
 ├── STATUS.md
+├── WORKLOG.md
 ├── Makefile
 ├── requirements.in
 ├── requirements.txt
@@ -79,13 +80,13 @@ machine_draft = 8
 
 ## Agent files
 
-`AGENTS.md` gives the rules for coding agents. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report.
+`AGENTS.md` gives the rules for coding agents, as short bullets. `WORKLOG.md` is their shared record of work. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report.
 
 ## What does not belong
 
 The repository holds sources, tests and maintained documents. It does not hold records of work.
 
-- No worklogs, handoffs, receipts, reports, plans, audits or dated documents. The Git history is the record of work.
+- No handoffs, receipts, reports, plans, audits or dated documents. `WORKLOG.md` is the one record of work: short entries, newest first, that every agent reads when it starts and adds to when it stops.
 - A tracked file has at most 500 KB. A specimen scan in `sources/specimen/` can be larger.
 
 `fgtools check-repository` enforces these rules, and `make test` runs it in CI. Each tracked file must have a place in the layout, which is the same for every Font.Garden project and is in fgtools. The command also fails when a document names a file or a `make` target that does not exist. When a document has a chapter `## Contents`, the command fails when that chapter and the `##` chapters of the document differ. A Python file in `sources/` is optional: it holds only what one font needs, for example its own Fontspector checks.
