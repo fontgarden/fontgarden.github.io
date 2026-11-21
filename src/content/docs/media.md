@@ -101,7 +101,9 @@ The platforms change their safe areas each year, so they are data in `fgtools/me
 
 ## The print proof
 
-The print proof is for the designer. Its pages are the same for every font, and a project cannot replace them.
+The print proof is for the designer. The shared fgtools generator uses the page formats below.
+
+Virtua Grotesk adds a project-specific Print Proof for reading. Each named weight has one page per script. The upper half sets a passage without diacritics and the lower half repeats the same words with the same line breaks. Arabic uses vowel marks, Hebrew uses vowel points, and the Latin sample uses English words that can take accents, such as “café” and “résumé”. Read across the two sizes to check weight and down the page to check mark placement. The Full Proof opens with these pages and continues with detailed checks.
 
 | Page | What it shows |
 | --- | --- |
@@ -178,3 +180,5 @@ Each platform encodes a file again. The export for a platform follows from the c
 | Video on X and LinkedIn | `landscape` | MP4 |
 
 Mastodon encodes video at a low bit rate that damages thin strokes, so a still image is better there.
+
+Virtua Grotesk’s `make twitter-animation` renders clean, red-grid and CRT versions. The specimen index lists all three under Twitter Animations. Its DesignBot script uses `renderer.set_crt(true)` for the CRT export.

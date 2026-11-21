@@ -34,6 +34,7 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools diff` | `make diff` | Compares two builds with diffenator3. |
 | `fgtools qa` | `make test`, `make test-google-fonts`, `make test-fontgarden` | Runs the Fontspector checks: all of them, or the Google Fonts checks or the Font.Garden checks only. |
 | `fgtools render` | `make render` | Draws glyphs large in one picture: the change, the filled glyph, its points, other glyphs of the project and the reference fonts. An agent reads the picture before and after every edit. Under each glyph it sets the glyph in a block of text, sharp and blurred, beside the same block in a reference font, to show its color. |
+| `fgtools render before.ttf after.ttf --word 'Virtua Grotesk' --thickness-reference 192` | | Compares static instances in one shaped word. Runebender samples each glyph at 512 cells per em in both the editor and the proof. Kerning and shaping position the measured glyphs. The center of the heatmap is a stroke width in the first font’s units. Set `RUNEBENDER_THICKNESS_REFERENCE=192` and turn on Thickness in Runebender to use the same scale. Add `--reference-picture sample.png` for a screenshot of the same line beginning with a flat capital. |
 | `fgtools measure-picture` | | Measures the glyphs in a picture of one line of text, for example a screenshot of another font that the designer gives as an example: width, top, bottom and strokes, in cap heights and H stems. |
 | `fgtools edit` | | Changes a glyph with a calculated operation: an edge moved to a coordinate, the sidebearings, or a mirrored copy of a donor. It marks the glyph purple and refuses a green glyph. |
 | `fgtools check-repository` | `make test` | Checks that every tracked file has a place in the layout, that no document names a file or a `make` target that does not exist, and that a `## Contents` chapter lists the chapters of its document. |
@@ -50,6 +51,8 @@ Most tools only read the UFO sources. Four commands change them, and say so: `fg
 | `fgtools install-tools` | `make setup` | Installs the pinned fontc and Fontspector binaries, and compiles the pinned DesignBot. |
 
 `fgtools COMMAND --help` lists the arguments of a command. The full reference is the [README of fgtools](https://github.com/fontgarden/fgtools#commands).
+
+For a straight stroke, add `--edge-track GLYPH X1 Y1 X2 Y2` to the word proof. Choose a start inside the stroke and an end toward its join, in the first font’s units with y increasing upward. The track direction sets the normal for each cut. The proof draws the contacts and writes the sampled widths, endpoints and font hash to JSON beside the PNG. Measurement stops when the original straight edge pair ends. An agent can compare the valid run to a related stroke, then inspect the filled word to judge the join.
 
 ## The pin
 
