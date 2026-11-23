@@ -181,4 +181,4 @@ Each platform encodes a file again. The export for a platform follows from the c
 
 Mastodon encodes video at a low bit rate that damages thin strokes, so a still image is better there.
 
-Virtua Grotesk’s `make twitter-animation` renders clean, red-grid and CRT versions. The specimen index lists all three under Twitter Animations. Its DesignBot script uses `renderer.set_crt(true)` for the CRT export.
+Virtua Grotesk’s `make x-animation` renders clean, red-grid and CRT versions. The specimen index lists all three under X Animations. Its DesignBot script uses `renderer.set_crt(true)` for the CRT export.
