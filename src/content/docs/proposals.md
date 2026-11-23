@@ -38,7 +38,7 @@ The reference fonts do not dictate the design. Use them to compare visual weight
 
 ## Task contracts
 
-Long and unattended tasks have a contract in `.agents/tasks/`: the goal, the acceptance checks, the constraints and the form of the report. Run a contract in a separate checkout, on its own branch. The template has three contracts: specimen intake, glyph drafts and the Google Fonts release.
+Long and unattended tasks have a contract in `.agents/tasks/`: the goal, the acceptance checks, the constraints and the form of the report. Run a contract in a separate checkout, on its own branch. The template has three contracts: specimen intake, glyph drafts and accented letters.
 
 ## Proposals in Runebender
 

@@ -15,7 +15,7 @@ This chapter is a specification. The column State says what is built. Where it s
 
 | Output | Reader | Command | State |
 | --- | --- | --- | --- |
-| Print proof | The designer, to find faults | `make proof`, which runs `fgtools media --proof` | Built, 10 kinds of page |
+| Print proof | The designer, to find faults | `make proof`, which runs `fgtools media --proof` | Built, 13 pages |
 | Print specimen | A reader, on paper | `make specimen`, which runs `fgtools media --specimen` | Built |
 | Marketing media | The public, on social platforms | `make media`, which runs `fgtools media` | Built, 9 formats |
 | Technical images | A reader of a README or an article | The format `glyph` of the media | Built, 1 format |
@@ -115,6 +115,7 @@ Virtua Grotesk adds a project-specific Print Proof for reading. Each named weigh
 | Kerning and figures | Pairs, words, default and tabular figures |
 | Diacritics | Each letter with a mark beside its base letter |
 | Weights and interpolation | The format `weights`, and the glyphs of the brand at 11 steps of the axis |
+| Grade | The grade axis, for a font that has one |
 | Lines | The short samples of fgtools and of the project |
 | Arabic joining and Arabic marks | Each letter in its four forms, and each vowel mark on 12 letters |
 

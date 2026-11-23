@@ -23,10 +23,13 @@ next: [licenses, grid]
 ├── Makefile
 ├── requirements.in
 ├── requirements.txt
+├── .mcp.json
 ├── .agents
 │   └── tasks
 ├── documentation
-│   └── google-fonts.md
+│   ├── google-fonts.md
+│   └── media
+│       └── brand.toml
 ├── fonts
 │   ├── ttf
 │   └── variable
@@ -76,11 +79,11 @@ machine_draft = 8
 
 ## documentation
 
-`documentation/google-fonts.md` is the one document of the release: the project facts, the QA, the package and, for a traced font, the origin of the specimen. The folder also holds the Google Fonts article. A project has no other documents: the design is in `CONTEXT.md`, and the way of work is in `AGENTS.md`.
+`documentation/google-fonts.md` is the one document of the release: the project facts, the QA, the package and, for a traced font, the origin of the specimen. The folder also holds the Google Fonts article and, in `media/`, the brand and the formats of the marketing media. See [Proofs and media](/docs/media/). A project has no other documents: the design is in `CONTEXT.md`, and the way of work is in `AGENTS.md`.
 
 ## Agent files
 
-`AGENTS.md` gives the rules for coding agents, as short bullets. `WORKLOG.md` is their shared record of work. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report.
+`AGENTS.md` gives the rules for coding agents, as short bullets. `.mcp.json` starts the MCP server of Runebender for an agent. `WORKLOG.md` is their shared record of work. `.agents/tasks/` holds task contracts for long and unattended tasks. Each contract gives a goal, acceptance checks, constraints and the form of the report.
 
 ## What does not belong
 

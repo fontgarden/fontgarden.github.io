@@ -23,8 +23,6 @@ make build
 3. It runs the gftools builder on `sources/config.yaml`, with fontc as the compiler.
 4. It writes the fonts to `fonts/variable` and `fonts/ttf`.
 
-A project can add its own corrections after this step. In Virtua Grotesk, `make build` runs `fgtools build` and then `sources/fix_gf_metadata.py`.
-
 A plain `gftools builder sources/config.yaml`, as the Google Fonts packager runs it, builds the same fonts with fontmake.
 
 ## config.yaml

@@ -11,11 +11,13 @@ next: [neuraltype, tools]
 
 ## What is in it
 
-The seed of the collection is Virtua Grotesk, a neo-grotesk drawn on the dyadic self-labeling grid described in [The dyadic grid](/docs/grid/). As of this writing it has two masters, Regular and Bold, with Latin, Arabic and Hebrew. Its sources and design documentation are public at [github.com/eliheuer/virtua-grotesk](https://github.com/eliheuer/virtua-grotesk).
+The seed of the collection is Virtua Grotesk, a neo-grotesk drawn on the dyadic self-labeling grid described in [The dyadic grid](/docs/grid/). It has masters at four weights, Thin, Regular, Bold and Black, with Latin, Arabic and Hebrew. Each weight has a master at the optical sizes 14 and 144 pt. The Thin, Black and 144 pt masters start as calculated drafts from the Regular and Bold masters. Its sources and design documentation are public at [github.com/eliheuer/virtua-grotesk](https://github.com/eliheuer/virtua-grotesk).
 
-The first model, Virtua-12M-v0.1, is a 12.54 million parameter decoder-only transformer trained on those sources. It drafts a Bold from a Regular and redraws a brush sketch in the collection's conventions. See [Models](/docs/models/).
+The first model, Virtua-12M-v0.1, is a 12.54 million parameter decoder-only transformer trained on the Regular and Bold masters. It drafts a Bold from a Regular and redraws a brush sketch in the collection's conventions. See [Models](/docs/models/).
 
-The next designs planned on the same grid are an oldstyle serif in the Plantin tradition, a mono, and further weights of Virtua from Thin to Black. Each adds a style region to the collection and real data to the corpus.
+The published fonts are in the index at [font.garden/fonts](/fonts/). Each font has a number and a standard specimen page. See [The font index and the specimen page](/docs/font-index/).
+
+The next designs planned on the same grid are an oldstyle serif in the Plantin tradition, a mono, and an italic of Virtua. Each adds a style region to the collection and real data to the corpus.
 
 ## How it grows
 

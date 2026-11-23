@@ -46,10 +46,10 @@ A glyph of about 500 pixels gives a clean trace. A glyph of about 100 pixels giv
 - Every glyph of the specimen is in the UFO with its Unicode value, and is purple.
 - The vertical metrics come from the specimen, snapped to the 8-unit grid.
 - `fgtools lint-glifs` reports no structural fault, `make build` succeeds, and `make test` passes.
-- `make status` is run and `make test` passes.
+- `make status` is run.
 
 ## Known limits
 
 - Dust that touches the edge of a glyph stays in the trace.
 - Some glyphs are placed too high or too low, and the first spacing is loose.
-- The pipeline stops at purple drafts. Accents, composites, kerning, generated specimens and the release do not have task contracts yet.
+- The pipeline stops at purple drafts. Accented letters have their own task contract. See [Quality assurance](/docs/qa/). Other composites, kerning and the release do not have task contracts yet.

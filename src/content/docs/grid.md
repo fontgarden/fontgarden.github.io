@@ -33,7 +33,7 @@ A new style may choose other metrics, but each must be a dyadic fraction of the 
 Two grids classify point positions.
 
 - **The 2-unit grid is the law.** Every coordinate in a source master is even. The tokenizer has one token per 2-unit position, and the round trip from UFO to tokens and back is exact only because the sources and the codec share this grid. Odd coordinates and floats are rejected, not rounded.
-- **The 8-unit grid is the structural default.** New points, handles, advance widths, sidebearings and kerning values sit on it. Machine drafts land on it. In the human-drawn sources about 85 percent of points are on it.
+- **The 8-unit grid is the structural default.** New points, handles, advance widths, sidebearings and kerning values sit on it. Machine drafts land on it. `fgtools report-grid-levels` gives the share of points on it for each master, script and mark color.
 - **A point on the 2-unit grid but off the 8-unit grid records a fine optical correction.** Such points are made by a person and are protected. Never snap an inherited human drawing to pass a check meant for new drafts.
 
 Check the masters on their own lattice. Interpolated instances and the quadratic curves of a compiled TrueType font do not stay on the lattice, and their values are never a reason to move a source point.
@@ -55,11 +55,11 @@ Grid membership describes positions. Popcount describes measurements. Keep the t
 
 ## Interpolation
 
-Stems and other structural spans in corresponding masters differ by a value that halves cleanly. Virtua's Regular stem is 96 and its Bold stem is 192; the difference of 96 splits evenly, so the half-weight stem is 144 and every quarter lands on the 8-unit grid. Endpoints of 90 and 180 would not close this way. When you set the spans of a new master, choose values whose differences are themselves on the grid.
+Stems and other structural spans in corresponding masters differ by a value that halves cleanly. Virtua's Regular stem is 96 and its Bold stem is 192. The difference of 96 splits evenly, so the half-weight stem is 144 and every quarter lands on the 8-unit grid. Endpoints of 90 and 180 would not close this way. When you set the spans of a new master, choose values whose differences are themselves on the grid.
 
 ## Spacing
 
-Sidebearings and kerning default to the 8-unit grid, because kerning is done in multiples of 8. Of Virtua Regular's 84 kerning pairs, all but two sit on it; the two exceptions use the 2-unit grid for a finer optical adjustment. The sidebearing is the hard constraint. When a target width forces the geometry off the grid, change the counter or the advance, not the sidebearing. A counter of 520 = 512 + 8 is correct. A sidebearing of 44 is not.
+Sidebearings and kerning default to the 8-unit grid, because kerning is done in multiples of 8. Of the 131 kerning pairs of Virtua Regular, all but four sit on it. The four exceptions use the 2-unit grid for a finer optical adjustment. The sidebearing is the hard constraint. When a target width forces the geometry off the grid, change the counter or the advance, not the sidebearing. A counter of 520 = 512 + 8 is correct. A sidebearing of 44 is not.
 
 ## Priority
 

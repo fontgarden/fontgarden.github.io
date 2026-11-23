@@ -45,7 +45,7 @@ The next model is a font designed for NeuralType from the start, on the collecti
 | model | task | where | license | status |
 | --- | --- | --- | --- | --- |
 | Virtua-12M-v0.1 | weight transfer | Hugging Face `fontgarden/virtua` | Apache-2.0 | in preparation |
-| gulzar-int8.ntf | Nastaliq NeuralType font | post-opentype repository | OFL, with Gulzar's copyright notice | released |
+| gulzar-int8.ntf | Nastaliq NeuralType font | the demo of the post [Nastaliq Distilled](https://elih.net/blog/nastaliq-distilled/) | OFL, with Gulzar's copyright notice | released |
 
 The Virtua-12M-v0.1 upload is the next release task. Until it is done, the only public model file is the Nastaliq font. What stays private: the training code, the corpus tools and the plans. The editor, the model runtime, the sources and the released weights are public.
 

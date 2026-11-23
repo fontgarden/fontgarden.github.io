@@ -57,14 +57,14 @@ An agent that can read images then reviews every letter against the accent rules
 
 ## Fontspector
 
-[Fontspector](https://github.com/fonttools/fontspector) runs checks on the compiled fonts. It replaced Fontbakery. The collection uses the Font.Garden profile, which includes the Google Fonts profile and adds four requirements:
+[Fontspector](https://github.com/fonttools/fontspector) runs checks on the compiled fonts. It replaced Fontbakery. The collection uses the Font.Garden profile, which includes the Google Fonts profile and adds 12 checks:
 
 | check | requirement |
 | --- | --- |
 | `fontgarden/unitsperem` | The em is 1024 units. |
 | `fontgarden/grid` | Every master of a variable font has its on-curve points and advance widths on the 2-unit grid. |
 | `fontgarden/license` | The font has the SIL Open Font License 1.1. |
-| `opentype/vendor_id` | The vendor ID is `FTGD`. |
+| `fontgarden/vendor_id` | The vendor ID is `FTGD`. |
 | `fontgarden/visible_ink` | Every visible character has ink at every weight. |
 | `fontgarden/mark_glyphs` | Combining marks have the mark class and an advance of 0. |
 | `fontgarden/marks_attach` | Combining marks attach to their bases. |
@@ -74,7 +74,13 @@ An agent that can read images then reviews every letter against the accent rules
 | `fontgarden/precomposed_match` | A precomposed letter has the same ink as its base and mark sequence. |
 | `fontgarden/static_stat_weight` | A static font names its own weight in the STAT table. |
 
-A check that only one font needs is in that font's repository, in `sources/fontspector_checks.py`. It is written as the checks of the profile are, and `fgtools qa` runs it with them, in the section "This font". Virtua Grotesk has two: modern Hebrew is covered, and the `a` switches to its bold form at weight 500.
+A check that only one font needs is in that font's repository, in `sources/fontspector_checks.py`. It is written as the checks of the profile are, and `fgtools qa` runs it with them, in the section "This font". Virtua Grotesk has five:
+
+- Modern Hebrew is covered.
+- The `a` uses one glyph at every weight.
+- The `a` keeps both waist shelves and the foot flat.
+- The stacked feh keeps the counter of its donor.
+- Arabic vowels clear the signs that distinguish letters.
 
 Each repository has three targets for the checks:
 
@@ -84,7 +90,7 @@ Each repository has three targets for the checks:
 
 All three leave out the known faults in `[qa.exclude]` of `CONTEXT.md`, each with its reason, so that a FAIL is a new fault. The fonts are ready for release when the list is empty. Do not add a check to the list to hide a new fault. With `NO_BUILD=1`, a target uses the fonts in `fonts/` and does not build them first. `fgtools qa --package <directory>` runs every check, with no exclusions, on an assembled google/fonts package. Reports go to `output/qa/`. A FAIL gives a failing exit status. A WARN needs review.
 
-The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](https://github.com/fontgarden/fontspector-fontgarden). It has no release yet.
+Four of the checks are also in a Rust plugin for Fontspector, [fontspector-fontgarden](https://github.com/fontgarden/fontspector-fontgarden): the em, the grid, the license and the vendor ID. The plugin has no release yet.
 
 ## Comparison of builds
 
@@ -92,7 +98,7 @@ The profile is also a Rust plugin for Fontspector: [fontspector-fontgarden](http
 
 ## Proofs
 
-`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: the facts of the font, the character set, the scale of sizes, text at 8 and 16 points, spacing strings, kerning pairs and figures, diacritics, the weight axis, the short lines of `sources/proof-samples.toml`, and the joining forms and the marks of the Arabic script. Each script and each master has its pages, and a font shows only the pages that it has the glyphs for. The command is `fgtools media --proof`. It uses the layout system of [Proofs and media](../media/). Print the proof to judge the color of the text.
+`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: the facts of the font, the character set, the scale of sizes, text at 8 and 16 points, spacing strings, kerning pairs and figures, diacritics, the weight axis, the short lines of `sources/proof-samples.toml`, and the joining forms and the marks of the Arabic script. Each script and each master has its pages, and a font shows only the pages that it has the glyphs for. The command is `fgtools media --proof`. It uses the layout system of [Proofs and media](/docs/media/). Print the proof to judge the color of the text.
 
 `make proof-web` builds the fonts and serves them beside the fonts in `reference-fonts/`, in a browser, at one em size and weight. It has four modes: Compare, Toggle between two builds, Waterfall, and Text. If a reference font does not have a glyph, the proof shows the missing code points. It does not use a fallback font.
 

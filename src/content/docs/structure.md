@@ -44,7 +44,7 @@ When two of these conflict, the higher one wins.
 
 ## Masters
 
-- Styles are drawn as two or more masters along a weight axis. The lightest master is the base. Each glyph in every other master is point-compatible with the base.
+- Styles are drawn as two or more masters along a weight axis. The Regular master is the base. Each glyph in every other master is point-compatible with the base.
 - A model draft of a heavier master moves the base's points. It never changes the point structure, so the masters still interpolate.
 - Deltas between masters sit on the 8-unit grid where the design allows. Virtua's machine lattice for Bold drafts is stems of plus 48 per side and bars of plus 72.
 - A master in progress may carry unbolded copies of the base, but they must be marked red. See [Glyph grades](/docs/grades/).

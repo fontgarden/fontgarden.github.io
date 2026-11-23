@@ -20,7 +20,7 @@ next: [qa, dataset]
 
 ## The record is the Git history
 
-The draft commit and the review commit are the record of a decision. Do not copy drafts or corrections into files. Do not add worklogs or reports.
+The draft commit and the review commit are the record of a decision. Do not copy drafts or corrections into files. Do not add reports. `WORKLOG.md` holds short entries about the work. It does not hold drafts or corrections.
 
 `fgtools corrections` reads the history. It finds each review of a purple draft and compares the draft with the first green version of the glyph. Until the glyph is green, it uses the latest version that is not purple. If the two differ, the review is a correction.
 
