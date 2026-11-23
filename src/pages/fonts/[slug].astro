@@ -1,0 +1,379 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FontFaces from '../../components/FontFaces.astro';
+import {
+  INDEX_SIZE,
+  SCRIPT_SAMPLES,
+  TEXT_SAMPLE,
+  axisRange,
+  fileSize,
+  loadFonts,
+  numberLabel,
+  variationSettings,
+  type IndexFont,
+} from '../../lib/fonts';
+import '../../styles/fonts.css';
+
+export async function getStaticPaths() {
+  const fonts = await loadFonts();
+  return fonts.map((font, i) => ({
+    params: { slug: font.slug },
+    props: { font, previous: fonts[i - 1] ?? null, next: fonts[i + 1] ?? null },
+  }));
+}
+
+interface Props {
+  font: IndexFont;
+  previous: IndexFont | null;
+  next: IndexFont | null;
+}
+
+const { font, previous, next } = Astro.props;
+const { facts } = font;
+const scripts = facts.scripts
+  .filter((script) => SCRIPT_SAMPLES[script.tag])
+  .map((script) => ({ ...script, ...SCRIPT_SAMPLES[script.tag] }));
+const scriptNames = facts.scripts.map((script) => script.name).join(', ');
+const defaults = Object.fromEntries(facts.axes.map((axis) => [axis.tag, axis.default]));
+const textSizes = [32, 20, 14];
+const features = [...facts.features.GSUB, ...facts.features.GPOS];
+
+const information: [string, string][] = [
+  ['Number', `${font.label} of 00 to ${numberLabel(INDEX_SIZE - 1)}`],
+  ['Classification', font.classification],
+  ['Status', font.status],
+  ['Version', facts.version],
+  ['Scripts', scriptNames],
+  ['Styles', `${facts.instances.length} named instances in one variable font`],
+  ['Axes', facts.axes.map((axis) => `${axisRange(axis)} (${axis.tag})`).join(', ')],
+  ['Characters', `${facts.characterCount} characters, ${facts.glyphCount} glyphs`],
+  ['Units per em', String(facts.unitsPerEm)],
+  [
+    'Vertical metrics',
+    `Ascender ${facts.metrics.ascender}, cap height ${facts.metrics.capHeight}, x-height ${facts.metrics.xHeight}, descender ${facts.metrics.descender}`,
+  ],
+  ['OpenType features', features.join(', ')],
+];
+
+const sections = [
+  ['tester', 'Tester'],
+  ['styles', 'Styles'],
+  ['scripts', 'Scripts'],
+  ['text', 'Text'],
+  ['characters', 'Characters'],
+  ['information', 'Information'],
+];
+---
+
+<Layout title={`${font.name} · Font.Garden`} description={font.summary}>
+  <FontFaces fonts={[font]} />
+
+  <div class="specimen" style={`--specimen-family: '${font.cssFamily}'`}>
+    <header class="specimen-bar">
+      <a href="/" class="specimen-bar-home">Font.Garden</a>
+      <nav>
+        <a href="/fonts/">Fonts</a>
+        <a href="/docs/">Documentation</a>
+      </nav>
+    </header>
+
+    <section class="specimen-hero field-panel">
+      <div class="field-grain"></div>
+      <div class="specimen-hero-row">
+        <span>FTGD-{font.label}</span>
+        <span>{font.classification}</span>
+        <span>{font.status}</span>
+      </div>
+      <h1 class="specimen-name" data-fit>{font.name}</h1>
+      <div class="specimen-hero-row">
+        <span>{scriptNames}</span>
+        <span>{facts.axes.map(axisRange).join(', ')}</span>
+        <a href={facts.files.download} download>Download</a>
+      </div>
+    </section>
+
+    <nav class="specimen-sections" aria-label="Sections">
+      {sections.map(([id, title], i) => (
+        <a href={`#${id}`}>
+          <span>{numberLabel(i + 1)}</span>
+          {title}
+        </a>
+      ))}
+    </nav>
+
+    <section class="specimen-section specimen-overview">
+      <p class="specimen-summary">{font.summary}</p>
+    </section>
+
+    <section class="specimen-section" id="tester">
+      <header class="specimen-head">
+        <h2><span>01</span>Tester</h2>
+        <p>Select the text to change it.</p>
+      </header>
+      <div class="tester" data-tester>
+        <div class="tester-controls">
+          <label>
+            <span>Size</span>
+            <input type="range" min="12" max="320" step="1" value="120" data-tester-size />
+            <output>120 px</output>
+          </label>
+          {facts.axes.map((axis) => (
+            <label>
+              <span>{axis.name}</span>
+              <input
+                type="range"
+                min={axis.min}
+                max={axis.max}
+                step="1"
+                value={axis.default}
+                data-tester-axis={axis.tag}
+              />
+              <output>{axis.default}</output>
+            </label>
+          ))}
+          {scripts.length > 1 && (
+            <div class="tester-scripts">
+              {scripts.map((script, i) => (
+                <button
+                  type="button"
+                  data-tester-script
+                  data-lang={script.lang}
+                  data-dir={script.dir}
+                  data-text={script.text.split('. ')[0] + '.'}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                >
+                  {script.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div
+          class="tester-text"
+          contenteditable="plaintext-only"
+          spellcheck="false"
+          lang={scripts[0]?.lang ?? 'en'}
+          dir={scripts[0]?.dir ?? 'ltr'}
+          style={`font-variation-settings: ${variationSettings(defaults)}`}
+          data-tester-text
+          set:text={(scripts[0]?.text ?? SCRIPT_SAMPLES.Latn.text).split('. ')[0] + '.'}
+        />
+      </div>
+    </section>
+
+    <section class="specimen-section" id="styles">
+      <header class="specimen-head">
+        <h2><span>02</span>Styles</h2>
+        <p>{facts.instances.length} named instances</p>
+      </header>
+      <ul class="style-list">
+        {facts.instances.map((instance) => (
+          <li>
+            <span class="style-label">
+              {instance.name}
+              <small>{variationSettings(instance.coordinates).replaceAll("'", '')}</small>
+            </span>
+            <span
+              class="style-sample"
+              style={`font-variation-settings: ${variationSettings(instance.coordinates)}`}
+            >
+              {font.name} {instance.name}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {scripts.length > 0 && (
+      <section class="specimen-section" id="scripts">
+        <header class="specimen-head">
+          <h2><span>03</span>Scripts</h2>
+          <p>Universal Declaration of Human Rights, Article 1</p>
+        </header>
+        <div class="script-list">
+          {scripts.map((script) => (
+            <div class="script-row">
+              <span class="style-label">
+                {script.name}
+                <small>{script.count} characters</small>
+              </span>
+              <p class="script-sample" lang={script.lang} dir={script.dir}>{script.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="specimen-section" id="text">
+      <header class="specimen-head">
+        <h2><span>04</span>Text</h2>
+        <p>Universal Declaration of Human Rights, Articles 1 to 3</p>
+      </header>
+      <div class="text-sizes">
+        {textSizes.map((size) => (
+          <div>
+            <span class="style-label">{size} px</span>
+            <div class="text-sample" style={`font-size: ${size}px`} lang="en">
+              {TEXT_SAMPLE.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="specimen-section" id="characters">
+      <header class="specimen-head">
+        <h2><span>05</span>Characters</h2>
+        <p>{facts.characterCount} characters, {facts.glyphCount} glyphs</p>
+      </header>
+      <div class="characters">
+        <div class="character-view">
+          <div class="character-view-glyph" data-character-glyph></div>
+          <dl>
+            <dt>Unicode</dt>
+            <dd data-character-code></dd>
+            <dt>Name</dt>
+            <dd data-character-name></dd>
+          </dl>
+        </div>
+        <div class="character-groups">
+          {facts.groups.map((group) => (
+            <div class="character-group">
+              <h3>
+                {group.name}
+                <small>{group.characters.length}</small>
+              </h3>
+              <div class="character-grid" dir="ltr">
+                {group.characters.map(([codepoint, name]) => (
+                  <button type="button" data-cp={codepoint} title={name} set:text={
+                    (group.name === 'Marks' ? ' ' : '') + String.fromCodePoint(codepoint)
+                  } />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="specimen-section" id="information">
+      <header class="specimen-head">
+        <h2><span>06</span>Information</h2>
+        <p>{font.name} {facts.version}</p>
+      </header>
+      <div class="information">
+        <dl class="information-facts">
+          {information.map(([term, value]) => (
+            <>
+              <dt>{term}</dt>
+              <dd>{value}</dd>
+            </>
+          ))}
+          <dt>License</dt>
+          <dd><a href={facts.licenseUrl}>{facts.license}</a></dd>
+          <dt>Copyright</dt>
+          <dd>{facts.copyright}</dd>
+          <dt>Sources</dt>
+          <dd>
+            <a href={font.repository}>{font.repository.replace('https://', '')}</a>{facts.revision && `, revision ${facts.revision.commit} of ${facts.revision.date}`}
+          </dd>
+        </dl>
+        <a class="download" href={facts.files.download} download>
+          <span>Download {font.name} {facts.version}</span>
+          <small>{facts.files.fontFile} and OFL.txt, {fileSize(facts.files.downloadBytes)}</small>
+        </a>
+      </div>
+    </section>
+
+    <footer class="specimen-footer">
+      {previous ? (
+        <a href={`/fonts/${previous.slug}/`}>
+          <span>{previous.label}</span>
+          {previous.name}
+        </a>
+      ) : (
+        <span />
+      )}
+      <a href="/fonts/">FTGD-100</a>
+      {next ? (
+        <a href={`/fonts/${next.slug}/`}>
+          <span>{next.label}</span>
+          {next.name}
+        </a>
+      ) : (
+        <span />
+      )}
+    </footer>
+  </div>
+
+  <script>
+    // Fit the font name to the width of the hero panel.
+    const name = document.querySelector<HTMLElement>('[data-fit]');
+    const fitName = () => {
+      if (!name?.parentElement) return;
+      const hero = name.parentElement;
+      const style = getComputedStyle(hero);
+      const width = hero.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      name.style.fontSize = '100px';
+      const size = (100 * width) / name.offsetWidth;
+      name.style.fontSize = `${Math.min(size, window.innerHeight * 0.42)}px`;
+    };
+    document.fonts.ready.then(fitName);
+    window.addEventListener('resize', fitName);
+    fitName();
+
+    // Tester: the size, one control for each axis, and the script.
+    const tester = document.querySelector<HTMLElement>('[data-tester]');
+    const text = tester?.querySelector<HTMLElement>('[data-tester-text]');
+    if (tester && text) {
+      const size = tester.querySelector<HTMLInputElement>('[data-tester-size]')!;
+      const axes = tester.querySelectorAll<HTMLInputElement>('[data-tester-axis]');
+      const output = (input: HTMLInputElement, value: string) => {
+        const el = input.parentElement?.querySelector('output');
+        if (el) el.textContent = value;
+      };
+      const update = () => {
+        text.style.fontSize = `min(${size.value}px, 15vw)`;
+        output(size, `${size.value} px`);
+        text.style.fontVariationSettings = [...axes]
+          .map((axis) => `'${axis.dataset.testerAxis}' ${axis.value}`)
+          .join(', ');
+        axes.forEach((axis) => output(axis, axis.value));
+      };
+      [size, ...axes].forEach((input) => input.addEventListener('input', update));
+      update();
+
+      const buttons = tester.querySelectorAll<HTMLButtonElement>('[data-tester-script]');
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+          text.textContent = button.dataset.text ?? '';
+          text.lang = button.dataset.lang ?? 'en';
+          text.dir = button.dataset.dir ?? 'ltr';
+        });
+      });
+    }
+
+    // Characters: show the character under the pointer in the large view.
+    const glyph = document.querySelector<HTMLElement>('[data-character-glyph]');
+    const code = document.querySelector<HTMLElement>('[data-character-code]');
+    const characterName = document.querySelector<HTMLElement>('[data-character-name]');
+    const tiles = document.querySelectorAll<HTMLButtonElement>('.character-grid button');
+    let selected: HTMLButtonElement | null = null;
+    const view = (tile: HTMLButtonElement) => {
+      if (!glyph || !code || !characterName) return;
+      selected?.removeAttribute('aria-current');
+      selected = tile;
+      tile.setAttribute('aria-current', 'true');
+      glyph.textContent = tile.textContent;
+      code.textContent = `U+${Number(tile.dataset.cp).toString(16).toUpperCase().padStart(4, '0')}`;
+      characterName.textContent = tile.title;
+    };
+    tiles.forEach((tile) => {
+      tile.addEventListener('pointerenter', () => view(tile));
+      tile.addEventListener('focus', () => view(tile));
+    });
+    const first = document.querySelector<HTMLButtonElement>('.character-grid button[data-cp="97"]');
+    if (first ?? tiles[0]) view(first ?? tiles[0]);
+  </script>
+</Layout>

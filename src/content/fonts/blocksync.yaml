@@ -1,0 +1,10 @@
+number: 2
+name: Blocksync
+classification: Display
+status: In development
+repository: https://github.com/eliheuer/blocksync
+summary: >-
+  Blocksync is a block-like Latin display face for short lines with tight
+  spacing. The capitals supply the construction of many lowercase forms. The
+  variable font has a weight axis from 400 to 900 and a width axis from
+  75 to 125.

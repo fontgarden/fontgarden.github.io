@@ -16,4 +16,18 @@ const docs = defineCollection({
   }),
 });
 
-export const collections = { docs };
+// One entry per font of the FTGD-100 index. The file name is the slug.
+// scripts/import_font.py writes the measured facts to src/data/fonts.
+const fonts = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/fonts' }),
+  schema: z.object({
+    number: z.number().int().min(0).max(99),
+    name: z.string(),
+    classification: z.string(),
+    status: z.string(),
+    repository: z.string().url(),
+    summary: z.string(),
+  }),
+});
+
+export const collections = { docs, fonts };

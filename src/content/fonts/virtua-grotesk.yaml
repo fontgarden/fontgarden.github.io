@@ -1,0 +1,11 @@
+number: 0
+name: Virtua Grotesk
+classification: Neo-grotesk
+status: In development
+repository: https://github.com/eliheuer/virtua-grotesk
+summary: >-
+  Virtua Grotesk is a neo-grotesk for Latin, Arabic and Hebrew. Its outlines
+  are on a dyadic grid. The em is 1024 units, structural points are on the
+  8-unit grid, and optical corrections are on the 2-unit grid. Corners have a
+  16-unit chamfer. The variable font has a weight axis from 100 to 900 and an
+  optical size axis from 14 to 144 pt.

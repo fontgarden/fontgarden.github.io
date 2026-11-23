@@ -1,0 +1,162 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteFrame from '../../components/SiteFrame.astro';
+import FontFaces from '../../components/FontFaces.astro';
+import { ALPHABET_SAMPLE, INDEX_SIZE, axisRange, loadFonts, numberLabel } from '../../lib/fonts';
+import '../../styles/fonts.css';
+
+const fonts = await loadFonts();
+const byNumber = new Map(fonts.map((font) => [font.number, font]));
+const rows = Array.from({ length: INDEX_SIZE }, (_, number) => ({
+  label: numberLabel(number),
+  font: byNumber.get(number),
+}));
+
+// The facts that the panel shows for the font under the pointer.
+const panelFacts = Object.fromEntries(
+  fonts.map((font) => [
+    font.slug,
+    {
+      label: font.label,
+      name: font.name,
+      family: font.cssFamily,
+      rows: [
+        ['Classification', font.classification],
+        ['Scripts', font.facts.scripts.map((s) => s.name).join(', ')],
+        ['Styles', `${font.facts.instances.length}, variable`],
+        ['Axes', font.facts.axes.map(axisRange).join(', ')],
+        ['License', font.facts.license],
+        ['Status', font.status],
+      ],
+    },
+  ])
+);
+---
+
+<Layout
+  title="Fonts · Font.Garden"
+  description="FTGD-100: the index of the one hundred free and open source fonts of Font.Garden."
+>
+  <FontFaces fonts={fonts} />
+
+  <SiteFrame>
+    <div slot="panel-top" class="panel-specimen panel-specimen-top" data-panel-specimen hidden>
+      <span data-panel="label"></span>
+      <span data-panel="name"></span>
+      <span class="panel-specimen-index">FTGD-100</span>
+    </div>
+    <div slot="panel-bottom" class="panel-specimen panel-specimen-bottom" data-panel-specimen hidden>
+      <p class="panel-alphabet" data-panel="alphabet">
+        {ALPHABET_SAMPLE.map((line) => <span>{line}</span>)}
+      </p>
+      <dl class="panel-facts" data-panel="facts"></dl>
+    </div>
+  </SiteFrame>
+
+  <main
+    class="relative z-10 flex min-h-[100dvh] flex-col pl-[var(--margin)] pr-[calc(var(--field)+2*var(--margin))] pt-[calc(var(--margin)+var(--text-logo)*1.25)] pb-[var(--margin)]"
+  >
+    <section class="max-w-[72ch]">
+      <h1 class="font-index-title">FTGD-100</h1>
+      <p class="text-small text-ink">
+        The index of the one hundred fonts of Font.Garden, from 00 to 99. Each
+        font is free and open source, and each font has the same specimen
+        page. {fonts.length} of the {INDEX_SIZE} numbers have a font.
+      </p>
+    </section>
+
+    <ol class="font-index" id="font-index">
+      {rows.map(({ label, font }) =>
+        font ? (
+          <li>
+            <a href={`/fonts/${font.slug}/`} data-font={font.slug}>
+              <span class="font-index-number">{label}</span>
+              <span class="font-index-name">{font.name}</span>
+              <span class="font-index-class">{font.classification}</span>
+            </a>
+          </li>
+        ) : (
+          <li class="font-index-empty" aria-label={`${label}, no font`}>
+            <span class="font-index-number">{label}</span>
+          </li>
+        )
+      )}
+    </ol>
+
+    <footer class="mt-auto pt-6">
+      <nav class="flex items-center gap-5 text-small text-ink">
+        <a href="/fonts/" class="underline-offset-4 hover:underline">Fonts</a>
+        <a href="/docs/" class="underline-offset-4 hover:underline">Documentation</a>
+      </nav>
+    </footer>
+  </main>
+
+  <script type="application/json" id="panel-facts" set:html={JSON.stringify(panelFacts)} />
+
+  <script>
+    // Show the specimen of a font in the panel while the pointer or the
+    // keyboard focus is on its row.
+    const facts = JSON.parse(document.getElementById('panel-facts')?.textContent ?? '{}');
+    const list = document.getElementById('font-index');
+    const parts = document.querySelectorAll<HTMLElement>('[data-panel-specimen]');
+    const part = (name: string) => document.querySelector<HTMLElement>(`[data-panel="${name}"]`);
+    let current: string | null = null;
+
+    const show = (slug: string | null) => {
+      if (slug === current) return;
+      current = slug;
+      const font = slug ? facts[slug] : null;
+      parts.forEach((el) => (el.hidden = !font));
+      list?.querySelectorAll('a[data-font]').forEach((a) => {
+        a.classList.toggle('is-current', a.getAttribute('data-font') === slug);
+      });
+      if (!font) {
+        document.dispatchEvent(new CustomEvent('field:set', { detail: null }));
+        return;
+      }
+      const family = `'${font.family}'`;
+      part('label')!.textContent = font.label;
+      part('name')!.textContent = font.name;
+      part('name')!.style.fontFamily = family;
+      part('alphabet')!.style.fontFamily = family;
+      fitAlphabet();
+      document.fonts.load(`16px ${family}`).then(() => {
+        if (current === slug) fitAlphabet();
+      });
+      part('facts')!.replaceChildren(
+        ...font.rows.flatMap(([term, value]: [string, string]) => {
+          const dt = document.createElement('dt');
+          dt.textContent = term;
+          const dd = document.createElement('dd');
+          dd.textContent = value;
+          return [dt, dd];
+        })
+      );
+      document.dispatchEvent(
+        new CustomEvent('field:set', { detail: { text: font.name, family } })
+      );
+    };
+
+    // Make the longest line of the alphabet as wide as the panel.
+    const fitAlphabet = () => {
+      const alphabet = part('alphabet');
+      if (!alphabet || !alphabet.clientWidth) return;
+      alphabet.style.fontSize = '100px';
+      const widest = Math.max(
+        ...[...alphabet.children].map((line) => (line as HTMLElement).offsetWidth)
+      );
+      alphabet.style.fontSize = `${(100 * alphabet.clientWidth) / widest}px`;
+    };
+    window.addEventListener('resize', fitAlphabet);
+
+    list?.querySelectorAll<HTMLElement>('a[data-font]').forEach((a) => {
+      const slug = a.dataset.font!;
+      a.addEventListener('pointerenter', () => show(slug));
+      a.addEventListener('focus', () => show(slug));
+    });
+    list?.addEventListener('pointerleave', () => show(null));
+    list?.addEventListener('focusout', (event) => {
+      if (!list.contains(event.relatedTarget as Node | null)) show(null);
+    });
+  </script>
+</Layout>

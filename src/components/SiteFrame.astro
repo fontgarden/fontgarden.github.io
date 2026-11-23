@@ -1,15 +1,22 @@
 ---
 // The fixed gradient panel, the top fade and the fitted wordmark, shared
-// by every page.
+// by every page. The slots panel-top and panel-bottom put content in the
+// panel, and the characters then move in the area between the two.
+//
+// A page changes the characters with the event field:set on document.
+// The detail is { text, family }, or null for the default characters.
 ---
 
   <!-- Fixed gradient field panel, right side -->
   <div
     id="field-panel"
-    class="field-panel pointer-events-none fixed top-[var(--margin)] right-[var(--margin)] z-20 h-[calc(100dvh-2*var(--margin))] w-[var(--field)] overflow-hidden rounded-[14px] select-none"
+    class="field-panel pointer-events-none fixed top-[var(--margin)] right-[var(--margin)] z-20 h-[calc(100dvh-2*var(--margin))] w-[var(--field)] flex-col overflow-hidden rounded-[14px] select-none flex"
     aria-hidden="true"
   >
     <div class="field-grain absolute inset-0"></div>
+    <slot name="panel-top" />
+    <div id="field-stage" class="relative min-h-0 flex-1 overflow-hidden"></div>
+    <slot name="panel-bottom" />
   </div>
 
   <!-- Fade content out as it scrolls up behind the wordmark -->
@@ -58,7 +65,7 @@
 
     // DVD-screensaver bounce: each character of "Font.Garden" drifts
     // around the gradient panel and bounces off its edges.
-    const panel = document.getElementById('field-panel');
+    const panel = document.getElementById('field-stage');
     if (panel && !reduced.matches && panel.clientWidth > 120) {
       const spawn = (el) => {
         panel.appendChild(el);
@@ -72,17 +79,33 @@
           vy: Math.sin(angle) * speed,
         };
       };
-      const chars = 'FontGarden'.split('').map((ch) => {
-        const el = document.createElement('span');
-        el.className = 'dvd-char';
-        el.textContent = ch;
-        return spawn(el);
-      });
+      const DEFAULT_TEXT = 'FontGarden';
+      const letters = [];
       const rose = document.createElement('img');
       rose.src = '/graphics/rose-001.png';
       rose.alt = '';
       rose.className = 'dvd-img';
-      chars.push(spawn(rose));
+      const roseBody = spawn(rose);
+      let chars = [];
+      // Show the characters of a text in a font family. A character that
+      // is on the panel keeps its position and its velocity.
+      const setCharacters = (detail) => {
+        const text = [...(detail?.text ?? DEFAULT_TEXT).replace(/\s/g, '')];
+        while (letters.length > text.length) letters.pop().el.remove();
+        text.forEach((ch, i) => {
+          if (!letters[i]) {
+            const el = document.createElement('span');
+            el.className = 'dvd-char';
+            letters[i] = spawn(el);
+          }
+          letters[i].el.textContent = ch;
+          letters[i].el.style.fontFamily = detail?.family ?? '';
+        });
+        rose.style.display = detail ? 'none' : '';
+        chars = detail ? [...letters] : [...letters, roseBody];
+      };
+      setCharacters(null);
+      document.addEventListener('field:set', (event) => setCharacters(event.detail));
       let last = performance.now();
       const step = (now) => {
         const dt = Math.min((now - last) / 1000, 0.05);

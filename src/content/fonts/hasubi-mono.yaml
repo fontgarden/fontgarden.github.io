@@ -1,0 +1,10 @@
+number: 1
+name: Hasubi Mono
+classification: Monospace
+status: In development
+repository: https://github.com/eliheuer/hasubi-mono
+summary: >-
+  Hasubi Mono is a condensed monospace with horizontal contrast, for Arabic,
+  Hebrew and Latin text in terminals and text editors. The Arabic sets the
+  stroke contrast of the family. The variable font has a weight axis from
+  400 to 900.

@@ -1,0 +1,577 @@
+/* The font index (/fonts/) and the specimen page (/fonts/<slug>/).
+   Each specimen page has the same parts in the same sequence. */
+
+/* ---- Index ---- */
+
+.font-index-title {
+  font-size: var(--text-h1);
+  line-height: 1.25;
+}
+
+.font-index {
+  margin-top: calc(var(--margin) * 1.5);
+  border-top: 1px solid var(--color-ink);
+  font-size: var(--text-h1);
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-index li {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.font-index li > a,
+.font-index li.font-index-empty {
+  display: grid;
+  grid-template-columns: 3.2ch 1fr auto;
+  align-items: baseline;
+  gap: 0 0.5em;
+  padding: 0.18em 0.3em 0.22em;
+}
+
+.font-index-empty {
+  color: var(--color-muted);
+}
+
+.font-index-class {
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+
+.font-index li > a:hover,
+.font-index li > a:focus-visible,
+.font-index li > a.is-current {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  outline: none;
+}
+
+.font-index li > a:hover .font-index-class,
+.font-index li > a:focus-visible .font-index-class,
+.font-index li > a.is-current .font-index-class {
+  color: var(--color-paper);
+}
+
+@media (max-width: 899px) {
+  .font-index-class {
+    display: none;
+  }
+}
+
+/* The specimen in the gradient panel. */
+
+.panel-specimen {
+  position: relative;
+  padding: var(--margin);
+  color: var(--color-ink);
+  font-size: var(--text-small);
+  line-height: 1.3;
+}
+
+.panel-specimen[hidden] {
+  display: none;
+}
+
+.panel-specimen-top {
+  display: grid;
+  grid-template-columns: 3.2ch 1fr auto;
+  align-items: baseline;
+  gap: 0 0.5em;
+  font-size: var(--text-h1);
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.panel-specimen-index {
+  font-size: var(--text-small);
+}
+
+.panel-specimen-bottom {
+  border-top: 1px solid var(--color-ink);
+}
+
+.panel-alphabet {
+  font-size: calc(var(--text-small) * 1.9);
+  line-height: 1.15;
+  overflow: hidden;
+}
+
+.panel-alphabet span {
+  display: block;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.panel-facts {
+  display: grid;
+  grid-template-columns: 9em 1fr;
+  margin-top: var(--margin);
+  font-size: calc(var(--text-small) * 0.8);
+}
+
+.panel-facts dt,
+.panel-facts dd {
+  padding: 0.2em 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+/* ---- Specimen page ---- */
+
+.specimen {
+  --specimen-label: calc(var(--text-small) * 0.8);
+  padding: var(--margin);
+  font-size: var(--text-small);
+}
+
+.specimen a {
+  text-underline-offset: 0.2em;
+}
+
+.specimen a:hover {
+  text-decoration: underline;
+}
+
+.specimen-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--margin);
+  padding-bottom: var(--margin);
+  font-size: var(--text-h1);
+  line-height: 1;
+}
+
+.specimen-bar nav {
+  display: flex;
+  gap: 1.25em;
+  font-size: var(--text-small);
+}
+
+/* Hero: the name of the font, in the font, on the gradient panel. */
+
+.specimen-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: calc(100dvh - 2 * var(--margin) - var(--text-h1) - var(--margin));
+  padding: var(--margin);
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.specimen-hero .field-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.specimen-hero-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--margin);
+  align-items: baseline;
+}
+
+.specimen-name {
+  position: relative;
+  font-family: var(--specimen-family), sans-serif;
+  font-weight: 400;
+  font-size: 12vw;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  width: max-content;
+}
+
+/* Section links */
+
+.specimen-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2em 1.5em;
+  padding: var(--margin) 0;
+}
+
+.specimen-sections span,
+.specimen-head h2 span,
+.specimen-footer a span {
+  margin-right: 0.5em;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.specimen-section {
+  padding-bottom: calc(var(--margin) * 3);
+}
+
+.specimen-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--margin);
+  align-items: baseline;
+  padding: 0.4em 0 0.5em;
+  margin-bottom: var(--margin);
+  border-top: 1px solid var(--color-ink);
+}
+
+.specimen-head p {
+  color: var(--color-muted);
+}
+
+.specimen-overview {
+  border-top: 1px solid var(--color-ink);
+  padding-top: var(--margin);
+}
+
+.specimen-summary {
+  max-width: 34em;
+  margin-left: calc(50% + var(--margin) / 2);
+  font-size: var(--text-h1);
+  line-height: 1.3;
+}
+
+.style-label {
+  display: block;
+  font-size: var(--specimen-label);
+  line-height: 1.4;
+}
+
+.style-label small {
+  display: block;
+  font-size: inherit;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tester */
+
+.tester-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em calc(var(--margin) * 1.5);
+  align-items: center;
+  font-size: var(--specimen-label);
+}
+
+.tester-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+}
+
+.tester-controls output {
+  min-width: 4.5ch;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+.tester-controls input[type='range'] {
+  width: clamp(6rem, 12vw, 12rem);
+  height: 1.5em;
+  appearance: none;
+  background: transparent;
+}
+
+.tester-controls input[type='range']::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--color-ink);
+}
+
+.tester-controls input[type='range']::-moz-range-track {
+  height: 1px;
+  background: var(--color-ink);
+}
+
+.tester-controls input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 0.9em;
+  height: 0.9em;
+  margin-top: calc(-0.45em + 0.5px);
+  border-radius: 50%;
+  background: var(--color-ink);
+}
+
+.tester-controls input[type='range']::-moz-range-thumb {
+  width: 0.9em;
+  height: 0.9em;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-ink);
+}
+
+.tester-scripts {
+  display: flex;
+  margin-left: auto;
+  border: 1px solid var(--color-ink);
+}
+
+.tester-scripts button {
+  padding: 0.25em 0.8em;
+}
+
+.tester-scripts button + button {
+  border-left: 1px solid var(--color-ink);
+}
+
+.tester-scripts button[aria-pressed='true'],
+.tester-scripts button:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.tester-text {
+  margin-top: var(--margin);
+  min-height: 1.1em;
+  font-family: var(--specimen-family), sans-serif;
+  font-size: min(120px, 15vw);
+  line-height: 1.08;
+  overflow-wrap: break-word;
+  outline: none;
+}
+
+/* Styles and scripts: a label column and a sample column. */
+
+.style-list li,
+.script-row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 1fr) 7fr;
+  gap: var(--margin);
+  align-items: baseline;
+  padding: 0.35em 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.style-list li:first-child,
+.script-row:first-child {
+  padding-top: 0;
+}
+
+.style-sample {
+  font-family: var(--specimen-family), sans-serif;
+  font-size: clamp(1.6rem, 5.6vw, 7rem);
+  line-height: 1.12;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.script-row {
+  padding: var(--margin) 0;
+}
+
+.script-sample {
+  font-family: var(--specimen-family), sans-serif;
+  font-size: clamp(1.6rem, 3.6vw, 4rem);
+  line-height: 1.25;
+}
+
+.script-sample[dir='rtl'] {
+  line-height: 1.5;
+}
+
+/* Text sizes */
+
+.text-sizes {
+  display: grid;
+  grid-template-columns: 5fr 4fr 3fr;
+  gap: calc(var(--margin) * 1.5);
+}
+
+.text-sample {
+  margin-top: 0.75rem;
+  font-family: var(--specimen-family), sans-serif;
+  line-height: 1.35;
+}
+
+.text-sample p + p {
+  margin-top: 0.7em;
+}
+
+/* Characters */
+
+.characters {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: calc(var(--margin) * 1.5);
+  align-items: start;
+}
+
+.character-view {
+  position: sticky;
+  top: var(--margin);
+  border: 1px solid var(--color-ink);
+  font-size: var(--specimen-label);
+}
+
+.character-view-glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: min(46vh, 30vw);
+  font-family: var(--specimen-family), sans-serif;
+  font-size: min(30vh, 20vw);
+  line-height: 1;
+  overflow: hidden;
+}
+
+.character-view dl {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  border-top: 1px solid var(--color-ink);
+}
+
+.character-view dt,
+.character-view dd {
+  padding: 0.3em 0.6em;
+  min-height: 1.9em;
+}
+
+.character-view dt {
+  color: var(--color-muted);
+}
+
+.character-group + .character-group {
+  margin-top: calc(var(--margin) * 1.5);
+}
+
+.character-group h3 {
+  margin-bottom: 0.6em;
+  font-size: var(--specimen-label);
+}
+
+.character-group h3 small {
+  margin-left: 0.5em;
+  font-size: inherit;
+  color: var(--color-muted);
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.6em, 1fr));
+  border-top: 1px solid var(--color-rule);
+  border-left: 1px solid var(--color-rule);
+  font-family: var(--specimen-family), sans-serif;
+  font-size: calc(var(--text-small) * 1.15);
+}
+
+.character-grid button {
+  aspect-ratio: 1;
+  border-right: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  line-height: 1;
+  cursor: default;
+}
+
+.character-grid button:hover,
+.character-grid button:focus-visible,
+.character-grid button[aria-current] {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  outline: none;
+}
+
+/* Information */
+
+.information {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: calc(var(--margin) * 1.5);
+  align-items: start;
+}
+
+.information-facts {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) 3fr;
+}
+
+.information-facts dt,
+.information-facts dd {
+  padding: 0.35em 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.information-facts dt {
+  color: var(--color-muted);
+}
+
+.information-facts dd {
+  overflow-wrap: anywhere;
+}
+
+.information-facts a {
+  text-decoration: underline;
+}
+
+.download {
+  display: block;
+  padding: 0.7em 0.9em 0.8em;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: var(--text-h1);
+  line-height: 1.2;
+}
+
+.download small {
+  display: block;
+  margin-top: 0.6em;
+  font-size: var(--specimen-label);
+  line-height: 1.4;
+}
+
+.specimen a.download:hover {
+  background: #ff4e00;
+  text-decoration: none;
+}
+
+.specimen-footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--margin);
+  padding-top: 0.5em;
+  border-top: 1px solid var(--color-ink);
+}
+
+.specimen-footer > :last-child {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .specimen-hero {
+    min-height: 60dvh;
+  }
+
+  .specimen-hero-row,
+  .specimen-head,
+  .style-list li,
+  .script-row,
+  .text-sizes,
+  .characters,
+  .information {
+    grid-template-columns: 1fr;
+    gap: 0.4em;
+  }
+
+  .specimen-summary {
+    margin-left: 0;
+  }
+
+  .text-sizes,
+  .characters,
+  .information {
+    gap: var(--margin);
+  }
+
+  .character-view {
+    position: static;
+  }
+
+  .character-view-glyph {
+    height: 40vw;
+    font-size: 28vw;
+  }
+
+  .tester-scripts {
+    margin-left: 0;
+  }
+}

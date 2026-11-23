@@ -1,0 +1,13 @@
+---
+// The @font-face rules of the index fonts. A browser downloads a font
+// only when a page shows text in it.
+import { fontFaceCss, type IndexFont } from '../lib/fonts';
+
+export interface Props {
+  fonts: IndexFont[];
+}
+
+const css = Astro.props.fonts.map(fontFaceCss).join('\n');
+---
+
+<style is:inline set:html={css}></style>
