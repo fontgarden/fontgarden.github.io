@@ -4,12 +4,27 @@ import '../styles/global.css';
 export interface Props {
   title: string;
   description?: string;
+  // The picture of a link to the page, as a path from the site root.
+  image?: string;
+  // WOFF2 fonts that the first screen of the page shows, in addition to
+  // the font of the site text.
+  preloadFonts?: string[];
+  // A page that is not an address of the site, for example the 404 page.
+  noindex?: boolean;
 }
+
+const SITE_FONT = '/fonts/virtua-grotesk/virtua-grotesk.woff2';
 
 const {
   title,
   description = 'Font Garden is an AI lab for type. We make fonts that are neural networks, in the NeuralType (.ntf) format.',
+  image,
+  preloadFonts = [],
+  noindex = false,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fonts = [...new Set([SITE_FONT, ...preloadFonts])];
 ---
 
 <!doctype html>
@@ -19,11 +34,20 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="sitemap" href="/sitemap.xml" />
+    {fonts.map((href) => (
+      <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />
+    ))}
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body class="bg-paper text-ink">
     <slot />

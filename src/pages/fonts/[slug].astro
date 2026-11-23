@@ -65,8 +65,13 @@ const sections = [
 ];
 ---
 
-<Layout title={`${font.name} · Font.Garden`} description={font.summary}>
-  <FontFaces fonts={[font]} />
+<Layout
+  title={`${font.name} · Font.Garden`}
+  description={font.summary}
+  image={facts.files.preview}
+  preloadFonts={[facts.files.woff2]}
+>
+  <FontFaces fonts={[font]} slot="head" />
 
   <div class="specimen" style={`--specimen-family: '${font.cssFamily}'`}>
     <header class="specimen-bar">
@@ -115,7 +120,7 @@ const sections = [
           <label>
             <span>Size</span>
             <input type="range" min="12" max="320" step="1" value="120" data-tester-size />
-            <output>120 px</output>
+            <span data-output>120 px</span>
           </label>
           {facts.axes.map((axis) => (
             <label>
@@ -128,7 +133,7 @@ const sections = [
                 value={axis.default}
                 data-tester-axis={axis.tag}
               />
-              <output>{axis.default}</output>
+              <span data-output>{axis.default}</span>
             </label>
           ))}
           {scripts.length > 1 && (
@@ -150,7 +155,7 @@ const sections = [
         </div>
         <div
           class="tester-text"
-          contenteditable="plaintext-only"
+          contenteditable="true"
           spellcheck="false"
           lang={scripts[0]?.lang ?? 'en'}
           dir={scripts[0]?.dir ?? 'ltr'}
@@ -326,10 +331,16 @@ const sections = [
     const tester = document.querySelector<HTMLElement>('[data-tester]');
     const text = tester?.querySelector<HTMLElement>('[data-tester-text]');
     if (tester && text) {
+      // Plain text only, in the browsers that have this value.
+      try {
+        text.contentEditable = 'plaintext-only';
+      } catch {
+        text.contentEditable = 'true';
+      }
       const size = tester.querySelector<HTMLInputElement>('[data-tester-size]')!;
       const axes = tester.querySelectorAll<HTMLInputElement>('[data-tester-axis]');
       const output = (input: HTMLInputElement, value: string) => {
-        const el = input.parentElement?.querySelector('output');
+        const el = input.parentElement?.querySelector('[data-output]');
         if (el) el.textContent = value;
       };
       const update = () => {

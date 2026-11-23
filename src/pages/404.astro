@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteFrame from '../components/SiteFrame.astro';
+---
+
+<Layout title="Page not found · Font.Garden" description="This address has no page." noindex>
+  <SiteFrame />
+
+  <main
+    class="relative z-10 flex min-h-[100dvh] flex-col pl-[var(--margin)] pr-[calc(var(--field)+2*var(--margin))] pt-[calc(var(--margin)+var(--text-logo)*1.25)] pb-[var(--margin)]"
+  >
+    <section class="max-w-[72ch]">
+      <h1 class="text-h1">404</h1>
+      <p class="text-small text-ink">This address has no page.</p>
+    </section>
+
+    <footer class="mt-auto pt-6">
+      <nav class="flex items-center gap-5 text-small text-ink">
+        <a href="/" class="underline-offset-4 hover:underline">Home</a>
+        <a href="/fonts/" class="underline-offset-4 hover:underline">Fonts</a>
+        <a href="/docs/" class="underline-offset-4 hover:underline">Documentation</a>
+      </nav>
+    </footer>
+  </main>
+</Layout>

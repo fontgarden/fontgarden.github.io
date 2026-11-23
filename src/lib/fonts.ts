@@ -31,6 +31,7 @@ export interface FontFacts {
     woff2: string;
     woff2Bytes: number;
     download: string;
+    preview: string;
     downloadBytes: number;
     fontFile: string;
   };
@@ -70,8 +71,8 @@ export async function loadFonts(): Promise<IndexFont[]> {
       slug: entry.id,
       ...entry.data,
       label: numberLabel(entry.data.number),
-      // The family name in CSS. It is not the real name, because the
-      // site sets its own text in an older build of Virtua Grotesk.
+      // The family name in CSS. Each font of the index has its own, so
+      // that a specimen never falls back to the font of the site text.
       cssFamily: `FTGD ${numberLabel(entry.data.number)}`,
       facts: data,
     };

@@ -2,19 +2,27 @@
 """Import the variable font of a font project into the font index.
 
     python3 scripts/import_font.py --project DIR --slug NAME
+    python3 scripts/import_font.py --all --projects PARENT
+    python3 scripts/import_font.py --check --projects PARENT
 
 DIR is a checkout of a Font.Garden font project. The script reads the one
 variable font in DIR/fonts/variable and DIR/OFL.txt. It writes:
 
 - public/fonts/NAME/NAME.woff2   the font that the pages load
 - public/fonts/NAME/NAME.zip     the download: the TTF and OFL.txt
+- public/fonts/NAME/NAME.png     the picture of a link to the specimen page
 - src/data/fonts/NAME.json       the facts that the specimen page shows
 
-The script needs fontTools and brotli. The Python of a font project has
-both: DIR/.venv/bin/python.
+--all imports each font that has an entry in src/content/fonts. The project
+of a font is PARENT/NAME. --check writes nothing. It fails when the facts of
+a font name a revision that is not the current revision of its project.
+
+The script needs fontTools, brotli and Pillow. The Python of a font project
+has them: DIR/.venv/bin/python.
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 import unicodedata
@@ -23,8 +31,16 @@ from pathlib import Path
 
 from fontTools import unicodedata as ftunicodedata
 from fontTools.ttLib import TTFont
+from PIL import Image, ImageDraw, ImageFont
 
 SITE = Path(__file__).resolve().parent.parent
+ENTRIES = SITE / 'src/content/fonts'
+FACTS = SITE / 'src/data/fonts'
+# The picture of a link: the size of the Open Graph image, in the site colors.
+PREVIEW_SIZE = (1200, 630)
+PREVIEW_MARGIN = 64
+PREVIEW_PAPER = '#10120f'
+PREVIEW_INK = '#ececea'
 # A script is in the list of a font when the font has this many characters of it.
 MINIMUM_SCRIPT_CHARACTERS = 20
 AXIS_NAMES = {
@@ -97,17 +113,92 @@ def revision(project):
     return {'commit': parts[0], 'date': parts[1]} if len(parts) == 2 else None
 
 
+def entry_field(slug, field):
+    """Read one field of the entry of a font. The entry can be missing."""
+    entry = ENTRIES / f'{slug}.yaml'
+    if not entry.exists():
+        return None
+    match = re.search(rf'^{field}:\s*(.+)$', entry.read_text(), re.M)
+    return match.group(1).strip() if match else None
+
+
+def write_preview(source, target, slug, family, lines):
+    """Draw the picture of a link: the name of the font, in the font."""
+    width, height = PREVIEW_SIZE
+    measure = width - 2 * PREVIEW_MARGIN
+    image = Image.new('RGB', PREVIEW_SIZE, PREVIEW_PAPER)
+    draw = ImageDraw.Draw(image)
+    label = ImageFont.truetype(str(source), 32)
+    number = entry_field(slug, 'number')
+    top = f'FTGD-{int(number):02d}' if number is not None else 'FTGD-100'
+    draw.text((PREVIEW_MARGIN, PREVIEW_MARGIN), top, font=label, fill=PREVIEW_INK)
+    site = 'Font.Garden'
+    draw.text((width - PREVIEW_MARGIN - draw.textlength(site, font=label), PREVIEW_MARGIN),
+              site, font=label, fill=PREVIEW_INK)
+    # The name is as wide as the measure, and not taller than a third of the picture.
+    trial = ImageFont.truetype(str(source), 100)
+    size = min(100 * measure / draw.textlength(family, font=trial), height / 3)
+    draw.text((PREVIEW_MARGIN, height / 2), family, font=ImageFont.truetype(str(source), size),
+              fill=PREVIEW_INK, anchor='lm')
+    y = height - PREVIEW_MARGIN
+    for line in reversed(lines):
+        draw.text((PREVIEW_MARGIN, y), line, font=label, fill=PREVIEW_INK, anchor='ls')
+        y -= 44
+    image.save(target, optimize=True)
+
+
+def slugs():
+    return sorted(path.stem for path in ENTRIES.glob('*.yaml'))
+
+
+def check(projects):
+    """Compare the revision in the facts of each font with its project."""
+    faults = []
+    for slug in slugs():
+        facts = FACTS / f'{slug}.json'
+        if not facts.exists():
+            faults.append(f'{slug}: no facts file')
+            continue
+        recorded = json.loads(facts.read_text())['revision']
+        current = revision(projects / slug)
+        if current is None:
+            faults.append(f'{slug}: {projects / slug} is not a Git checkout')
+        elif recorded != current:
+            faults.append(f'{slug}: imported at {recorded and recorded["commit"]}, '
+                          f'the project is at {current["commit"]}')
+    if faults:
+        sys.exit('\n'.join(faults))
+    print(f'The facts of {len(slugs())} fonts name the current revision of their project.')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split('\n')[0])
-    parser.add_argument('--project', type=Path, required=True)
-    parser.add_argument('--slug', required=True)
+    parser.add_argument('--project', type=Path)
+    parser.add_argument('--slug')
+    parser.add_argument('--all', action='store_true')
+    parser.add_argument('--check', action='store_true')
+    parser.add_argument('--projects', type=Path)
     args = parser.parse_args()
+    if args.check or args.all:
+        if not args.projects:
+            parser.error('--all and --check need --projects')
+        if args.check:
+            check(args.projects)
+        else:
+            for slug in slugs():
+                import_font(args.projects / slug, slug)
+    elif args.project and args.slug:
+        import_font(args.project, args.slug)
+    else:
+        parser.error('give --project and --slug, or --all, or --check')
 
-    candidates = sorted((args.project / 'fonts/variable').glob('*.ttf'))
+
+def import_font(project, slug):
+    candidates = sorted((project / 'fonts/variable').glob('*.ttf'))
     if len(candidates) != 1:
-        sys.exit(f'{args.project}/fonts/variable must hold one TTF, found {len(candidates)}')
+        sys.exit(f'{project}/fonts/variable must hold one TTF, found {len(candidates)}')
     source = candidates[0]
-    license_file = args.project / 'OFL.txt'
+    license_file = project / 'OFL.txt'
     if not license_file.exists():
         sys.exit(f'{license_file} does not exist')
 
@@ -132,24 +223,30 @@ def main():
                 'coordinates': {tag: number(v) for tag, v in instance.coordinates.items()},
             })
 
-    public = SITE / 'public/fonts' / args.slug
+    public = SITE / 'public/fonts' / slug
     public.mkdir(parents=True, exist_ok=True)
-    woff2 = public / f'{args.slug}.woff2'
+    woff2 = public / f'{slug}.woff2'
     font.flavor = 'woff2'
     font.save(woff2)
 
-    archive = public / f'{args.slug}.zip'
+    archive = public / f'{slug}.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as bundle:
         bundle.write(source, source.name)
         bundle.write(license_file, 'OFL.txt')
 
+    family = names.getDebugName(16) or names.getDebugName(1)
+    write_preview(source, public / f'{slug}.png', slug, family, [
+        ', '.join(script['name'] for script in supported),
+        ', '.join(f"{axis['name']} {axis['min']} to {axis['max']}" for axis in axes),
+    ])
+
     data = {
-        'family': names.getDebugName(16) or names.getDebugName(1),
+        'family': family,
         'version': names.getDebugName(5).split(';')[0].replace('Version ', ''),
         'copyright': license_file.read_text().splitlines()[0].strip(),
         'license': 'SIL Open Font License 1.1',
         'licenseUrl': 'https://openfontlicense.org',
-        'revision': revision(args.project),
+        'revision': revision(project),
         'unitsPerEm': font['head'].unitsPerEm,
         'metrics': {
             'ascender': font['hhea'].ascent,
@@ -164,15 +261,16 @@ def main():
         'scripts': supported,
         'features': {'GSUB': features(font, 'GSUB'), 'GPOS': features(font, 'GPOS')},
         'files': {
-            'woff2': f'/fonts/{args.slug}/{woff2.name}',
+            'woff2': f'/fonts/{slug}/{woff2.name}',
             'woff2Bytes': woff2.stat().st_size,
-            'download': f'/fonts/{args.slug}/{archive.name}',
+            'download': f'/fonts/{slug}/{archive.name}',
+            'preview': f'/fonts/{slug}/{slug}.png',
             'downloadBytes': archive.stat().st_size,
             'fontFile': source.name,
         },
         'groups': groups,
     }
-    target = SITE / 'src/data/fonts' / f'{args.slug}.json'
+    target = FACTS / f'{slug}.json'
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')) + '\n')
     print(f'{data["family"]} {data["version"]}: {data["characterCount"]} characters, '

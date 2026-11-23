@@ -164,5 +164,14 @@
         requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
+    } else if (panel) {
+      // Reduced motion: show the text of a page without movement.
+      const still = document.createElement('div');
+      still.className = 'field-static';
+      panel.appendChild(still);
+      document.addEventListener('field:set', (event) => {
+        still.textContent = event.detail?.text ?? '';
+        still.style.fontFamily = event.detail?.family ?? '';
+      });
     }
   </script>

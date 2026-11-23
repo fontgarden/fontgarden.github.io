@@ -31,7 +31,7 @@ An accented letter is a composite of a base letter and a mark. `fgtools check-ac
 `fgtools evaluate-accent-placement` measures the method on compiled fonts, where the positions of the designer are known. On the 9 families of the reference fonts, 2162 marks, on 2026-11-14:
 
 | method | top marks within 0.8% of the em |
-| --- | ---: |
+| --- | --- |
 | from the outlines only | 33% |
 | outlines, with the constant of each mark from the other letters | 67% |
 | from the anchors that the other accented letters imply | 99% |

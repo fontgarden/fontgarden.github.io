@@ -1,0 +1,27 @@
+name: Check the site
+
+# Builds the site, then checks the links, the sitemap, the files of each
+# font of the index and the HTML of each page.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: python3 scripts/check_site.py
+      - run: pnpm check:html

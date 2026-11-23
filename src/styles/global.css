@@ -4,8 +4,9 @@
 
 @font-face {
   font-family: 'Virtua Grotesk';
-  src: url('fonts/VirtuaGroteskVF.woff2') format('woff2-variations');
-  font-weight: 400 700;
+  /* The build of the font index. scripts/import_font.py writes it. */
+  src: url('/fonts/virtua-grotesk/virtua-grotesk.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -15,7 +16,7 @@
     color-scheme: dark;
     --color-ink: #ececea;
     --color-paper: #10120f;
-    --color-muted: #737b6f;
+    --color-muted: #7d8579;
     --color-rule: #ececea24;
     /* One fluid text size for the whole page; h1 is 1.6x this. */
     --text-small: min(calc(0.3 * 1.2vw + 1rem), 1.54rem);
@@ -57,6 +58,11 @@
   code {
     font-family: inherit;
     font-weight: 400;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
   }
 
   ::selection {
@@ -128,6 +134,18 @@
   will-change: transform;
   user-select: none;
   pointer-events: none;
+}
+
+/* The text of the panel when the characters do not move. */
+.field-static {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: var(--margin);
+  font-size: calc(var(--text-small) * 4);
+  line-height: 1;
+  color: var(--color-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {

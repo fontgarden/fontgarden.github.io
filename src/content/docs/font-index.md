@@ -62,17 +62,22 @@ The facts file is `src/data/fonts/<slug>.json`. The importer writes it. It has t
 
 1. Build the font in its project with `make build`. See [Build the fonts](/docs/build/).
 2. Make sure that `fonts/variable/` has one TTF and that `OFL.txt` is at the root of the project.
-3. In the website repository, run `scripts/import_font.py --project <project> --slug <slug>`. Use a Python that has fontTools and brotli, for example the Python of the font project.
-4. For a new font, write the entry with the next free number.
+3. For a new font, write the entry with the next free number.
+4. In the website repository, run `scripts/import_font.py --project <project> --slug <slug>`. Use a Python that has fontTools, brotli and Pillow, for example the Python of the font project.
 5. Run `pnpm build` and read the specimen page.
 
-The importer writes three files:
+The importer writes four files:
 
 - `public/fonts/<slug>/<slug>.woff2`, the font that the pages load
 - `public/fonts/<slug>/<slug>.zip`, the download, with the TTF and `OFL.txt`
+- `public/fonts/<slug>/<slug>.png`, the picture that a link to the specimen page shows, with the name in the font
 - `src/data/fonts/<slug>.json`, the facts file
 
-The website does not build fonts. After each change to a font, run the importer again. The Information part of the specimen page shows the revision of the sources that the importer read.
+The website does not build fonts. After each change to a font, run the importer again. With `--all --projects <folder>`, the importer reads each font of the index from `<folder>/<slug>`. With `--check --projects <folder>`, it writes nothing, and it fails when the facts of a font name a revision that is not the current revision of its project. The Information part of the specimen page shows the revision of the sources that the importer read.
+
+## The font of the site text
+
+The text of the website is in Virtua Grotesk. The pages load the same WOFF2 that the importer writes for the index, so an import of Virtua Grotesk also changes the site text.
 
 ## The download
 
