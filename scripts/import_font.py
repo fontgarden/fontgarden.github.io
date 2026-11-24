@@ -9,6 +9,7 @@ DIR is a checkout of a Font.Garden font project. The script reads the one
 variable font in DIR/fonts/variable and DIR/OFL.txt. It writes:
 
 - public/fonts/NAME/NAME.woff2   the font that the pages load
+- public/fonts/NAME/NAME-index.woff2   the small font of the index list
 - public/fonts/NAME/NAME.zip     the download: the TTF, the WOFF2 and OFL.txt
 - public/fonts/NAME/NAME.png     the picture of a link to the specimen page
 - src/data/fonts/NAME.json       the facts that the specimen page shows
@@ -29,6 +30,7 @@ import unicodedata
 import zipfile
 from pathlib import Path
 
+from fontTools import subset
 from fontTools import unicodedata as ftunicodedata
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
@@ -77,6 +79,11 @@ FIXED_FEATURE_SAMPLES = {
     'kern': 'AVATAR Type Wave',
     'frac': '1/2 3/4 5/8',
 }
+# The characters of the small font that the index list loads: the alphabet
+# of the panel. The importer adds the characters of the name of the font.
+INDEX_CHARACTERS = (
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 '
+)
 # The largest number of characters or ligatures in a sample.
 FEATURE_SAMPLE_ITEMS = 16
 
@@ -177,6 +184,25 @@ def feature_samples(font):
         if text:
             samples.append({'tag': tag, 'name': name, 'sample': text})
     return samples
+
+
+def write_index_font(source, target, family):
+    """Write the small font of the index list: the alphabet and the name.
+
+    The index list shows each font at its default style, with kerning.
+    """
+    options = subset.Options()
+    options.flavor = 'woff2'
+    options.layout_features = ['kern', 'mark', 'mkmk', 'ccmp']
+    options.name_IDs = [1, 2, 16, 17]
+    options.notdef_outline = True
+    options.drop_tables += ['meta']
+    font = TTFont(source)
+    subsetter = subset.Subsetter(options)
+    subsetter.populate(text=INDEX_CHARACTERS + family)
+    subsetter.subset(font)
+    font.flavor = 'woff2'
+    font.save(target)
 
 
 def revision(project):
@@ -311,6 +337,8 @@ def import_font(project, slug):
         bundle.write(license_file, 'OFL.txt')
 
     family = names.getDebugName(16) or names.getDebugName(1)
+    index_woff2 = public / f'{slug}-index.woff2'
+    write_index_font(source, index_woff2, family)
     write_preview(source, public / f'{slug}.png', slug, family, [
         ', '.join(script['name'] for script in supported),
         ', '.join(f"{axis['name']} {axis['min']} to {axis['max']}" for axis in axes),
@@ -340,6 +368,8 @@ def import_font(project, slug):
         'files': {
             'woff2': f'/fonts/{slug}/{woff2.name}',
             'woff2Bytes': woff2.stat().st_size,
+            'indexWoff2': f'/fonts/{slug}/{index_woff2.name}',
+            'indexWoff2Bytes': index_woff2.stat().st_size,
             'download': f'/fonts/{slug}/{archive.name}',
             'preview': f'/fonts/{slug}/{slug}.png',
             'downloadBytes': archive.stat().st_size,

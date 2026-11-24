@@ -1,7 +1,7 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { LABELS, inGuideSequence } from '../../lib/docs';
+import { LABELS, REPOSITORY, inGuideSequence, lastChanged } from '../../lib/docs';
 
 export async function getStaticPaths() {
   const docs = inGuideSequence(await getCollection('docs'));
@@ -15,6 +15,8 @@ const { doc, previousChapter, nextChapter } = Astro.props;
 const { Content, headings } = await render(doc);
 const toc = headings.filter((h) => h.depth === 2);
 const label = LABELS[doc.data.label];
+const file = `src/content/docs/${doc.id}.md`;
+const changed = lastChanged(file);
 
 const resolve = async (ids: string[]) =>
   (await Promise.all(ids.map((id) => getEntry('docs', id)))).filter(Boolean);
@@ -77,6 +79,11 @@ const next = await resolve(doc.data.next);
         })}
       </div>
     )}
+
+    <p class="chapter-source">
+      {changed && <span>Last change: <time datetime={changed}>{changed}</time>.</span>}
+      <a href={`${REPOSITORY}/edit/main/${file}`}>Edit this chapter on GitHub</a>
+    </p>
 
     <nav class="chapter-links" aria-label="Chapters">
       {previousChapter ? (

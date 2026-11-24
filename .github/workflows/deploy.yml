@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+        with:
+          # The guide shows the date of the last change to each chapter.
+          fetch-depth: 0
 
       - name: Install, build, and upload your site
         uses: withastro/action@v2

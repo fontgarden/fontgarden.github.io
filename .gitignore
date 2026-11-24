@@ -4,3 +4,7 @@ archive
 dist
 .astro
 astro-temp
+test-results
+playwright-report
+tests/visual/snapshots
+__pycache__

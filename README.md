@@ -66,7 +66,7 @@ compiled variable font.
    before the import. The link picture shows the number.
 4. Run `pnpm check`.
 
-The importer writes the WOFF2 that the pages load, the download archive (the
+The importer writes the WOFF2 that the pages load, the small WOFF2 of the index list, the download archive (the
 TTF, the WOFF2 and `OFL.txt`), the link picture and `src/data/fonts/<slug>.json`. Do not edit these files.
 After each change to a font, run the importer again.
 
@@ -125,5 +125,29 @@ does not exist, when the sitemap names a page that does not exist, when a font
 of the index lacks a file, and when a page has no title, description or
 canonical link. CI runs the same checks on each push.
 
-Run the guide check and `pnpm check` before a commit. A push to `main`
-publishes the site.
+## Test the importer
+
+```sh
+python3 -m unittest scripts/test_import_font.py
+```
+
+The tests build a small font in a temporary folder. They need fontTools,
+brotli and Pillow, as the importer does. CI runs them on each push.
+
+## Compare the pages with pictures
+
+The screenshot tests open each kind of page at a desktop and a phone width
+and compare the complete page with a stored picture. They use the installed
+Chrome.
+
+1. Before a change, run `pnpm test:visual:update`. It stores the pictures in
+   `tests/visual/snapshots/`.
+2. Make the change.
+3. Run `pnpm test:visual`. A test fails for each page that differs, and
+   `test-results/` has the two pictures and their difference.
+
+Git ignores the pictures, and CI does not run these tests. The pages are in
+`tests/visual/pages.spec.ts`.
+
+Run the guide check, `pnpm check` and the importer tests before a commit. A
+push to `main` publishes the site.

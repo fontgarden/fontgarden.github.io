@@ -1,7 +1,8 @@
 name: Check the site
 
 # Builds the site, then checks the links, the sitemap, the files of each
-# font of the index and the HTML of each page.
+# font of the index and the HTML of each page. Also runs the tests of the
+# importer.
 on:
   push:
     branches: [main]
@@ -25,3 +26,5 @@ jobs:
       - run: pnpm build
       - run: python3 scripts/check_site.py
       - run: pnpm check:html
+      - run: pip install fonttools brotli pillow
+      - run: python3 -m unittest scripts/test_import_font.py

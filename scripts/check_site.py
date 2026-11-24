@@ -84,7 +84,7 @@ def main():
             faults.append(f'{slug}: no facts file. Run scripts/import_font.py.')
             continue
         files = json.loads(facts.read_text())['files']
-        for key in ('woff2', 'download', 'preview'):
+        for key in ('woff2', 'indexWoff2', 'download', 'preview'):
             if key not in files or resolve(files[key]) is None:
                 faults.append(f'{slug}: the {key} file does not exist')
         if resolve(f'/fonts/{slug}/') is None:

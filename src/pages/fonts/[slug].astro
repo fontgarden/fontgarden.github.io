@@ -7,6 +7,7 @@ import {
   TEXT_SAMPLE,
   axisRange,
   fileSize,
+  firstSentence,
   loadFonts,
   numberLabel,
   usageCss,
@@ -150,7 +151,7 @@ const sectionNumber = (id: string) =>
                   data-tester-script
                   data-lang={script.lang}
                   data-dir={script.dir}
-                  data-text={script.text.split('. ')[0] + '.'}
+                  data-text={firstSentence(script.text)}
                   aria-pressed={i === 0 ? 'true' : 'false'}
                 >
                   {script.name}
@@ -167,7 +168,7 @@ const sectionNumber = (id: string) =>
           dir={scripts[0]?.dir ?? 'ltr'}
           style={`font-variation-settings: ${variationSettings(defaults)}`}
           data-tester-text
-          set:text={(scripts[0]?.text ?? SCRIPT_SAMPLES.Latn.text).split('. ')[0] + '.'}
+          set:text={firstSentence(scripts[0]?.text ?? SCRIPT_SAMPLES.Latn.text)}
         />
       </div>
     </section>

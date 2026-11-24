@@ -146,6 +146,17 @@
   text-underline-offset: 4px;
 }
 
+/* The date of the last change and the link to the source of a chapter. */
+
+.chapter-source {
+  margin: 3rem 0 0;
+  color: var(--color-muted);
+}
+
+.chapter-source + .chapter-links {
+  margin-top: 1rem;
+}
+
 /* The previous and the next chapter, in the sequence of the guide index. */
 
 .chapter-links {

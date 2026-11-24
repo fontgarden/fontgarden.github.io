@@ -1,13 +1,18 @@
 ---
 // The @font-face rules of the index fonts. A browser downloads a font
 // only when a page shows text in it. Use it with slot="head" in a Layout.
+// With the index property, the rules name the small fonts of the index list.
 import { fontFaceCss, type IndexFont } from '../lib/fonts';
 
 export interface Props {
   fonts: IndexFont[];
+  index?: boolean;
 }
 
-const css = Astro.props.fonts.map(fontFaceCss).join('\n');
+const { fonts, index = false } = Astro.props;
+const css = fonts
+  .map((font) => fontFaceCss(font, index ? font.facts.files.indexWoff2 : font.facts.files.woff2))
+  .join('\n');
 ---
 
 <style is:inline set:html={css}></style>

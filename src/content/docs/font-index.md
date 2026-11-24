@@ -38,7 +38,7 @@ The address of a specimen page is `/fonts/<slug>/`. The page has no layout of it
 | Characters | Each character of the font, in groups: the scripts, then figures, punctuation and symbols, and marks. |
 | Information | The version, the axes, the metrics, the OpenType features, the license, the copyright line, the source revision, the download and the CSS that uses the font. |
 
-The standard samples are for Latin, Arabic and Hebrew. They are in `src/lib/fonts.ts` of the website repository. A script without a standard sample is in the list of scripts and in the characters, but not in the Scripts part.
+The standard samples are for Latin, Arabic, Hebrew, Cyrillic, Greek, Armenian, Georgian, Devanagari, Bengali, Tamil and Hangul. Each sample is the text of the [UDHR in Unicode](https://github.com/eric-muller/udhr) project, without change. They are in `src/lib/fonts.ts` of the website repository. A script without a standard sample is in the list of scripts and in the characters, but not in the Scripts part.
 
 A font has the Scripts part only when it has a standard sample, and the Features part only when it has a feature sample. The numbers of the parts have no gaps.
 
@@ -78,6 +78,7 @@ The facts file is `src/data/fonts/<slug>.json`. The importer writes it. It has t
 The importer writes four files:
 
 - `public/fonts/<slug>/<slug>.woff2`, the font that the pages load
+- `public/fonts/<slug>/<slug>-index.woff2`, the small font of the index list, with only the alphabet, the figures and the letters of the name
 - `public/fonts/<slug>/<slug>.zip`, the download, with the TTF, the WOFF2 and `OFL.txt`
 - `public/fonts/<slug>/<slug>.png`, the picture that a link to the specimen page shows, with the name in the font
 - `src/data/fonts/<slug>.json`, the facts file
