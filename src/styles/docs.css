@@ -1,7 +1,5 @@
-/* Documentation styles. The chapter structure is adapted from the Google
-   Fonts Guide (googlefonts.github.io/gf-guide, Apache-2.0). The visual
-   treatment follows the landing page: one text size, hairline rules,
-   no filled surfaces, everything in Virtua Grotesk. */
+/* The styles of the guide. They follow the landing page: one text size,
+   thin rules, no filled surfaces, and Virtua Grotesk for all text. */
 
 /* Prose */
 
@@ -102,31 +100,34 @@
   color: var(--color-muted);
 }
 
-/* Chapter blocks carried over from the Google Fonts Guide */
+/* The parts of a chapter around its text */
 
-.callout {
+.chapter-introduction {
   margin: 0 0 2rem;
 }
 
-.callout > :last-child {
+.chapter-introduction > :last-child {
   margin-bottom: 0;
 }
 
-.context-reading,
-.next-reading {
+.chapter-list {
   color: var(--color-muted);
-  line-height: 1.8;
   margin: 2rem 0;
   padding-top: 0.75rem;
   border-top: 1px solid var(--color-rule);
 }
 
-.next-reading {
+.chapter-list-related {
   margin: 3rem 0 0;
 }
 
-.context-reading a,
-.next-reading a {
+.doc .chapter-list ul {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+}
+
+.chapter-list a {
   color: var(--color-ink);
 }
 
@@ -195,20 +196,6 @@
   color: var(--color-ink);
 }
 
-mark {
-  display: inline-block;
-  padding: 0 0.5em;
-  border: 1px solid var(--color-rule);
-  border-radius: 2em;
-  background: none;
-  color: var(--color-muted);
-  font-size: 0.75em;
-  line-height: 1.7;
-  vertical-align: 0.15em;
-  margin-right: 0.6em;
-  white-space: nowrap;
-}
-
 /* Index page */
 
 .docs-index h2 {
@@ -227,7 +214,7 @@ mark {
 }
 
 .docs-index li {
-  margin: 0.4rem 0;
+  margin: 0.7rem 0;
 }
 
 .docs-index li a:hover {
@@ -235,11 +222,7 @@ mark {
   text-underline-offset: 4px;
 }
 
-.docs-index .legend {
-  margin: 1rem 0;
-}
-
-.doc h1 mark {
-  font-size: calc(var(--text-small) * 0.75);
-  vertical-align: 0.35em;
+.docs-index li span {
+  display: block;
+  color: var(--color-muted);
 }

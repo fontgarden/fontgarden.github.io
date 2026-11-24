@@ -1,10 +1,9 @@
 ---
 title: Quality assurance
 section: production
-label: learn
 order: 320
-summary: The checks and proofs that run on the sources and on every build.
-callout: Four kinds of review run on every style. Checks of the sources, checks of the compiled fonts with Fontspector, a comparison of builds with diffenator3, and proofs that a person reads. Automated checks do not see a wrong shape, so a person looks at every proof.
+summary: The checks and the proofs of the sources and of each build.
+introduction: "Each style has four types of review: checks of the sources, checks of the compiled fonts with Fontspector, a comparison of builds with diffenator3, and proofs that a person reads. An automatic check does not find an incorrect shape, so a person examines each proof."
 background: [build, grades]
 next: [learning, dataset]
 ---
@@ -26,7 +25,7 @@ The design checks are a filter. They do not measure quality. On 2026-11-10 they 
 
 ## Accented letters
 
-An accented letter is a composite of a base letter and a mark. `fgtools check-accents` fits one anchor for each base and one for each mark to all accented letters of a master, with medians. It lists each letter whose mark is not at the fitted position, and each letter whose mark is not where the `top` or `bottom` anchors of its parts are.
+An accented letter is a composite of a base letter and a mark. `fgtools check-accents` fits one anchor for each base and one for each mark to all accented letters of a master, with medians. It lists each letter whose mark is not at the fitted position. It also lists each letter whose mark is not at the `top` or `bottom` anchors of its parts.
 
 `fgtools evaluate-accent-placement` measures the method on compiled fonts, where the positions of the designer are known. On the 9 families of the reference fonts, 2162 marks, on 2026-11-14:
 
@@ -45,15 +44,15 @@ A listed letter is a reason to look. A mark on the stem of L is correct, and is 
 Two commands write the accented letters, and both change nothing without `--write`:
 
 1. `fgtools place-anchors` adds the `top`, `bottom`, `_top` and `_bottom` anchors that are missing. An anchor that is in the sources does not change. Green glyphs are left out without `--include-green`.
-2. `fgtools build-accented-letters` adds each accented letter of a set that is not in the sources, as a purple composite at the offset that the anchors give, in every master. The default set is the 145 accented letters of the Google Fonts Latin Core glyph set. The command lists the letters that it does not build: a letter with two marks, the caron of d, t, l and L, and the comma accent of g.
+2. `fgtools build-accented-letters` adds each accented letter of a set that is not in the sources. Each new letter is a purple composite at the offset that the anchors give, in each master. The default set is the 145 accented letters of the Google Fonts Latin Core glyph set. The command lists the letters that it does not build: a letter with two marks, the caron of d, t, l and L, and the comma accent of g.
 
 A trial on Virtua Grotesk on 2026-11-15 removed all 145 accented letters from a copy of both masters and built them again. With the anchors of the designer in place, 96% of the composites were within 8 units of the position of the designer. With the anchors also removed, 60% were within 8 units and 80% within 20 units.
 
 ### Review the accented letters
 
-`fgtools render-accent-proofs` draws one row for each accented letter: the project in the first column, then the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `output/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
+`fgtools render-accent-proofs` draws one row for each accented letter. The first column is the project. The other columns are the same character in each family of the reference fonts, at the weight of the master and at one x-height or cap height. It writes the sheets and `review.json` to `output/accent-proofs/`. Two numbers describe a mark: its `position` (the center of the mark as a share of the width of the base letter) and its `gap` (the distance from the base letter as a share of the x-height). A letter gets a finding when a number is outside the range of the reference fonts by more than 0.04, or when `check-accents` lists it. The letters with findings are on the first sheets.
 
-An agent that can read images then reviews every letter against the accent rules of `CONTEXT.md`, as the task contract `accented-letters` describes, and gives each one a verdict: `correct`, `fault` or `designer`. The agent corrects a purple letter with a fault and reports the others. The task contract is `.agents/tasks/accented-letters.md` of the project. A verdict is not approval: the designer grades the letters.
+Then an agent that can read images compares each letter with the accent rules of `CONTEXT.md`, as the task contract `accented-letters` describes. It gives each letter a verdict: `correct`, `fault` or `designer`. The agent corrects a purple letter with a fault and reports the others. The task contract is `.agents/tasks/accented-letters.md` of the project. A verdict is not approval: the designer grades the letters.
 
 ## Fontspector
 
@@ -94,17 +93,30 @@ Four of the checks are also in a Rust plugin for Fontspector, [fontspector-fontg
 
 ## Comparison of builds
 
-`make diff` compares the build of the working tree with the build of `main`. See [Build the fonts](/docs/build/). An agent runs it after each source edit and reports each change that the edit does not explain.
+`make diff` compares the build of the working tree with the build of `main`. See [Font build](/docs/build/). An agent runs it after each source edit and reports each change that the edit does not explain.
 
 ## Proofs
 
-`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: the facts of the font, the character set, the scale of sizes, text at 8 and 16 points, spacing strings, kerning pairs and figures, diacritics, the weight axis, the short lines of `sources/proof-samples.toml`, and the joining forms and the marks of the Arabic script. Each script and each master has its pages, and a font shows only the pages that it has the glyphs for. The command is `fgtools media --proof`. It uses the layout system of [Proofs and media](/docs/media/). Print the proof to judge the color of the text.
+`make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`. The proof has these pages:
+
+- the facts of the font
+- the character set
+- the scale of sizes
+- text at 8 and 16 points
+- spacing strings
+- kerning pairs and figures
+- diacritics
+- the weight axis
+- the short lines of `sources/proof-samples.toml`
+- the joining forms and the marks of the Arabic script
+
+Each script and each master has its pages, and a font shows only the pages that it has the glyphs for. The command is `fgtools media --proof`. It uses the layout system of [Proofs and media](/docs/media/). Print the proof to judge the color of the text.
 
 fgtools and the project template are behind Virtua Grotesk for this command. Virtua Grotesk has `make proofs`, from its own `sources/proof_review.py`. That command writes a Print Proof and a Full Proof to `output/proof/`, each also with the red grid. The command is not in fgtools at this time.
 
 `make proof-web` builds the fonts and serves them beside the fonts in `reference-fonts/`, in a browser, at one em size and weight. It has four modes: Compare, Toggle between two builds, Waterfall, and Text. If a reference font does not have a glyph, the proof shows the missing code points. It does not use a fallback font.
 
-The samples are live browser text for Latin, Hebrew and Arabic. `sources/proof-samples.toml` adds samples for a project. Runebender reads the same file: its proof view and the Proof section of the right panel offer the samples of the script of the current glyph, drawn from the live outline while you edit. In Runebender, a sample text can contain `{glyph}`, the current glyph; the web proof shows it as written. Browser rendering is not release QA.
+The samples are live browser text for Latin, Hebrew and Arabic. `sources/proof-samples.toml` adds samples for a project. Runebender reads the same file. Its proof view and the Proof section of its right panel show the samples for the script of the current glyph. Runebender draws them from the current outline during an edit. In Runebender, a sample text can contain `{glyph}`, which is the current glyph. The web proof shows `{glyph}` as text. Browser rendering is not release QA.
 
 ## Connected scripts
 

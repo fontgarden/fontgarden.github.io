@@ -1,7 +1,7 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { LABELS, REPOSITORY, inGuideSequence, lastChanged } from '../../lib/docs';
+import { REPOSITORY, inGuideSequence, lastChanged } from '../../lib/docs';
 
 export async function getStaticPaths() {
   const docs = inGuideSequence(await getCollection('docs'));
@@ -14,7 +14,6 @@ export async function getStaticPaths() {
 const { doc, previousChapter, nextChapter } = Astro.props;
 const { Content, headings } = await render(doc);
 const toc = headings.filter((h) => h.depth === 2);
-const label = LABELS[doc.data.label];
 const file = `src/content/docs/${doc.id}.md`;
 const changed = lastChanged(file);
 
@@ -26,34 +25,29 @@ const next = await resolve(doc.data.next);
 
 <DocsLayout title={doc.data.title} description={doc.data.summary}>
   <article class="doc">
-    <a href="/docs/" class="index-link">&larr; Guide index</a>
+    <a href="/docs/" class="index-link">&larr; Guide</a>
 
-    <h1><mark class={label.color}>{label.text}</mark>{doc.data.title}</h1>
+    <h1>{doc.data.title}</h1>
 
-    {doc.data.callout && (
-      <div class="callout">
-        <p set:html={doc.data.callout} />
+    {doc.data.introduction && (
+      <div class="chapter-introduction">
+        <p set:html={doc.data.introduction} />
       </div>
     )}
 
     {background.length > 0 && (
-      <div class="context-reading">
-        Background reading:<br />
-        {background.map((b) => {
-          const l = LABELS[b.data.label];
-          return (
-            <>
-              <mark class={l.color}>{l.text}</mark>
-              <a href={`/docs/${b.id}/`}>{b.data.title}</a>
-              <br />
-            </>
-          );
-        })}
+      <div class="chapter-list">
+        Read first:
+        <ul>
+          {background.map((chapter) => (
+            <li><a href={`/docs/${chapter.id}/`}>{chapter.data.title}</a></li>
+          ))}
+        </ul>
       </div>
     )}
 
     {toc.length > 1 && (
-      <nav aria-label="Table of contents">
+      <nav aria-label="Contents">
         <ol class="toc">
           {toc.map((h) => (
             <li><a href={`#${h.slug}`}>{h.text}</a></li>
@@ -65,18 +59,13 @@ const next = await resolve(doc.data.next);
     <Content />
 
     {next.length > 0 && (
-      <div class="next-reading">
-        Next reading:<br />
-        {next.map((n) => {
-          const l = LABELS[n.data.label];
-          return (
-            <>
-              <mark class={l.color}>{l.text}</mark>
-              <a href={`/docs/${n.id}/`}>{n.data.title}</a>
-              <br />
-            </>
-          );
-        })}
+      <div class="chapter-list chapter-list-related">
+        Related chapters:
+        <ul>
+          {next.map((chapter) => (
+            <li><a href={`/docs/${chapter.id}/`}>{chapter.data.title}</a></li>
+          ))}
+        </ul>
       </div>
     )}
 

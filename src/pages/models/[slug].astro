@@ -1,0 +1,84 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import { loadModels, type Model } from '../../lib/models';
+import '../../styles/fonts.css';
+
+export async function getStaticPaths() {
+  const models = await loadModels();
+  return models.map((model, i) => ({
+    params: { slug: model.id },
+    props: { model, previous: models[i - 1] ?? null, next: models[i + 1] ?? null },
+  }));
+}
+
+interface Props {
+  model: Model;
+  previous: Model | null;
+  next: Model | null;
+}
+
+const { model, previous, next } = Astro.props;
+const { data } = model;
+// Each model page has these parts, in this sequence.
+const facts: [string, string | undefined][] = [
+  ['Type', data.type],
+  ['Status', data.status],
+  ['Tasks', data.tasks],
+  ['Architecture', data.architecture],
+  ['Parameters', data.parameters],
+  ['Training data', data.trainingData],
+  ['Training', data.training],
+  ['Evaluation', data.evaluation],
+  ['File', data.file],
+  ['License', data.license],
+];
+---
+
+<DocsLayout title={data.name} description={data.summary}>
+  <article class="doc">
+    <a href="/models/" class="index-link">&larr; Models</a>
+
+    <h1>{data.name}</h1>
+
+    <div class="chapter-introduction">
+      <p>{data.summary}</p>
+    </div>
+
+    <dl class="information-facts model-facts">
+      {facts.map(([term, value]) => value && (
+        <>
+          <dt>{term}</dt>
+          <dd>{value}</dd>
+        </>
+      ))}
+      <dt>Location</dt>
+      <dd>
+        {data.locationUrl ? <a href={data.locationUrl}>{data.location}</a> : data.location}
+      </dd>
+    </dl>
+
+    <p class="chapter-source">
+      The guide chapter <a href="/docs/models/">Models</a> describes the
+      models, the way to run them and the safety checks for a model file.
+    </p>
+
+    <nav class="chapter-links" aria-label="Models">
+      {previous ? (
+        <a href={`/models/${previous.id}/`}>
+          <span>Previous model</span>
+          {previous.data.name}
+        </a>
+      ) : (
+        <span />
+      )}
+      {next ? (
+        <a href={`/models/${next.id}/`}>
+          <span>Next model</span>
+          {next.data.name}
+        </a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  </article>
+</DocsLayout>

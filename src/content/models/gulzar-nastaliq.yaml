@@ -1,0 +1,17 @@
+order: 2
+name: gulzar-int8.ntf
+type: NeuralType font
+status: Released
+summary: >-
+  A Nastaliq font in the NeuralType format. The file is a small network
+  that draws each cluster of letters for its context. It is a distillation
+  of Gulzar, an OFL Nastaliq font.
+tasks: Nastaliq text for strings of letters
+architecture: Feed-forward network that predicts a signed-distance field and a position for each cluster
+parameters: 1,357,995
+trainingData: Each string of one, two and three letters, from Gulzar with shaping by HarfRust
+evaluation: An IoU of 0.945 on held-out strings
+file: 1.38 MB, int8
+license: SIL Open Font License 1.1, with the copyright notice of Gulzar
+location: The demonstration of the post Nastaliq Distilled
+locationUrl: https://elih.net/blog/nastaliq-distilled/

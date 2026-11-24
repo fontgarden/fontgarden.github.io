@@ -1,0 +1,22 @@
+---
+// The list of the models: one row for each model, with its type and status.
+import type { Model } from '../lib/models';
+import '../styles/fonts.css';
+
+interface Props {
+  models: Model[];
+}
+
+const { models } = Astro.props;
+---
+
+<ol class="font-index model-index">
+  {models.map((model) => (
+    <li>
+      <a href={`/models/${model.id}/`}>
+        <span class="font-index-name">{model.data.name}</span>
+        <span class="font-index-class">{model.data.type}, {model.data.status.toLowerCase()}</span>
+      </a>
+    </li>
+  ))}
+</ol>

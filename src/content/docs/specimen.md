@@ -1,10 +1,9 @@
 ---
-title: From a specimen image to drafts
+title: Drafts from a specimen image
 section: sources
-label: learn
 order: 107
-summary: The intake pipeline that turns a raster specimen into purple drafts in a UFO.
-callout: The intake pipeline turns an image of a type specimen into one traced glyph for each glyph of the specimen. Each trace is a purple draft. The result is the start of the design work, not a finished font. The task contract is <code>.agents/tasks/specimen-intake.md</code> in the project template.
+summary: The procedure that makes purple drafts in a UFO from an image of a type specimen.
+introduction: "The intake procedure makes one traced glyph for each glyph of a specimen image. Each trace is a purple draft. The result is the start of the design work and not a completed font. The task contract is <code>.agents/tasks/specimen-intake.md</code> in the project template."
 background: [start, tools]
 next: [grades, proposals]
 ---
@@ -27,7 +26,7 @@ next: [grades, proposals]
 - Do not correct the shape of a glyph in this task. A traced glyph is a draft, and the designer grades it.
 - Do not push or publish. The origin of the specimen decides whether the font can be published. That decision is the designer's.
 
-## What img2ufo does
+## Operations of img2ufo
 
 - It marks each trace purple, `0.54,0.44,0.88,1`.
 - On a later run, it replaces only purple and red glyphs. Graded glyphs stay.

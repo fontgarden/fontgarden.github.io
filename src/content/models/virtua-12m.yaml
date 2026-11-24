@@ -1,0 +1,20 @@
+order: 1
+name: Virtua-12M-v0.1
+type: Glyph language model
+status: In preparation
+summary: >-
+  Virtua-12M draws a glyph outline as a sequence of tokens. It drafts the
+  Bold master of a glyph from the Regular master, and it draws a brush
+  sketch again with the conventions of the collection. Each output is a
+  draft that a person corrects and grades.
+tasks: Weight transfer, completion, sketch to glyph
+architecture: Decoder-only transformer, 6 layers, 384 dimensions, 8 heads, context of 1,368 tokens
+parameters: 12.54 million
+trainingData: The Regular and Bold masters of Virtua Grotesk, green glyphs only
+training: 3 hours 20 minutes with MLX on one M4 Pro laptop, or 20 minutes on an RTX 2060 SUPER
+evaluation: >-
+  Weight transfer on held-out glyphs: a coordinate error of 24.0 with a
+  standard deviation of 1.6 for five seeds. The baseline is 31.3.
+file: 50 MB, float32 safetensors
+license: Apache-2.0
+location: Hugging Face fontgarden/virtua. Not uploaded at this time.

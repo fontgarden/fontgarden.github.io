@@ -1,33 +1,32 @@
 ---
 title: Post-authorship and open weights
 section: introduction
-label: start
 order: 10
-summary: The position the collection takes on authorship, licensing and provenance.
-callout: Font Garden is one authorless collection. There are no families signed by a designer, no reserved font names and no scraped training data. Fonts are OFL. Model weights are open. Every sample in the corpus can be traced to a source file, a revision and a grade. This chapter explains the position and what it means for a contributor.
+summary: The position of the collection on authorship, licenses and the origin of training data.
+introduction: Font.Garden is one collection without named authors. No designer signs a family, no font has a Reserved Font Name, and no training data comes from fonts of other people. The fonts have the OFL and the model weights are open. Each sample of the corpus has a record of its source file, its revision and its grade.
 next: [collection, neuraltype]
 ---
 
-## One collection, no authors
+## One collection without authors
 
-Most type is published as families by named designers. A font AI trained on such a catalog learns the drawing habits of hundreds of people and spends its capacity reconciling them. Normalizing the fonts afterward removes information.
+Most type foundries publish families by named designers. A model that trains on such a catalog gets outlines from hundreds of people. Each person has different drawing conventions, and the model uses capacity to learn the differences. A normalization step after the fact removes information from the outlines.
 
-Font Garden takes a different approach. A small team draws a core set by hand on one grid system, local models draft the rest in the same conventions, and a person grades every glyph. The result is an open font library held to one standard, in which every glyph is also clean training data.
+Font.Garden uses a different method. A small team draws a core set of glyphs by hand on one grid system. Local models draft the other glyphs with the same conventions. A person grades each glyph. The result is an open font library with one standard, and each approved glyph is also training data.
 
-Nobody signs a glyph. The drawings and the corrections are the expert data, and they belong to the collection. This follows the authorless commons of the International Typographic Style, in which the system matters more than the hand that executed it. The practice is described in the posts [Diffuse Value Capture](https://elih.net/blog/diffuse-value-capture/) and [Local AI in Runebender](https://elih.net/blog/local-ai-in-runebender/).
+No person signs a glyph. The drawings and the corrections belong to the collection. This practice follows the International Typographic Style, which gave more importance to the system than to the person who drew a design. The posts [Diffuse Value Capture](https://elih.net/blog/diffuse-value-capture/) and [Local AI in Runebender](https://elih.net/blog/local-ai-in-runebender/) describe the practice.
 
 ## Three rules
 
-1. Fonts are published under the [SIL Open Font License 1.1](https://openfontlicense.org) without a Reserved Font Name. The OFL FAQ states that a font made by a model trained on OFL sources is a derivative work and stays under the OFL. The collection accepts this.
-2. Model weights are published under Apache-2.0. Tools and engines are published under Apache-2.0 or MIT. Both are permissive licenses, like the OFL without its reserved name clause.
-3. Training targets come only from the collection's own sources. A foreign font may be an input to a tool, for example as a reference raster. It is never a training target. Compiled fonts are never used as sources. See [The collection is the dataset](/docs/dataset/).
+1. The fonts have the [SIL Open Font License 1.1](https://openfontlicense.org), without a Reserved Font Name. The OFL FAQ states that a font from a model that trained on OFL sources is a derivative work, and that it keeps the OFL. The collection accepts this.
+2. The model weights have the Apache-2.0 license. The tools and the engines have Apache-2.0 or MIT. These licenses are permissive.
+3. Training targets come only from the sources of the collection. A font of another party can be an input to a tool, for example as a reference image. It is not a training target. A compiled font is not a source. See [Training data](/docs/dataset/).
 
-## Why provenance matters
+## The record of origin
 
-Models trained on scraped fonts cannot say where a shape came from. The collection can. Each sample records the repository, the revision, the glyph name, the master and the grade. The corpus manifest is public. A project that already trained on scraped data cannot adopt this position later, so it is a durable difference rather than a marketing claim.
+A model that trained on fonts from the web has no record of the origin of a shape. The collection has this record. Each sample gives the repository, the revision, the glyph name, the master and the grade. The corpus manifest is public. A project cannot add this record after it trained on fonts without one.
 
-## What this means for a contributor
+## Conditions for a contributor
 
-- Your drawings become part of the collection under the OFL, with your name in `CONTRIBUTORS.txt` and, if you hold copyright, in `AUTHORS.txt`. There is no per-family credit.
-- Everything you draw on the grid is training data. If you do not want your work used this way, do not contribute it. There is no separate opt-out.
-- You keep your copyright. The OFL requires attribution and forbids selling the font by itself. It does not transfer ownership.
+- Your drawings become part of the collection, with the OFL. Your name goes into `CONTRIBUTORS.txt`. If you hold copyright, your name also goes into `AUTHORS.txt`. A family does not have a credit line.
+- Each glyph that you draw on the grid is training data. If you do not accept this use, do not contribute the work. The collection has no opt-out for single contributions.
+- You keep your copyright. The OFL requires attribution, and it does not permit the sale of the font alone. It does not transfer ownership.

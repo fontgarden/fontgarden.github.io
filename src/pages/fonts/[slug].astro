@@ -1,4 +1,5 @@
 ---
+import SiteLinks from '../../components/SiteLinks.astro';
 import Layout from '../../layouts/Layout.astro';
 import FontFaces from '../../components/FontFaces.astro';
 import {
@@ -84,8 +85,7 @@ const sectionNumber = (id: string) =>
     <header class="specimen-bar">
       <a href="/" class="specimen-bar-home">Font.Garden</a>
       <nav>
-        <a href="/fonts/">Fonts</a>
-        <a href="/docs/">Documentation</a>
+        <SiteLinks />
       </nav>
     </header>
 

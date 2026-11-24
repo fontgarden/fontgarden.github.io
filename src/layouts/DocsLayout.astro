@@ -1,4 +1,5 @@
 ---
+import SiteLinks from '../components/SiteLinks.astro';
 import Layout from './Layout.astro';
 import SiteFrame from '../components/SiteFrame.astro';
 import '../styles/docs.css';
@@ -22,9 +23,8 @@ const { title, description } = Astro.props;
     </div>
 
     <footer class="mt-auto pt-6">
-      <nav class="flex items-center gap-5 text-small text-ink">
-        <a href="/fonts/" class="underline-offset-4 hover:underline">Fonts</a>
-        <a href="/docs/" class="underline-offset-4 hover:underline">Documentation</a>
+      <nav class="flex flex-wrap items-center gap-x-5 gap-y-1 text-small text-ink">
+        <SiteLinks />
       </nav>
     </footer>
   </main>

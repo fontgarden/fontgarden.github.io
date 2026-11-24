@@ -1,10 +1,9 @@
 ---
-title: Setting up a working environment
+title: Tools and installation
 section: introduction
-label: start
 order: 40
-summary: The editor, the source tools, the compiler and the checkers used on the collection, and how to install them.
-callout: The collection is made with a small set of tools. Most are written in Rust and published under Apache-2.0 or MIT. One command, <code>make setup</code>, installs the tools that a source repository needs, at pinned versions. Models run locally.
+summary: The editor, the source tools, the compiler and the checkers of the collection, with their installation.
+introduction: "A small set of tools makes the collection. Most of them are in Rust, with the Apache-2.0 or MIT license. One command, <code>make setup</code>, installs the tools of a source repository at pinned versions. The models run on the local computer."
 background: [collection]
 next: [start, fgtools, hosting]
 ---
@@ -51,7 +50,7 @@ Coding agents connect to the editor through MCP. An agent can read, measure, pro
 
 ## Tools for a specimen image
 
-These three tools turn a specimen image into purple drafts. See [From a specimen image to drafts](/docs/specimen/).
+These three tools turn a specimen image into purple drafts. See [Drafts from a specimen image](/docs/specimen/).
 
 ```
 cargo install --git https://github.com/fontgarden/img2glyph
@@ -86,9 +85,9 @@ notosanshebrew = "A Hebrew sans with full coverage of the marks."
 
 A key is a directory name of google/fonts under `ofl/`, so the upstream of a family is `https://github.com/google/fonts/tree/main/ofl/<name>`. `make reference-fonts` copies the upright fonts and the `OFL.txt` of each family into `reference-fonts/<name>/` of the project. Git ignores that folder. A family comes from the first place that has it:
 
-1. the shared collection of `FONTGARDEN_REFERENCE_FONTS`;
-2. a local clone of google/fonts that `FONTGARDEN_GOOGLE_FONTS` names;
-3. a download from GitHub.
+1. the shared collection of `FONTGARDEN_REFERENCE_FONTS`
+2. a local clone of google/fonts that `FONTGARDEN_GOOGLE_FONTS` names
+3. a download from GitHub
 
 `make proof-web` and the proof view of Runebender read `reference-fonts/`. Runebender shows the families that cover the glyph, so a Hebrew glyph is shown beside the Hebrew references.
 
@@ -99,6 +98,6 @@ A key is a directory name of google/fonts under `ofl/`, so the upstream of a fam
 
 ## Fontbakery and fontmake
 
-Earlier Google Fonts documentation refers to Fontbakery. Fontspector replaced it. Do not add Fontbakery to a repository.
+Older Google Fonts documentation names Fontbakery. Fontspector replaced it. Do not add Fontbakery to a repository.
 
 The fonts are built with fontc, the Rust compiler of Google Fonts that replaces fontmake. `fgtools build --compiler fontmake` builds with fontmake, and `fgtools diff --fontmake` compares the two compilers.

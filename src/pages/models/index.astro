@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteFrame from '../../components/SiteFrame.astro';
+import SiteLinks from '../../components/SiteLinks.astro';
+import ModelList from '../../components/ModelList.astro';
+import { loadModels } from '../../lib/models';
+import '../../styles/fonts.css';
+
+const models = await loadModels();
+---
+
+<Layout
+  title="Models · Font.Garden"
+  description="The open-weight models of Font.Garden: glyph language models and NeuralType fonts."
+>
+  <SiteFrame />
+
+  <main
+    class="relative z-10 flex min-h-[100dvh] flex-col pl-[var(--margin)] pr-[calc(var(--field)+2*var(--margin))] pt-[calc(var(--margin)+var(--text-logo)*1.25)] pb-[var(--margin)]"
+  >
+    <section class="max-w-[72ch]">
+      <h1 class="font-index-title">Models</h1>
+      <p class="text-small text-ink">
+        The open-weight models of Font.Garden. Each model trains only on the
+        sources of the collection or on a font with an open license. Each
+        model has the same page, with its task, its training data, its
+        evaluation and its license.
+      </p>
+    </section>
+
+    <nav class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-small text-ink" aria-label="Site">
+      <SiteLinks underlined />
+    </nav>
+
+    <ModelList models={models} />
+
+    <footer class="mt-auto pt-6">
+      <nav class="flex flex-wrap items-center gap-x-5 gap-y-1 text-small text-ink">
+        <SiteLinks />
+      </nav>
+    </footer>
+  </main>
+</Layout>

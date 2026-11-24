@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { LABELS, SECTIONS, inGuideSequence } from '../../lib/docs';
+import { SECTIONS, inGuideSequence } from '../../lib/docs';
 
 const docs = inGuideSequence(await getCollection('docs'));
 const bySection = Object.keys(SECTIONS).map((key) => ({
@@ -13,34 +13,22 @@ const bySection = Object.keys(SECTIONS).map((key) => ({
 
 <DocsLayout
   title="Guide"
-  description="Documentation for the Font Garden system: source repositories, the power-of-two grid, glyph grades, builds, checks, the font index, training data and models."
+  description="The guide to the Font.Garden system: source repositories, the grid, glyph grades, builds, checks, the font index, training data and models."
 >
   <article class="doc docs-index">
-    <h1>Documentation</h1>
+    <h1>Guide</h1>
 
-    <div class="callout">
+    <div class="chapter-introduction">
       <p>
-        Font Garden is one open font collection, not a catalog of families
-        by named designers. Every glyph in it is drawn on one grid system,
-        graded by a person, and used as training data for the open-weight
-        models that draft the next glyphs. This guide describes the files,
-        the engineering rules, the build and test tools, the data pipeline
-        and the way contributions enter the collection. It is a draft,
-        started 2026-11-04, and will change as the system does.
+        This guide is the specification of the Font.Garden system. It
+        describes the source files of a font, the design rules, the build
+        and the checks, the training data and the models. It also gives
+        the procedure for a contribution.
       </p>
       <p>
-        The guide is split into short chapters. Read the chapters you need
-        for the stage you are at. Each chapter carries one of these labels:
-      </p>
-      <ul class="legend">
-        {Object.values(LABELS).map((l) => (
-          <li><mark class={l.color}>{l.text}</mark>{l.meaning}</li>
-        ))}
-      </ul>
-      <p>
-        The structure of this guide is adapted from the
-        <a href="https://googlefonts.github.io/gf-guide/">Google Fonts Guide</a>,
-        published under the Apache License 2.0.
+        Each chapter has one subject. The chapters are in a sequence, but
+        a reader can start at the chapter for the current task. The guide
+        changes when the system changes.
       </p>
     </div>
 
@@ -49,15 +37,12 @@ const bySection = Object.keys(SECTIONS).map((key) => ({
         <h2>{section.title}</h2>
         <p class="section-description">{section.description}</p>
         <ul>
-          {section.pages.map((page) => {
-            const label = LABELS[page.data.label];
-            return (
-              <li>
-                <mark class={label.color}>{label.text}</mark>
-                <a href={`/docs/${page.id}/`}>{page.data.title}</a>
-              </li>
-            );
-          })}
+          {section.pages.map((page) => (
+            <li>
+              <a href={`/docs/${page.id}/`}>{page.data.title}</a>
+              {page.data.summary && <span>{page.data.summary}</span>}
+            </li>
+          ))}
         </ul>
       </section>
     ))}

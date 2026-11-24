@@ -1,15 +1,14 @@
 ---
-title: Start a font project
+title: New font project
 section: sources
-label: templ
 order: 105
-summary: How to start a source repository from the project template, by hand or with a coding agent and a specimen image.
-callout: A new font starts from the <a href="https://github.com/fontgarden/font-project-template">Font.Garden project template</a>. The template is a source repository in the Google Fonts layout, with the Font.Garden tools, QA and agent instructions. It holds a starter font with two glyphs. This chapter is the entry point for a new project.
+summary: The procedure to start a source repository from the project template, manually or with a coding agent and a specimen image.
+introduction: "A new font starts from the <a href=\"https://github.com/fontgarden/font-project-template\">Font.Garden project template</a>. The template is a source repository with the Font.Garden tools, the checks and the instructions for agents. It contains a font with two glyphs. Use this chapter first for a new project."
 background: [tools]
 next: [specimen, sources]
 ---
 
-## Start by hand
+## Manual start
 
 1. Create a repository from the template with "Use this template" on GitHub, or clone it into a new folder.
 2. Install the tools and name the family:
@@ -34,11 +33,11 @@ Give a coding agent (Claude Code, Codex or OMP) the image and this request. Repl
 > local folder, run `make setup` and `make customize`, then do the task in
 > `.agents/tasks/specimen-intake.md`. Do not push or publish.
 
-The agent needs `img2glyph`, `img2bez` and `img2ufo` on `PATH`. See [Setting up a working environment](/docs/tools/).
+The agent needs `img2glyph`, `img2bez` and `img2ufo` on `PATH`. See [Tools and installation](/docs/tools/).
 
-The result is a project with one purple draft for each glyph of the specimen, a built font and a QA report. The designer then grades the drafts. See [From a specimen image to drafts](/docs/specimen/).
+The result is a project with one purple draft for each glyph of the specimen, a built font and a QA report. The designer then grades the drafts. See [Drafts from a specimen image](/docs/specimen/).
 
-## What the designer supplies
+## Facts from the designer
 
 Only the designer can give these facts:
 
@@ -46,7 +45,7 @@ Only the designer can give these facts:
 - the origin of the specimen, and that the design is free to use.
 - the design decisions: which specimen, the metric targets and the style.
 
-## What the template gives
+## Contents of the template
 
 | part | content |
 | --- | --- |
@@ -57,6 +56,6 @@ Only the designer can give these facts:
 | `documentation/` | the Google Fonts release document |
 | `.github/workflows/` | the CI build, which runs `make test` |
 
-## After the start
+## Work after the start
 
 The work loop is the same for every project: choose glyphs, draft, check, compare builds, review, grade and learn from the corrections. See [Proposals and grading](/docs/proposals/) and [Corrections and drafting evaluation](/docs/learning/).

@@ -2,16 +2,21 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { loadFonts } from '../lib/fonts';
+import { loadModels } from '../lib/models';
 
 export const GET: APIRoute = async ({ site }) => {
   const docs = await getCollection('docs');
   const fonts = await loadFonts();
+  const models = await loadModels();
   const paths = [
     '/',
     '/fonts/',
     ...fonts.map((font) => `/fonts/${font.slug}/`),
+    '/models/',
+    ...models.map((model) => `/models/${model.id}/`),
     '/docs/',
     ...docs.map((doc) => `/docs/${doc.id}/`),
+    '/about/',
   ];
   const urls = paths.map((path) => `  <url><loc>${new URL(path, site)}</loc></url>`);
   const xml = [

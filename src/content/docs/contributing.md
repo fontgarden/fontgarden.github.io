@@ -1,14 +1,13 @@
 ---
-title: Contributing to the collection
+title: Contributions
 section: contributing
-label: team
 order: 510
-summary: How drawings, corrections and code enter the collection.
-callout: Contributions are drawings and corrections on the grid, graded by a maintainer and merged into a source repository. There is no credit for each family and no submission of finished fonts. This chapter is the checklist for a contributor and for the maintainer who merges.
+summary: The procedure for a contribution of drawings, corrections or code.
+introduction: "A contribution is a set of drawings or corrections on the grid. A maintainer grades it and merges it into a source repository. A family has no credit line, and the collection does not accept completed fonts. This chapter is the checklist for the contributor and for the maintainer."
 background: [sources, structure, grades, proposals]
 ---
 
-## What a contribution is
+## Types of contribution
 
 - New glyphs for an existing style, drawn on the grid.
 - Corrections to purple drafts, which move them toward green.
@@ -16,9 +15,9 @@ background: [sources, structure, grades, proposals]
 - Script extension: Arabic, Hebrew or another script consistent with an existing style.
 - Code: tools and checks, in [fgtools](https://github.com/fontgarden/fgtools).
 
-A finished font from outside the system is not a contribution. It cannot be graded, and its structure does not pass the checks.
+A completed font from a different system is not a contribution. The designer cannot grade its glyphs, and its structure does not pass the checks.
 
-## Before you open a pull request
+## Checklist before a pull request
 
 1. Every coordinate is even. `fgtools lint-glifs` reports no fault.
 2. The masters are compatible. The compatibility check of Runebender lists nothing.
@@ -28,7 +27,7 @@ A finished font from outside the system is not a contribution. It cannot be grad
 6. Drafts and corrections are in separate commits.
 7. Your name is in `CONTRIBUTORS.txt`.
 
-## What the maintainer does
+## Steps of the maintainer
 
 1. Builds again and runs the checks at the revision of the pull request.
 2. Reviews the proof for faults of shape and spacing that the checks do not find.
@@ -37,8 +36,8 @@ A finished font from outside the system is not a contribution. It cannot be grad
 
 ## A new style
 
-A new style starts from the project template. See [Start a font project](/docs/start/). Its design rules, with the grid and the stroke targets, are in `CONTEXT.md`. The core set is graded before a model drafts from it. The maintainers decide when a style has enough green glyphs to enter the corpus and when its fonts are released.
+A new style starts from the project template. See [New font project](/docs/start/). Its design rules, with the grid and the stroke targets, are in `CONTEXT.md`. The core set is graded before a model drafts from it. The maintainers decide when a style has enough green glyphs to enter the corpus and when its fonts are released.
 
 ## Removal
 
-A contributor can ask for their name to be removed from `CONTRIBUTORS.txt`. Drawings already merged under the OFL stay in the collection, and samples already in a published corpus stay in it. See [Post-authorship and open weights](/docs/culture/).
+A contributor can ask the maintainers to remove a name from `CONTRIBUTORS.txt`. Merged drawings keep the OFL and stay in the collection. Samples in a published corpus stay in that corpus. See [Post-authorship and open weights](/docs/culture/).

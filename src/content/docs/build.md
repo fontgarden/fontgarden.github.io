@@ -1,10 +1,9 @@
 ---
-title: Build the fonts
+title: Font build
 section: production
-label: learn
 order: 310
-summary: How the compiled fonts are produced from the sources.
-callout: Every repository builds the same way. A fresh clone, <code>make setup</code> and <code>make build</code> produce the fonts in <code>fonts/</code>. The compiler is fontc, through the gftools builder.
+summary: The procedure that compiles the fonts from the sources.
+introduction: "Each repository has the same build. After a new clone, <code>make setup</code> and <code>make build</code> write the fonts to <code>fonts/</code>. The compiler is fontc, which the gftools builder runs."
 background: [tools, sources]
 next: [qa]
 ---
@@ -55,7 +54,7 @@ Glyphs that the fonts do not export are listed in `public.skipExportGlyphs`, in 
 
 Run it after each source edit. Every changed glyph, word, table or language result must be one that the edit explains.
 
-## What not to do
+## Prohibited actions
 
 - Do not edit a compiled font with a table editor and commit it.
 - Do not build from instance UFOs that were generated earlier.

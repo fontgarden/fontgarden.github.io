@@ -1,10 +1,9 @@
 ---
 title: Proofs and media
 section: production
-label: learn
 order: 330
-summary: The print proof, the print specimen, the technical images and the marketing media of a font, and the one layout system that makes them.
-callout: A project made from the template renders its proof, its specimen and its marketing media with three commands. Every picture is laid out on the lattice of the typeface, and a checker verifies each layout before DesignBot draws it. No rendered file is tracked in Git.
+summary: The print proof, the print specimen, the technical images and the marketing media of a font, with their layout system.
+introduction: "A project from the template renders its proof, its specimen and its marketing media with three commands. Each picture uses the lattice of the typeface for its layout, and a checker examines each layout before DesignBot draws it. Git does not track a rendered file."
 background: [build, qa]
 next: [learning]
 ---
@@ -31,7 +30,7 @@ A layout is not drawn by hand. It is placed on the lattice of the typeface, with
 | --- | --- |
 | The module is the large step of the design grid | 64 pixels |
 | Every position is a multiple of the unit | 8 pixels |
-| The live area of a canvas is a whole number of modules; the margin is the rest | 1080 x 1350 has 16 x 20 modules |
+| The live area of a canvas is a whole number of modules. The margin is the remaining area | 1080 x 1350 has 16 x 20 modules |
 | The text area is the live area less one module on each side, inside the safe area of the platform | 14 x 18 modules |
 | Type sizes double | 32, 64, 128, 256, 512, 1024, and 24 for labels. The print page has one size more, 16 pixels, which is 8 points on paper. |
 | The cap top of a line stands on a module line, and its start on a column line | |
@@ -47,12 +46,12 @@ At an em of 1024 pixels, 1 pixel is 1 unit of the font. The grid of such a pictu
 | Lattice | `fgtools/media_layout.py` | Gives each canvas its live area and its text area |
 | Typesetter | `fgtools/media_layout.py` | Measures text in the font with HarfBuzz, fits a word to a measure, breaks a paragraph into lines |
 | Format | `fgtools/media_formats/`, one Python file for each. The pages of the print proof are in its folder `proofs/`. | Places type, rules and paths on the lattice. It never names a pixel. |
-| Checker | `fgtools/media_layout.py` | Finds a size that is not on the scale, a position off the unit, ink outside the text area, and more than two weights or three sizes in a picture |
+| Checker | `fgtools/media_layout.py` | Finds a size that is not on the scale, a position that is not on the unit and ink outside the text area. Also finds more than two weights or three sizes in a picture |
 | Plotter | `fgtools/media_plotter.rs` | DesignBot draws the checked layout. It decides nothing. |
 
 A layout with a fault is not written. The command names each fault and stops with an error.
 
-## Where each part is
+## Location of each part
 
 | Part | Place | Changes for each font |
 | --- | --- | --- |
@@ -66,7 +65,7 @@ A layout with a fault is not written. The command names each fault and stops wit
 
 A new project has `brand.toml` only, and gets every default format. An improvement of a default format reaches every font with the next version of fgtools. To change a layout for one font, `fgtools media --copy` with the name of the format copies the default script into the project.
 
-A font at the start of its design has few glyphs, and the formats use what it has. A text with a character that the font does not have is left out, and a font that can set no word shows the letters that exist. A picture never shows a system font.
+A font at the start of its design has few glyphs, and the formats use what it has. The command omits a text with a character that the font does not have. A font that has no complete word shows the letters that it has. A picture never shows a system font.
 
 ## The canvases
 
@@ -160,7 +159,7 @@ Beside each render is a JSON record: the format, the canvas, the size, the capti
 | 5. Publish | CI runs `make site`: it renders the proof, the specimen and the media, `fgtools site` collects them into `output/site/`, and CI publishes that folder on GitHub Pages. Turn Pages on once in the settings of the repository, with the source "GitHub Actions". | Built |
 | 6. Post | Posts with a caption, alternative text and a link for each platform, and a record of what was posted | Planned |
 
-## What a person decides
+## Decisions of a person
 
 - The words of the brand, and the glyphs to show.
 - The approval of each render.

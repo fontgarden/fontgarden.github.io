@@ -1,0 +1,20 @@
+---
+// The links to the parts of the site. Each page shows the same links.
+// With the underlined property, each link has a line below it.
+interface Props {
+  underlined?: boolean;
+  home?: boolean;
+}
+
+const { underlined = false, home = false } = Astro.props;
+const links = [
+  ...(home ? [['/', 'Home']] : []),
+  ['/fonts/', 'Fonts'],
+  ['/models/', 'Models'],
+  ['/docs/', 'Documentation'],
+  ['/about/', 'About'],
+];
+const style = underlined ? 'underline underline-offset-4' : 'underline-offset-4 hover:underline';
+---
+
+{links.map(([href, text]) => <a href={href} class={style}>{text}</a>)}

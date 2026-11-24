@@ -1,15 +1,14 @@
 ---
 title: Glyph grades
 section: system
-label: must
 order: 230
-summary: The mark color of each glyph, which records its state and whether it can train a model.
-callout: Quality is tracked for each glyph, not for each font. Each glyph in a UFO has a mark color, the same color that Runebender shows in the glyph grid. Purple is a draft that the designer has not reviewed. Red, orange and yellow are the designer's grades. Green is approved. The tools and the reports read the color.
+summary: The mark color of each glyph, which records its condition and its use as training data.
+introduction: "The collection records quality for each glyph and not for each font. Each glyph in a UFO has a mark color, which Runebender shows in the glyph grid. Purple is a draft without a review by the designer. Red, orange and yellow are the grades of the designer. Green is approved. The tools and the reports read the color."
 background: [grid, structure]
 next: [proposals, learning, dataset]
 ---
 
-## The grades
+## Grades
 
 | color | meaning | trains |
 | --- | --- | --- |
@@ -21,9 +20,9 @@ next: [proposals, learning, dataset]
 
 Two more colors mark composites in Virtua Grotesk. Blue is a composite that needs diagnosis. Pink is a composite that needs small edits. Neither is a reference.
 
-A source has mixed quality. A grade for the whole font would hide this, so there is none.
+The glyphs of a source have different quality. One grade for the font does not show this, so a font has no grade.
 
-## Who sets what
+## Permission to set a grade
 
 - The designer grades contour glyphs. Only the designer moves a contour glyph to red, orange, yellow or green.
 - A tool or an agent that draws or traces a glyph marks it purple.
@@ -32,13 +31,13 @@ A source has mixed quality. A grade for the whole font would hide this, so there
 
 `fgtools check-changes` enforces these rules on a set of source changes. It fails when a green glyph changed, or when a glyph with changed contours is not purple.
 
-## Only green trains
+## Training data
 
-Training data comes from green glyphs only. If drafts trained the next model, the model would learn its own errors. Only green glyphs are references for a new drawing.
+Training data comes from green glyphs only. A model that trains on drafts learns the errors of the drafts. Only green glyphs are references for a new drawing.
 
-## Where the grade is stored
+## Storage of the grade
 
-The grade is the UFO `public.markColor` key in the `lib` of each glyph. Runebender reads and writes it. The reference values:
+The grade is the UFO `public.markColor` key in the `lib` of each glyph. Runebender reads and writes it. These are the reference values:
 
 | color | markColor |
 | --- | --- |

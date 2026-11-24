@@ -1,49 +1,36 @@
-// Section and label vocabulary for the documentation. The structure is
-// adapted from the Google Fonts Guide (googlefonts.github.io/gf-guide,
-// Apache-2.0).
-
+// The sections of the guide, in the sequence of the guide index.
 import { execFileSync } from 'node:child_process';
 
 export const SECTIONS: Record<string, { title: string; description: string }> = {
   introduction: {
-    title: 'Introduction: the basics',
+    title: 'Introduction',
     description:
-      'What the collection is, the position it takes on authorship and licensing, the font format it is built toward, and the tools.',
+      'The collection, its position on authorship and licenses, the NeuralType format and the tools.',
   },
   sources: {
-    title: 'Sources: the files of the collection',
+    title: 'Sources',
     description:
-      'The source tree, the license files and the hosting practice that the build, the checks and the corpus tools depend on.',
+      'The source repository of a font: how to start one, its layout, its license files and its use of GitHub.',
   },
   system: {
-    title: 'Engineering rules: grid, structure and grades',
+    title: 'Design rules',
     description:
-      'The requirements every source in the collection meets. They are stricter than ordinary font production because every glyph is also training data.',
+      'The rules for each source: the grid, the outline structure, the grade of each glyph and the review of drafts.',
   },
   production: {
-    title: 'Production: building and testing',
+    title: 'Production',
     description:
-      'How the OpenType fonts are compiled from the sources, checked and proofed.',
+      'The build of the fonts, the checks, the proofs, the media and the font index of this website.',
   },
   data: {
     title: 'Data and models',
     description:
-      'How graded sources become a corpus, how the models are trained and evaluated, and what is released.',
+      'The training corpus that the graded sources give, the models and the releases.',
   },
   contributing: {
-    title: 'Contributing',
-    description:
-      'How drawings and corrections enter the collection.',
+    title: 'Contributions',
+    description: 'The procedure for a contribution of drawings, corrections or code.',
   },
-};
-
-export const LABELS: Record<string, { text: string; color: string; meaning: string }> = {
-  start: { text: 'start', color: 'blue', meaning: 'Read first if you are new to the project.' },
-  must: { text: 'must→', color: 'green', meaning: 'A requirement. Every source in the collection follows it.' },
-  learn: { text: 'learn', color: 'yellow', meaning: 'Background and reference material.' },
-  team: { text: 'team', color: 'brown', meaning: 'Process notes for people who grade and merge work.' },
-  nerd: { text: 'nerd', color: 'purple', meaning: 'Technical detail on the data and the models.' },
-  templ: { text: 'templ', color: 'grey', meaning: 'A template you can copy.' },
 };
 
 export const REPOSITORY = 'https://github.com/fontgarden/fontgarden.github.io';
