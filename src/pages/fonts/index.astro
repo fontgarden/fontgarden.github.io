@@ -83,6 +83,16 @@ const panelFacts = Object.fromEntries(
       )}
     </ol>
 
+    <!-- On a narrow screen the panel is not visible. The first selection of
+         a row puts this specimen below the row. -->
+    <div class="font-index-detail" id="font-index-detail" hidden>
+      <p class="panel-alphabet" data-detail="alphabet">
+        {ALPHABET_SAMPLE.map((line) => <span>{line}</span>)}
+      </p>
+      <dl class="panel-facts" data-detail="facts"></dl>
+      <a href="/fonts/" data-detail="link">Specimen page</a>
+    </div>
+
     <footer class="mt-auto pt-6">
       <nav class="flex items-center gap-5 text-small text-ink">
         <a href="/fonts/" class="underline-offset-4 hover:underline">Fonts</a>
@@ -119,27 +129,27 @@ const panelFacts = Object.fromEntries(
       part('name')!.textContent = font.name;
       part('name')!.style.fontFamily = family;
       part('alphabet')!.style.fontFamily = family;
-      fitAlphabet();
+      fit(part('alphabet'));
       document.fonts.load(`16px ${family}`).then(() => {
-        if (current === slug) fitAlphabet();
+        if (current === slug) fit(part('alphabet'));
       });
-      part('facts')!.replaceChildren(
-        ...font.rows.flatMap(([term, value]: [string, string]) => {
-          const dt = document.createElement('dt');
-          dt.textContent = term;
-          const dd = document.createElement('dd');
-          dd.textContent = value;
-          return [dt, dd];
-        })
-      );
+      part('facts')!.replaceChildren(...factRows(font));
       document.dispatchEvent(
         new CustomEvent('field:set', { detail: { text: font.name, family } })
       );
     };
 
-    // Make the longest line of the alphabet as wide as the panel.
-    const fitAlphabet = () => {
-      const alphabet = part('alphabet');
+    const factRows = (font: { rows: [string, string][] }) =>
+      font.rows.flatMap(([term, value]) => {
+        const dt = document.createElement('dt');
+        dt.textContent = term;
+        const dd = document.createElement('dd');
+        dd.textContent = value;
+        return [dt, dd];
+      });
+
+    // Make the longest line of an alphabet as wide as its container.
+    const fit = (alphabet: HTMLElement | null) => {
       if (!alphabet || !alphabet.clientWidth) return;
       alphabet.style.fontSize = '100px';
       const widest = Math.max(
@@ -147,10 +157,50 @@ const panelFacts = Object.fromEntries(
       );
       alphabet.style.fontSize = `${(100 * alphabet.clientWidth) / widest}px`;
     };
-    window.addEventListener('resize', fitAlphabet);
 
-    list?.querySelectorAll<HTMLElement>('a[data-font]').forEach((a) => {
+    // On a narrow screen the panel is not visible. The first selection of
+    // a row opens the specimen below the row. The second selection opens
+    // the specimen page.
+    const narrow = window.matchMedia('(max-width: 639px)');
+    const detail = document.getElementById('font-index-detail');
+    const detailPart = (name: string) =>
+      detail?.querySelector<HTMLElement>(`[data-detail="${name}"]`) ?? null;
+    let open: string | null = null;
+
+    const openDetail = (row: HTMLAnchorElement | null) => {
+      const slug = row?.dataset.font ?? null;
+      open = slug;
+      list?.querySelectorAll('a[data-font]').forEach((a) => {
+        a.classList.toggle('is-open', a === row);
+      });
+      if (!detail) return;
+      detail.hidden = !row;
+      if (!row || !slug) return;
+      const font = facts[slug];
+      const family = `'${font.family}'`;
+      row.after(detail);
+      detailPart('alphabet')!.style.fontFamily = family;
+      detailPart('facts')!.replaceChildren(...factRows(font));
+      detailPart('link')!.setAttribute('href', row.href);
+      fit(detailPart('alphabet'));
+      document.fonts.load(`16px ${family}`).then(() => {
+        if (open === slug) fit(detailPart('alphabet'));
+      });
+    };
+    narrow.addEventListener('change', () => openDetail(null));
+
+    window.addEventListener('resize', () => {
+      fit(part('alphabet'));
+      fit(detailPart('alphabet'));
+    });
+
+    list?.querySelectorAll<HTMLAnchorElement>('a[data-font]').forEach((a) => {
       const slug = a.dataset.font!;
+      a.addEventListener('click', (event) => {
+        if (!narrow.matches || open === slug) return;
+        event.preventDefault();
+        openDetail(a);
+      });
       a.addEventListener('pointerenter', () => show(slug));
       a.addEventListener('focus', () => show(slug));
     });

@@ -43,3 +43,16 @@ export const LABELS: Record<string, { text: string; color: string; meaning: stri
   nerd: { text: 'nerd', color: 'purple', meaning: 'Technical detail on the data and the models.' },
   templ: { text: 'templ', color: 'grey', meaning: 'A template you can copy.' },
 };
+
+// The chapters in the sequence of the guide index: by section, then by
+// the order number of the chapter.
+export function inGuideSequence<T extends { data: { section: string; order: number } }>(
+  chapters: T[]
+): T[] {
+  const sections = Object.keys(SECTIONS);
+  return [...chapters].sort(
+    (a, b) =>
+      sections.indexOf(a.data.section) - sections.indexOf(b.data.section) ||
+      a.data.order - b.data.order
+  );
+}

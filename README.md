@@ -65,7 +65,7 @@ compiled variable font.
 4. Run `pnpm check`.
 
 The importer writes the WOFF2 that the pages load, the download archive (the
-TTF and `OFL.txt`), the link picture and `src/data/fonts/<slug>.json`. Do not edit these files.
+TTF, the WOFF2 and `OFL.txt`), the link picture and `src/data/fonts/<slug>.json`. Do not edit these files.
 After each change to a font, run the importer again.
 
 To import each font of the index, give the folder that holds the font projects.

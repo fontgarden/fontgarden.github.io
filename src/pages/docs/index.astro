@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { LABELS, SECTIONS } from '../../lib/docs';
+import { LABELS, SECTIONS, inGuideSequence } from '../../lib/docs';
 
-const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+const docs = inGuideSequence(await getCollection('docs'));
 const bySection = Object.keys(SECTIONS).map((key) => ({
   key,
   ...SECTIONS[key],

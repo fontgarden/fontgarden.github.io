@@ -9,7 +9,7 @@ DIR is a checkout of a Font.Garden font project. The script reads the one
 variable font in DIR/fonts/variable and DIR/OFL.txt. It writes:
 
 - public/fonts/NAME/NAME.woff2   the font that the pages load
-- public/fonts/NAME/NAME.zip     the download: the TTF and OFL.txt
+- public/fonts/NAME/NAME.zip     the download: the TTF, the WOFF2 and OFL.txt
 - public/fonts/NAME/NAME.png     the picture of a link to the specimen page
 - src/data/fonts/NAME.json       the facts that the specimen page shows
 
@@ -51,6 +51,34 @@ AXIS_NAMES = {
     'ital': 'Italic',
     'GRAD': 'Grade',
 }
+# The features that the specimen page shows with a sample. Each other
+# feature is for shaping, and the page gives only its tag.
+FEATURE_NAMES = {
+    'kern': 'Kerning',
+    'liga': 'Standard ligatures',
+    'dlig': 'Discretionary ligatures',
+    'tnum': 'Tabular figures',
+    'pnum': 'Proportional figures',
+    'lnum': 'Lining figures',
+    'onum': 'Oldstyle figures',
+    'zero': 'Slashed zero',
+    'frac': 'Fractions',
+    'sups': 'Superiors',
+    'subs': 'Inferiors',
+    'ordn': 'Ordinals',
+    'case': 'Case-sensitive forms',
+    'smcp': 'Small capitals',
+    'c2sc': 'Small capitals from capitals',
+    'salt': 'Stylistic alternates',
+    **{f'ss{n:02d}': f'Stylistic set {n}' for n in range(1, 21)},
+}
+# The sample of a feature that has no direct list of input characters.
+FIXED_FEATURE_SAMPLES = {
+    'kern': 'AVATAR Type Wave',
+    'frac': '1/2 3/4 5/8',
+}
+# The largest number of characters or ligatures in a sample.
+FEATURE_SAMPLE_ITEMS = 16
 
 
 def number(value):
@@ -102,6 +130,53 @@ def features(font, table):
         return []
     records = font[table].table.FeatureList.FeatureRecord
     return sorted({record.FeatureTag for record in records})
+
+
+def feature_samples(font):
+    """Give a sample text for each feature that the specimen page shows.
+
+    The sample comes from the font: the input characters of the single
+    substitutions and the ligatures of the feature.
+    """
+    cmap = font.getBestCmap()
+    character = {}
+    for codepoint, glyph in sorted(cmap.items()):
+        # A mark alone is not a clear sample.
+        if unicodedata.category(chr(codepoint))[0] != 'M':
+            character.setdefault(glyph, chr(codepoint))
+    inputs = {}
+    if 'GSUB' in font:
+        table = font['GSUB'].table
+        for record in table.FeatureList.FeatureRecord:
+            items = inputs.setdefault(record.FeatureTag, [])
+            for index in record.Feature.LookupListIndex:
+                for subtable in table.LookupList.Lookup[index].SubTable:
+                    subtable = getattr(subtable, 'ExtSubTable', subtable)
+                    for glyph in getattr(subtable, 'mapping', {}):
+                        if isinstance(subtable.mapping[glyph], str):
+                            items.append([glyph])
+                    for first, ligatures in getattr(subtable, 'ligatures', {}).items():
+                        items.extend([first, *ligature.Component] for ligature in ligatures)
+    present = set(inputs) | set(features(font, 'GPOS'))
+    samples = []
+    for tag, name in FEATURE_NAMES.items():
+        if tag not in present:
+            continue
+        fixed = FIXED_FEATURE_SAMPLES.get(tag)
+        if fixed:
+            text = fixed if all(ord(c) in cmap for c in fixed if c != ' ') else ''
+        else:
+            texts = []
+            for glyphs in inputs.get(tag, []):
+                if all(glyph in character for glyph in glyphs):
+                    item = ''.join(character[glyph] for glyph in glyphs)
+                    if item not in texts:
+                        texts.append(item)
+            texts = texts[:FEATURE_SAMPLE_ITEMS]
+            text = (' ' if any(len(item) > 1 for item in texts) else '').join(texts)
+        if text:
+            samples.append({'tag': tag, 'name': name, 'sample': text})
+    return samples
 
 
 def revision(project):
@@ -232,6 +307,7 @@ def import_font(project, slug):
     archive = public / f'{slug}.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as bundle:
         bundle.write(source, source.name)
+        bundle.write(woff2, source.with_suffix('.woff2').name)
         bundle.write(license_file, 'OFL.txt')
 
     family = names.getDebugName(16) or names.getDebugName(1)
@@ -260,6 +336,7 @@ def import_font(project, slug):
         'instances': instances,
         'scripts': supported,
         'features': {'GSUB': features(font, 'GSUB'), 'GPOS': features(font, 'GPOS')},
+        'featureSamples': feature_samples(font),
         'files': {
             'woff2': f'/fonts/{slug}/{woff2.name}',
             'woff2Bytes': woff2.stat().st_size,
@@ -267,6 +344,7 @@ def import_font(project, slug):
             'preview': f'/fonts/{slug}/{slug}.png',
             'downloadBytes': archive.stat().st_size,
             'fontFile': source.name,
+            'webFontFile': source.with_suffix('.woff2').name,
         },
         'groups': groups,
     }

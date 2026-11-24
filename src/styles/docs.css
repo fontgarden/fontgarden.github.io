@@ -146,6 +146,34 @@
   text-underline-offset: 4px;
 }
 
+/* The previous and the next chapter, in the sequence of the guide index. */
+
+.chapter-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 3rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-ink);
+}
+
+.chapter-links a {
+  text-decoration: none;
+}
+
+.chapter-links a:hover {
+  text-decoration: underline;
+}
+
+.chapter-links span {
+  display: block;
+  color: var(--color-muted);
+}
+
+.chapter-links > :last-child {
+  text-align: right;
+}
+
 .index-link {
   display: inline-block;
   margin: 0 0 1.5rem;

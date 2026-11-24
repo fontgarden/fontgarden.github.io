@@ -1,14 +1,17 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { LABELS } from '../../lib/docs';
+import { LABELS, inGuideSequence } from '../../lib/docs';
 
 export async function getStaticPaths() {
-  const docs = await getCollection('docs');
-  return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
+  const docs = inGuideSequence(await getCollection('docs'));
+  return docs.map((doc, i) => ({
+    params: { slug: doc.id },
+    props: { doc, previousChapter: docs[i - 1] ?? null, nextChapter: docs[i + 1] ?? null },
+  }));
 }
 
-const { doc } = Astro.props;
+const { doc, previousChapter, nextChapter } = Astro.props;
 const { Content, headings } = await render(doc);
 const toc = headings.filter((h) => h.depth === 2);
 const label = LABELS[doc.data.label];
@@ -74,5 +77,24 @@ const next = await resolve(doc.data.next);
         })}
       </div>
     )}
+
+    <nav class="chapter-links" aria-label="Chapters">
+      {previousChapter ? (
+        <a href={`/docs/${previousChapter.id}/`}>
+          <span>Previous chapter</span>
+          {previousChapter.data.title}
+        </a>
+      ) : (
+        <span />
+      )}
+      {nextChapter ? (
+        <a href={`/docs/${nextChapter.id}/`}>
+          <span>Next chapter</span>
+          {nextChapter.data.title}
+        </a>
+      ) : (
+        <span />
+      )}
+    </nav>
   </article>
 </DocsLayout>

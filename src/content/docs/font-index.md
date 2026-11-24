@@ -20,7 +20,7 @@ The index page has two parts. The left part is the list. The right part is the g
 - the capital letters, the small letters and the figures
 - the classification, the scripts, the styles, the axes, the license and the status
 
-On a narrow screen the panel is not shown and the list is a list of links.
+On a narrow screen the panel is not shown. The first selection of a font shows the alphabet and the facts below its row. The second selection opens the specimen page.
 
 ## The specimen page
 
@@ -34,10 +34,19 @@ The address of a specimen page is `/fonts/<slug>/`. The page has no layout of it
 | Styles | One line for each named instance of the variable font. |
 | Scripts | Article 1 of the Universal Declaration of Human Rights in each script that has a standard sample. |
 | Text | Articles 1 to 3 in English at 32, 20 and 14 px. |
+| Features | One row for each OpenType feature that has a sample. The row shows the sample with the feature off, then on. |
 | Characters | Each character of the font, in groups: the scripts, then figures, punctuation and symbols, and marks. |
-| Information | The version, the axes, the metrics, the OpenType features, the license, the copyright line, the source revision and the download. |
+| Information | The version, the axes, the metrics, the OpenType features, the license, the copyright line, the source revision, the download and the CSS that uses the font. |
 
 The standard samples are for Latin, Arabic and Hebrew. They are in `src/lib/fonts.ts` of the website repository. A script without a standard sample is in the list of scripts and in the characters, but not in the Scripts part.
+
+A font has the Scripts part only when it has a standard sample, and the Features part only when it has a feature sample. The numbers of the parts have no gaps.
+
+The importer makes the feature samples from the font. For a substitution feature, the sample is the input characters of the feature. For a ligature feature, the sample is the character sequences that make the ligatures. Kerning and fractions have a fixed sample. A feature for shaping, for example `init` or `mark`, has no sample and is only in the list of the Information part.
+
+A selected character is in the address of the page. For example, `/fonts/virtua-grotesk/#U+0061` opens the page with the letter a in the large view.
+
+The CSS of the Information part names the WOFF2 of the download as a local file. Font.Garden does not serve fonts to other websites.
 
 The page does not name a designer. It shows the copyright line of `OFL.txt`, which names the project. See [Post-authorship and open weights](/docs/culture/).
 
@@ -69,7 +78,7 @@ The facts file is `src/data/fonts/<slug>.json`. The importer writes it. It has t
 The importer writes four files:
 
 - `public/fonts/<slug>/<slug>.woff2`, the font that the pages load
-- `public/fonts/<slug>/<slug>.zip`, the download, with the TTF and `OFL.txt`
+- `public/fonts/<slug>/<slug>.zip`, the download, with the TTF, the WOFF2 and `OFL.txt`
 - `public/fonts/<slug>/<slug>.png`, the picture that a link to the specimen page shows, with the name in the font
 - `src/data/fonts/<slug>.json`, the facts file
 
@@ -81,4 +90,4 @@ The text of the website is in Virtua Grotesk. The pages load the same WOFF2 that
 
 ## The download
 
-The download is the variable TTF and the license in one archive. The OFL requires that the license goes with the font. See [Licenses](/docs/licenses/). A font with the status In development can change in each revision.
+The download is the variable TTF, the same font as WOFF2 and the license in one archive. The OFL requires that the license goes with the font. See [Licenses](/docs/licenses/). A font with the status In development can change in each revision.

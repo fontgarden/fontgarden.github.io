@@ -9,6 +9,7 @@ import {
   fileSize,
   loadFonts,
   numberLabel,
+  usageCss,
   variationSettings,
   type IndexFont,
 } from '../../lib/fonts';
@@ -55,14 +56,19 @@ const information: [string, string][] = [
   ['OpenType features', features.join(', ')],
 ];
 
+// A font has the Scripts and the Features section only when it has
+// samples for them. The numbers of the sections have no gaps.
 const sections = [
   ['tester', 'Tester'],
   ['styles', 'Styles'],
-  ['scripts', 'Scripts'],
+  ...(scripts.length > 0 ? [['scripts', 'Scripts']] : []),
   ['text', 'Text'],
+  ...(facts.featureSamples.length > 0 ? [['features', 'Features']] : []),
   ['characters', 'Characters'],
   ['information', 'Information'],
 ];
+const sectionNumber = (id: string) =>
+  numberLabel(sections.findIndex(([section]) => section === id) + 1);
 ---
 
 <Layout
@@ -112,7 +118,7 @@ const sections = [
 
     <section class="specimen-section" id="tester">
       <header class="specimen-head">
-        <h2><span>01</span>Tester</h2>
+        <h2><span>{sectionNumber('tester')}</span>Tester</h2>
         <p>Select the text to change it.</p>
       </header>
       <div class="tester" data-tester>
@@ -168,7 +174,7 @@ const sections = [
 
     <section class="specimen-section" id="styles">
       <header class="specimen-head">
-        <h2><span>02</span>Styles</h2>
+        <h2><span>{sectionNumber('styles')}</span>Styles</h2>
         <p>{facts.instances.length} named instances</p>
       </header>
       <ul class="style-list">
@@ -192,7 +198,7 @@ const sections = [
     {scripts.length > 0 && (
       <section class="specimen-section" id="scripts">
         <header class="specimen-head">
-          <h2><span>03</span>Scripts</h2>
+          <h2><span>{sectionNumber('scripts')}</span>Scripts</h2>
           <p>Universal Declaration of Human Rights, Article 1</p>
         </header>
         <div class="script-list">
@@ -211,7 +217,7 @@ const sections = [
 
     <section class="specimen-section" id="text">
       <header class="specimen-head">
-        <h2><span>04</span>Text</h2>
+        <h2><span>{sectionNumber('text')}</span>Text</h2>
         <p>Universal Declaration of Human Rights, Articles 1 to 3</p>
       </header>
       <div class="text-sizes">
@@ -226,17 +232,45 @@ const sections = [
       </div>
     </section>
 
+    {facts.featureSamples.length > 0 && (
+      <section class="specimen-section" id="features">
+        <header class="specimen-head">
+          <h2><span>{sectionNumber('features')}</span>Features</h2>
+          <p>Each sample with the feature off, then on</p>
+        </header>
+        <div class="feature-list">
+          {facts.featureSamples.map((feature) => (
+            <div class="feature-row">
+              <span class="style-label">
+                {feature.name}
+                <small>{feature.tag}</small>
+              </span>
+              {[0, 1].map((state) => (
+                <p class="feature-sample">
+                  <span class="style-label">{state ? 'On' : 'Off'}</span>
+                  <span style={`font-feature-settings: '${feature.tag}' ${state}`}>{feature.sample}</span>
+                </p>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
     <section class="specimen-section" id="characters">
       <header class="specimen-head">
-        <h2><span>05</span>Characters</h2>
-        <p>{facts.characterCount} characters, {facts.glyphCount} glyphs</p>
+        <h2><span>{sectionNumber('characters')}</span>Characters</h2>
+        <p>
+          {facts.characterCount} characters, {facts.glyphCount} glyphs. Select a
+          character to put it in the address of the page.
+        </p>
       </header>
       <div class="characters">
         <div class="character-view">
           <div class="character-view-glyph" data-character-glyph></div>
           <dl>
             <dt>Unicode</dt>
-            <dd data-character-code></dd>
+            <dd><a href="#characters" data-character-code></a></dd>
             <dt>Name</dt>
             <dd data-character-name></dd>
           </dl>
@@ -263,7 +297,7 @@ const sections = [
 
     <section class="specimen-section" id="information">
       <header class="specimen-head">
-        <h2><span>06</span>Information</h2>
+        <h2><span>{sectionNumber('information')}</span>Information</h2>
         <p>{font.name} {facts.version}</p>
       </header>
       <div class="information">
@@ -283,10 +317,23 @@ const sections = [
             <a href={font.repository}>{font.repository.replace('https://', '')}</a>{facts.revision && `, revision ${facts.revision.commit} of ${facts.revision.date}`}
           </dd>
         </dl>
-        <a class="download" href={facts.files.download} download>
-          <span>Download {font.name} {facts.version}</span>
-          <small>{facts.files.fontFile} and OFL.txt, {fileSize(facts.files.downloadBytes)}</small>
-        </a>
+        <div class="information-files">
+          <a class="download" href={facts.files.download} download>
+            <span>Download {font.name} {facts.version}</span>
+            <small>TTF, WOFF2 and OFL.txt, {fileSize(facts.files.downloadBytes)}</small>
+          </a>
+          <div class="usage">
+            <div class="usage-head">
+              <h3>CSS</h3>
+              <button type="button" data-copy="usage-css">Copy</button>
+            </div>
+            <pre id="usage-css"><code>{usageCss(font)}</code></pre>
+            <p>
+              The download contains {facts.files.webFontFile}. Put the file
+              in the folder of the style sheet.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -371,20 +418,56 @@ const sections = [
     const characterName = document.querySelector<HTMLElement>('[data-character-name]');
     const tiles = document.querySelectorAll<HTMLButtonElement>('.character-grid button');
     let selected: HTMLButtonElement | null = null;
+    const unicode = (tile: HTMLButtonElement) =>
+      `U+${Number(tile.dataset.cp).toString(16).toUpperCase().padStart(4, '0')}`;
     const view = (tile: HTMLButtonElement) => {
       if (!glyph || !code || !characterName) return;
       selected?.removeAttribute('aria-current');
       selected = tile;
       tile.setAttribute('aria-current', 'true');
       glyph.textContent = tile.textContent;
-      code.textContent = `U+${Number(tile.dataset.cp).toString(16).toUpperCase().padStart(4, '0')}`;
+      code.textContent = unicode(tile);
+      code.setAttribute('href', `#${unicode(tile)}`);
       characterName.textContent = tile.title;
     };
     tiles.forEach((tile) => {
       tile.addEventListener('pointerenter', () => view(tile));
       tile.addEventListener('focus', () => view(tile));
+      // The address of the page names the selected character.
+      tile.addEventListener('click', () => {
+        view(tile);
+        history.replaceState(null, '', `#${unicode(tile)}`);
+      });
     });
-    const first = document.querySelector<HTMLButtonElement>('.character-grid button[data-cp="97"]');
-    if (first ?? tiles[0]) view(first ?? tiles[0]);
+    // An address that ends in #U+0061 opens with that character in the view.
+    const viewFromAddress = () => {
+      const match = /^#U\+([0-9A-F]{4,6})$/i.exec(decodeURIComponent(location.hash));
+      const tile =
+        match &&
+        document.querySelector<HTMLButtonElement>(
+          `.character-grid button[data-cp="${parseInt(match[1], 16)}"]`
+        );
+      if (!tile) return false;
+      view(tile);
+      document.getElementById('characters')?.scrollIntoView();
+      return true;
+    };
+    window.addEventListener('hashchange', viewFromAddress);
+    if (!viewFromAddress()) {
+      const first = document.querySelector<HTMLButtonElement>(
+        '.character-grid button[data-cp="97"]'
+      );
+      if (first ?? tiles[0]) view(first ?? tiles[0]);
+    }
+
+    // Copy the text of a block.
+    document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const text = document.getElementById(button.dataset.copy!)?.textContent ?? '';
+        await navigator.clipboard.writeText(text);
+        button.textContent = 'Copied';
+        setTimeout(() => (button.textContent = 'Copy'), 2000);
+      });
+    });
   </script>
 </Layout>

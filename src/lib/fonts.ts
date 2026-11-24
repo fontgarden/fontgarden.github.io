@@ -27,6 +27,7 @@ export interface FontFacts {
   instances: { name: string; coordinates: Record<string, number> }[];
   scripts: { tag: string; name: string; count: number }[];
   features: { GSUB: string[]; GPOS: string[] };
+  featureSamples: { tag: string; name: string; sample: string }[];
   files: {
     woff2: string;
     woff2Bytes: number;
@@ -34,6 +35,7 @@ export interface FontFacts {
     preview: string;
     downloadBytes: number;
     fontFile: string;
+    webFontFile: string;
   };
   groups: { name: string; tag: string | null; characters: [number, string][] }[];
 }
@@ -99,6 +101,29 @@ export function fontFaceCss(font: IndexFont): string {
     'font-display: swap;',
     '}',
   ].join('');
+}
+
+// The CSS that a person copies to use the font on a website. The file
+// is the WOFF2 of the download, next to the style sheet.
+export function usageCss(font: IndexFont): string {
+  const axis = (tag: string) => font.facts.axes.find((a) => a.tag === tag);
+  const weight = axis('wght');
+  const width = axis('wdth');
+  return [
+    '@font-face {',
+    `  font-family: '${font.facts.family}';`,
+    `  src: url('${font.facts.files.webFontFile}') format('woff2');`,
+    weight ? `  font-weight: ${weight.min} ${weight.max};` : '',
+    width ? `  font-stretch: ${width.min}% ${width.max}%;` : '',
+    '  font-display: swap;',
+    '}',
+    '',
+    'body {',
+    `  font-family: '${font.facts.family}', sans-serif;`,
+    '}',
+  ]
+    .filter((line, i, lines) => line !== '' || lines[i - 1] === '}')
+    .join('\n');
 }
 
 export const axisRange = (axis: Axis) => `${axis.name} ${axis.min} to ${axis.max}`;
