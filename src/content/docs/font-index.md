@@ -13,7 +13,7 @@ next: [licenses, media]
 
 The index is named FTGD-100. It has one hundred numbers, from 00 to 99, and a number without a font is an empty row. The number of a font does not change after publication.
 
-The index page has two parts. The left part is the list. The right part is the gradient panel of the site. When the pointer or the keyboard focus is on a font, the panel shows these items in that font:
+The list is on the home page and on `/fonts/`. Each of these pages has two parts. The left part is the list. The right part is the gradient panel of the site. When the pointer or the keyboard focus is on a font, the panel shows these items in that font:
 
 - the number and the name
 - the letters of the name, which move in the panel

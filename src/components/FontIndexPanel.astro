@@ -1,0 +1,20 @@
+---
+// The gradient panel of a page that has the font index list. The panel
+// shows the specimen of the font that FontIndexList.astro selects.
+import SiteFrame from './SiteFrame.astro';
+import { ALPHABET_SAMPLE } from '../lib/fonts';
+---
+
+<SiteFrame>
+  <div slot="panel-top" class="panel-specimen panel-specimen-top" data-panel-specimen hidden>
+    <span data-panel="label"></span>
+    <span data-panel="name"></span>
+    <span class="panel-specimen-index">FTGD-100</span>
+  </div>
+  <div slot="panel-bottom" class="panel-specimen panel-specimen-bottom" data-panel-specimen hidden>
+    <p class="panel-alphabet" data-panel="alphabet">
+      {ALPHABET_SAMPLE.map((line) => <span>{line}</span>)}
+    </p>
+    <dl class="panel-facts" data-panel="facts"></dl>
+  </div>
+</SiteFrame>

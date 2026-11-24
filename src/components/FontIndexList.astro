@@ -1,0 +1,185 @@
+---
+// The FTGD-100 list: one row for each number from 00 to 99. A page that
+// uses this list also has FontIndexPanel.astro and the FontFaces of
+// each font.
+import { ALPHABET_SAMPLE, INDEX_SIZE, axisRange, numberLabel, type IndexFont } from '../lib/fonts';
+import '../styles/fonts.css';
+
+interface Props {
+  fonts: IndexFont[];
+}
+
+const { fonts } = Astro.props;
+const byNumber = new Map(fonts.map((font) => [font.number, font]));
+const rows = Array.from({ length: INDEX_SIZE }, (_, number) => ({
+  label: numberLabel(number),
+  font: byNumber.get(number),
+}));
+
+// The facts that the panel shows for the font under the pointer.
+const panelFacts = Object.fromEntries(
+  fonts.map((font) => [
+    font.slug,
+    {
+      label: font.label,
+      name: font.name,
+      family: font.cssFamily,
+      rows: [
+        ['Classification', font.classification],
+        ['Scripts', font.facts.scripts.map((s) => s.name).join(', ')],
+        ['Styles', `${font.facts.instances.length}, variable`],
+        ['Axes', font.facts.axes.map(axisRange).join(', ')],
+        ['License', font.facts.license],
+        ['Status', font.status],
+      ],
+    },
+  ])
+);
+---
+
+<ol class="font-index" id="font-index">
+  {rows.map(({ label, font }) =>
+    font ? (
+      <li>
+        <a href={`/fonts/${font.slug}/`} data-font={font.slug}>
+          <span class="font-index-number">{label}</span>
+          <span class="font-index-name">{font.name}</span>
+          <span class="font-index-class">{font.classification}</span>
+        </a>
+      </li>
+    ) : (
+      <li class="font-index-empty" aria-label={`${label}, no font`}>
+        <span class="font-index-number">{label}</span>
+      </li>
+    )
+  )}
+</ol>
+
+<!-- On a narrow screen the panel is not visible. The first selection of
+     a row puts this specimen below the row. -->
+<div class="font-index-detail" id="font-index-detail" hidden>
+  <p class="panel-alphabet" data-detail="alphabet">
+    {ALPHABET_SAMPLE.map((line) => <span>{line}</span>)}
+  </p>
+  <dl class="panel-facts" data-detail="facts"></dl>
+  <a href="/fonts/" data-detail="link">Specimen page</a>
+</div>
+
+<script type="application/json" id="panel-facts" set:html={JSON.stringify(panelFacts)} />
+
+<script>
+  // Show the specimen of a font in the panel while the pointer or the
+  // keyboard focus is on its row.
+  const facts = JSON.parse(document.getElementById('panel-facts')?.textContent ?? '{}');
+  const list = document.getElementById('font-index');
+  const parts = document.querySelectorAll<HTMLElement>('[data-panel-specimen]');
+  const part = (name: string) => document.querySelector<HTMLElement>(`[data-panel="${name}"]`);
+  let current: string | null = null;
+
+  const show = (slug: string | null) => {
+    if (slug === current) return;
+    current = slug;
+    const font = slug ? facts[slug] : null;
+    parts.forEach((el) => (el.hidden = !font));
+    list?.querySelectorAll('a[data-font]').forEach((a) => {
+      a.classList.toggle('is-current', a.getAttribute('data-font') === slug);
+    });
+    if (!font) {
+      document.dispatchEvent(new CustomEvent('field:set', { detail: null }));
+      return;
+    }
+    const family = `'${font.family}'`;
+    part('label')!.textContent = font.label;
+    part('name')!.textContent = font.name;
+    part('name')!.style.fontFamily = family;
+    part('alphabet')!.style.fontFamily = family;
+    fit(part('alphabet'));
+    document.fonts.load(`16px ${family}`).then(() => {
+      if (current === slug) fit(part('alphabet'));
+    });
+    part('facts')!.replaceChildren(...factRows(font));
+    document.dispatchEvent(
+      new CustomEvent('field:set', { detail: { text: font.name, family } })
+    );
+  };
+
+  const factRows = (font: { rows: [string, string][] }) =>
+    font.rows.flatMap(([term, value]) => {
+      const dt = document.createElement('dt');
+      dt.textContent = term;
+      const dd = document.createElement('dd');
+      dd.textContent = value;
+      return [dt, dd];
+    });
+
+  // Make the longest line of an alphabet as wide as its container.
+  const fit = (alphabet: HTMLElement | null) => {
+    if (!alphabet || !alphabet.clientWidth) return;
+    alphabet.style.fontSize = '100px';
+    const widest = Math.max(
+      ...[...alphabet.children].map((line) => (line as HTMLElement).offsetWidth)
+    );
+    let size = (100 * alphabet.clientWidth) / widest;
+    alphabet.style.fontSize = `${size}px`;
+    // A font with an optical size axis has other widths at the new size.
+    // Measure again at that size.
+    const fitted = Math.max(
+      ...[...alphabet.children].map((line) => (line as HTMLElement).offsetWidth)
+    );
+    if (fitted > alphabet.clientWidth) {
+      size *= alphabet.clientWidth / fitted;
+      alphabet.style.fontSize = `${size}px`;
+    }
+  };
+
+  // On a narrow screen the panel is not visible. The first selection of
+  // a row opens the specimen below the row. The second selection opens
+  // the specimen page.
+  const narrow = window.matchMedia('(max-width: 639px)');
+  const detail = document.getElementById('font-index-detail');
+  const detailPart = (name: string) =>
+    detail?.querySelector<HTMLElement>(`[data-detail="${name}"]`) ?? null;
+  let open: string | null = null;
+
+  const openDetail = (row: HTMLAnchorElement | null) => {
+    const slug = row?.dataset.font ?? null;
+    open = slug;
+    list?.querySelectorAll('a[data-font]').forEach((a) => {
+      a.classList.toggle('is-open', a === row);
+    });
+    if (!detail) return;
+    detail.hidden = !row;
+    if (!row || !slug) return;
+    const font = facts[slug];
+    const family = `'${font.family}'`;
+    row.after(detail);
+    detailPart('alphabet')!.style.fontFamily = family;
+    detailPart('facts')!.replaceChildren(...factRows(font));
+    detailPart('link')!.setAttribute('href', row.href);
+    fit(detailPart('alphabet'));
+    document.fonts.load(`16px ${family}`).then(() => {
+      if (open === slug) fit(detailPart('alphabet'));
+    });
+  };
+  narrow.addEventListener('change', () => openDetail(null));
+
+  window.addEventListener('resize', () => {
+    fit(part('alphabet'));
+    fit(detailPart('alphabet'));
+  });
+
+  list?.querySelectorAll<HTMLAnchorElement>('a[data-font]').forEach((a) => {
+    const slug = a.dataset.font!;
+    a.addEventListener('click', (event) => {
+      if (!narrow.matches || open === slug) return;
+      event.preventDefault();
+      openDetail(a);
+    });
+    a.addEventListener('pointerenter', () => show(slug));
+    a.addEventListener('focus', () => show(slug));
+  });
+  list?.addEventListener('pointerleave', () => show(null));
+  list?.addEventListener('focusout', (event) => {
+    if (!list.contains(event.relatedTarget as Node | null)) show(null);
+  });
+</script>

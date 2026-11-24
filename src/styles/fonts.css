@@ -8,6 +8,14 @@
   line-height: 1.25;
 }
 
+.font-index-title-home {
+  margin-top: calc(var(--margin) * 1.5);
+}
+
+.font-index-title-home + .font-index {
+  margin-top: 0.4rem;
+}
+
 .font-index {
   margin-top: calc(var(--margin) * 1.5);
   border-top: 1px solid var(--color-ink);

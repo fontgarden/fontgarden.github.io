@@ -100,6 +100,8 @@ Four of the checks are also in a Rust plugin for Fontspector, [fontspector-fontg
 
 `make proof` builds the fonts and writes the print proof to `output/proof/proof.pdf`: the facts of the font, the character set, the scale of sizes, text at 8 and 16 points, spacing strings, kerning pairs and figures, diacritics, the weight axis, the short lines of `sources/proof-samples.toml`, and the joining forms and the marks of the Arabic script. Each script and each master has its pages, and a font shows only the pages that it has the glyphs for. The command is `fgtools media --proof`. It uses the layout system of [Proofs and media](/docs/media/). Print the proof to judge the color of the text.
 
+fgtools and the project template are behind Virtua Grotesk for this command. Virtua Grotesk has `make proofs`, from its own `sources/proof_review.py`. That command writes a Print Proof and a Full Proof to `output/proof/`, each also with the red grid. The command is not in fgtools at this time.
+
 `make proof-web` builds the fonts and serves them beside the fonts in `reference-fonts/`, in a browser, at one em size and weight. It has four modes: Compare, Toggle between two builds, Waterfall, and Text. If a reference font does not have a glyph, the proof shows the missing code points. It does not use a fallback font.
 
 The samples are live browser text for Latin, Hebrew and Arabic. `sources/proof-samples.toml` adds samples for a project. Runebender reads the same file: its proof view and the Proof section of the right panel offer the samples of the script of the current glyph, drawn from the live outline while you edit. In Runebender, a sample text can contain `{glyph}`, the current glyph; the web proof shows it as written. Browser rendering is not release QA.
